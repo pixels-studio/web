@@ -36,3 +36,32 @@ export const SOCIAL_LINKS = [
 		href: ROUTES.linkedin
 	}
 ];
+
+export const PEOPLE = [
+	'My Mom',
+	'My Dad',
+	'My Grandfather',
+	'My Teachers',
+	'Dr. Homi Bhabha',
+	'Abdul Kalam',
+	'Sachin Tendulkar',
+	'Virat Kohli',
+	'Steve Jobs',
+	'Javed Akhtar',
+	'Zakir Khan',
+	'Robin Sharma',
+	'Akshay Kambli',
+	'Shailesh Tyagi',
+	'Raja Sandhu',
+	'Brian Lovin',
+	'Dan Abramov',
+	'Mackenzie Child',
+	'Gil Huybrecht',
+	'Vinay Nair',
+	'Yash Lalchandani',
+	'Anusha Shetty',
+	'Jayesh Nambiar',
+	'Prashant Kamble',
+	'MDS',
+	'DHH'
+];
