@@ -9,16 +9,20 @@
 </script>
 
 <header class="sticky top-0 z-40 bg-base-0 p-4">
-	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-10 gap-4">
-		<a class="col-span-3 text-xs font-medium tracking-wide uppercase" href={ROUTES.home}>
+	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
+		<a class="col-span-4 text-xs font-medium tracking-wide uppercase" href={ROUTES.home}>
 			<p>Abhishek Kambli</p>
 			<p class="text-base-6">Product Designer & Frontend Engineer</p>
 		</a>
 
-		<nav class="col-span-4 flex gap-8 self-end">
+		<nav class="col-span-5 flex gap-8 self-end">
 			{#each PRIMARY_NAVIGATION as item (item.href)}
 				<a
-					class="text-xs font-medium tracking-wide uppercase transition-colors duration-300 ease-smooth hover:text-base-10 {isActive(item.href) ? 'text-base-10' : 'text-base-6'}"
+					class="text-xs font-medium tracking-wide uppercase transition-colors duration-300 ease-smooth hover:text-base-10 {isActive(
+						item.href
+					)
+						? 'text-base-10'
+						: 'text-base-6'}"
 					href={item.href}
 				>
 					{item.label}
@@ -32,7 +36,7 @@
 					class="text-xs font-medium tracking-wide text-base-6 uppercase transition-colors duration-300 ease-smooth hover:text-base-10"
 					href={item.href}
 				>
-					{item.label}
+					{item.shortLabel}
 				</a>
 			{/each}
 		</nav>
