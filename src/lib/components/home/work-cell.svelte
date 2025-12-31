@@ -17,7 +17,8 @@
 			{#if item.type === 'video'}
 				<video
 					src={item.cover}
-					class="h-full w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+					class="work-cover h-full w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+					style="view-transition-name: work-cover-{item._meta.path}"
 					muted
 					loop
 					playsinline
@@ -26,7 +27,8 @@
 				<img
 					src={item.cover}
 					alt={item.title}
-					class="h-full w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+					class="work-cover h-full w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+					style="view-transition-name: work-cover-{item._meta.path}"
 					loading="lazy"
 				/>
 			{/if}
