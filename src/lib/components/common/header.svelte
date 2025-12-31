@@ -1,6 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { ROUTES } from '$lib/helpers/routes';
 	import { PRIMARY_NAVIGATION, SOCIAL_LINKS } from '$lib/helpers/constants';
+
+	function isActive(href: string): boolean {
+		return $page.url.pathname === href;
+	}
 </script>
 
 <header class="sticky top-0 z-40 bg-base-0 p-4">
@@ -11,9 +16,9 @@
 		</a>
 
 		<nav class="col-span-4 flex gap-8 self-end">
-			{#each PRIMARY_NAVIGATION as item}
+			{#each PRIMARY_NAVIGATION as item (item.href)}
 				<a
-					class="text-xs font-medium tracking-wide text-base-6 uppercase transition-colors duration-300 ease-smooth hover:text-base-10"
+					class="text-xs font-medium tracking-wide uppercase transition-colors duration-300 ease-smooth hover:text-base-10 {isActive(item.href) ? 'text-base-10' : 'text-base-6'}"
 					href={item.href}
 				>
 					{item.label}
@@ -22,7 +27,7 @@
 		</nav>
 
 		<nav class="col-span-3 flex justify-end gap-8 self-end">
-			{#each SOCIAL_LINKS as item}
+			{#each SOCIAL_LINKS as item (item.href)}
 				<a
 					class="text-xs font-medium tracking-wide text-base-6 uppercase transition-colors duration-300 ease-smooth hover:text-base-10"
 					href={item.href}
