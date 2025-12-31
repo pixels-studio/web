@@ -2,7 +2,7 @@
 	import { ROUTES } from '$lib/helpers/routes';
 </script>
 
-<section class="px-4 py-48">
+<section class="px-4 pt-48 pb-24">
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 		<h1 class="col-span-6 col-start-5 flex flex-col gap-8 text-3xl leading-tight font-medium">
 			<p>
