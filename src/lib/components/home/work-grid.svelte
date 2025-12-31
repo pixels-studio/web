@@ -9,31 +9,29 @@
 	// Pattern: Each row has 6 positions (col-span-2 each)
 	// We'll insert empty cells at varying positions for visual interest
 	function createGridItems() {
-		const items: Array<{ id: string; type: 'work' | 'empty'; work?: (typeof publishedWorks)[0] }> =
-			[];
+		const items: Array<{ id: string; work?: (typeof publishedWorks)[0] }> = [];
 		let workIndex = 0;
 		let row = 0;
 		let emptyIndex = 0;
+		const emptyPatterns = [
+			[1],
+			[0, 4],
+			[5],
+			[2, 3],
+			[0]
+		];
 
 		while (workIndex < publishedWorks.length) {
 			// Different patterns for different rows to create visual variety
-			const pattern = row % 5;
 			const positionsInRow = 6; // 12 columns / 2 col-span = 6 positions
+			const emptyPositions = emptyPatterns[row % emptyPatterns.length];
 
 			for (let pos = 0; pos < positionsInRow && workIndex < publishedWorks.length; pos++) {
-				// Dynamic empty cell logic based on row pattern
-				const shouldBeEmpty =
-					(pattern === 0 && pos === 1) ||
-					(pattern === 1 && (pos === 0 || pos === 4)) ||
-					(pattern === 2 && pos === 5) ||
-					(pattern === 3 && (pos === 2 || pos === 3)) ||
-					(pattern === 4 && pos === 0);
-
-				if (shouldBeEmpty) {
-					items.push({ id: `empty-${emptyIndex++}`, type: 'empty' });
+				if (emptyPositions.includes(pos)) {
+					items.push({ id: `empty-${emptyIndex++}` });
 				} else {
 					const work = publishedWorks[workIndex];
-					items.push({ id: work._meta.path, type: 'work', work });
+					items.push({ id: work._meta.path, work });
 					workIndex++;
 				}
 			}
@@ -49,11 +47,7 @@
 <section class="px-4 pb-48">
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 		{#each gridItems as gridItem (gridItem.id)}
-			{#if gridItem.type === 'empty'}
-				<WorkCell isEmpty />
-			{:else}
-				<WorkCell item={gridItem.work} />
-			{/if}
+			<WorkCell item={gridItem.work} isEmpty={!gridItem.work} />
 		{/each}
 	</div>
 </section>
