@@ -37,7 +37,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="px-4 py-8">
+	<div class="px-4 py-4">
 		<div class="mx-auto w-full max-w-[1512px] text-base-7">
 			{@html FooterLogo}
 		</div>
