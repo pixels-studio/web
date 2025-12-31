@@ -12,7 +12,7 @@
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 		<a class="col-span-4 text-xs font-medium tracking-wide uppercase" href={ROUTES.home}>
 			<p>Abhishek Kambli</p>
-			<p class="text-base-6">Product Designer & Frontend Engineer</p>
+			<p class="text-base-5">Product Designer & Frontend Engineer</p>
 		</a>
 
 		<nav class="col-span-5 flex gap-8 self-end">
@@ -22,7 +22,7 @@
 						item.href
 					)
 						? 'text-base-10'
-						: 'text-base-6'}"
+						: 'text-base-5'}"
 					href={item.href}
 				>
 					{item.label}
@@ -33,7 +33,7 @@
 		<nav class="col-span-3 flex justify-end gap-8 self-end">
 			{#each SOCIAL_LINKS as item (item.href)}
 				<a
-					class="text-xs font-medium tracking-wide text-base-6 uppercase transition-colors duration-300 ease-smooth hover:text-base-10"
+					class="text-xs font-medium tracking-wide text-base-5 uppercase transition-colors duration-300 ease-smooth hover:text-base-10"
 					href={item.href}
 				>
 					{item.shortLabel}
