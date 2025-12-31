@@ -26,13 +26,13 @@ export const SOCIAL_LINKS = [
 		href: ROUTES.twitter
 	},
 	{
-		label: 'LinkedIn',
-		shortLabel: 'Li',
-		href: ROUTES.linkedin
-	},
-	{
 		label: 'Instagram',
 		shortLabel: 'Ig',
 		href: ROUTES.instagram
+	},
+	{
+		label: 'LinkedIn',
+		shortLabel: 'Li',
+		href: ROUTES.linkedin
 	}
 ];
