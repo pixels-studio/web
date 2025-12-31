@@ -42,4 +42,22 @@
 			{@html FooterLogo}
 		</div>
 	</div>
+
+	<div class="border-t border-base-0/5 px-4 py-4">
+		<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
+			<p class="col-span-4 text-xs font-medium tracking-wide text-base-0/40 uppercase">
+				© Pixels Studio.
+			</p>
+			<a
+				href={'#'}
+				class="col-span-4 text-xs font-medium tracking-wide text-base-0/40 uppercase transition-colors duration-300 ease-smooth hover:text-base-0"
+				>Back to top</a
+			>
+			<a
+				href={ROUTES.colophon}
+				class="col-span-1 col-start-12 text-right text-xs font-medium tracking-wide text-base-0/40 uppercase transition-colors duration-300 ease-smooth hover:text-base-0"
+				>Colophon</a
+			>
+		</div>
+	</div>
 </footer>
