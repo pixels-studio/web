@@ -10,10 +10,10 @@
 </script>
 
 {#if isEmpty}
-	<div class="col-span-2 aspect-[16/8]"></div>
+	<div class="col-span-2 aspect-video"></div>
 {:else if item}
 	<a href={`/work/${item._meta.path}`} class="group col-span-2">
-		<div class="relative aspect-[16/8] overflow-hidden bg-base-2">
+		<div class="relative aspect-video overflow-hidden bg-base-2">
 			{#if item.type === 'video'}
 				<video
 					src={item.cover}
