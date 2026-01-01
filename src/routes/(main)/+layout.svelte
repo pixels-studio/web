@@ -9,5 +9,5 @@
 <main class="relative z-10 flex min-h-dvh flex-col bg-base-0">
 	<Header />
 	{@render children()}
+	<Footer />
 </main>
-<Footer />
