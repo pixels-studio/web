@@ -6,7 +6,7 @@
 	let { children } = $props();
 </script>
 
-<main class="relative z-10 flex min-h-dvh flex-col bg-base-0" style="margin-bottom: var(--footer-height, 0px)">
+<main class="relative z-10 flex min-h-dvh flex-col bg-base-0">
 	<Header />
 	{@render children()}
 </main>
