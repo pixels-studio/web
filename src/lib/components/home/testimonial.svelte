@@ -1,4 +1,4 @@
-<section class="border-t border-base-3 px-4 py-48">
+<section class="border-t border-base-3 px-4 py-48" style="view-transition-name: testimonial">
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 		<p class="col-span-4 text-xl font-medium text-base-5">Testimonial</p>
 
