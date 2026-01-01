@@ -4,7 +4,7 @@
 	import { ROUTES } from '$lib/helpers/routes';
 </script>
 
-<footer class="mt-auto bg-base-8 text-base-0">
+<footer class="mt-auto bg-base-8 text-base-0" style="view-transition-name: footer">
 	<div class="px-4 py-48">
 		<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 			<p class="col-span-4 text-xl font-medium text-base-5">Availability</p>

@@ -8,7 +8,7 @@
 	}
 </script>
 
-<header class="sticky top-0 z-40 bg-base-0 p-4">
+<header class="sticky top-0 z-40 bg-base-0 p-4" style="view-transition-name: header">
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 		<a class="col-span-4 text-xs font-medium tracking-wide uppercase" href={ROUTES.home}>
 			<p>Abhishek Kambli</p>
