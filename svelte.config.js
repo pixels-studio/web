@@ -14,7 +14,10 @@ const config = {
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
 		adapter: adapter(),
 		alias: {
-			'content-collections': './.content-collections/generated'
+			'content-collections': './.content-collections/generated',
+			$components: './src/components',
+			$routes: './src/routes',
+			$styles: './src/styles'
 		}
 	},
 
