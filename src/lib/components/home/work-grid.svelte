@@ -66,6 +66,12 @@
 	let desktopGrid: HTMLDivElement | null = null;
 	let prefersReducedMotion = $state(false);
 
+	const markReady = (items: HTMLElement[]) => {
+		items.forEach((item) => {
+			item.dataset.animateReady = 'true';
+		});
+	};
+
 	const getAnimItems = (container: HTMLElement) =>
 		Array.from(container.querySelectorAll<HTMLElement>('[data-animate="true"]'));
 
@@ -76,8 +82,10 @@
 
 		if (prefersReducedMotion) {
 			gsap.set(items, { opacity: 1, y: 0 });
+			markReady(items);
 		} else {
 			gsap.set(items, { opacity: 0, y: 24 });
+			markReady(items);
 		}
 	};
 
@@ -102,10 +110,6 @@
 	};
 
 	onMount(() => {
-		const loadId = String(performance.timeOrigin || Date.now());
-		const animationKey = `homeWorkGridAnimated:${loadId}`;
-		const hasAnimated = sessionStorage.getItem(animationKey) === 'true';
-
 		const media = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const updatePreference = () => {
 			prefersReducedMotion = media.matches;
@@ -121,11 +125,6 @@
 		const observers: IntersectionObserver[] = [];
 
 		grids.forEach((grid) => {
-			if (hasAnimated) {
-				gsap.set(getAnimItems(grid), { opacity: 1, y: 0 });
-				return;
-			}
-
 			setInitialState(grid);
 
 			const observer = new IntersectionObserver(
@@ -133,7 +132,6 @@
 					entries.forEach((entry) => {
 						if (!entry.isIntersecting) return;
 						runAnimation(entry.target as HTMLElement);
-						sessionStorage.setItem(animationKey, 'true');
 						observer.unobserve(entry.target);
 					});
 				},
