@@ -7,11 +7,13 @@
 	let leadLines: HTMLElement[] = [];
 	let prefersReducedMotion = $state(false);
 
-	onMount(() => {
-		const loadId = String(performance.timeOrigin || Date.now());
-		const animationKey = `homeLeadAnimated:${loadId}`;
-		const hasAnimated = sessionStorage.getItem(animationKey) === 'true';
+	const markReady = (elements: HTMLElement[]) => {
+		elements.forEach((element) => {
+			element.dataset.animateReady = 'true';
+		});
+	};
 
+	onMount(() => {
 		const media = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const updatePreference = () => {
 			prefersReducedMotion = media.matches;
@@ -23,15 +25,20 @@
 		const lines = leadLines.filter(Boolean);
 
 		if (lines.length) {
-			if (hasAnimated || prefersReducedMotion) {
+			if (prefersReducedMotion) {
 				gsap.set(lines, { y: 0, opacity: 1 });
+				markReady(lines);
 			} else {
-				gsap.fromTo(
-					lines,
-					{ y: 24, opacity: 0 },
-					{ y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.12 }
-				);
-				sessionStorage.setItem(animationKey, 'true');
+				gsap.set(lines, { y: 24, opacity: 0 });
+				markReady(lines);
+				gsap.to(lines, {
+					y: 0,
+					opacity: 1,
+					duration: 0.7,
+					ease: 'power3.out',
+					stagger: 0.12,
+					clearProps: 'transform'
+				});
 			}
 		}
 
@@ -58,7 +65,7 @@
 				'lg:col-span-6 lg:col-start-5 lg:text-3xl'
 			)}
 		>
-			<p class="lead-line" bind:this={leadLines[0]}>
+			<p class="lead-line" bind:this={leadLines[0]} data-animate="true">
 				<span class="inline-block w-[3.5ch]"></span>
 				Designing and building production software for over a decade. Currently leading frontend and design
 				at
@@ -66,7 +73,7 @@
 					Origon in Mumbai, India.
 				</a>
 			</p>
-			<p class="lead-line" bind:this={leadLines[1]}>
+			<p class="lead-line" bind:this={leadLines[1]} data-animate="true">
 				Below is a selection of work drawn from those efforts, along with independent projects.
 			</p>
 		</h1>

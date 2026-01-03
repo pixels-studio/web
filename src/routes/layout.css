@@ -30,4 +30,16 @@
 			'cv12' 1,
 			'cv13' 1;
 	}
+
+	.js [data-animate='true']:not([data-animate-ready='true']) {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.js [data-animate='true'] {
+			opacity: 1;
+			transform: none;
+		}
+	}
 }
