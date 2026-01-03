@@ -37,7 +37,10 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<header class="sticky top-0 z-40 bg-base-0 p-4" style="view-transition-name: header">
+<header
+	class="sticky top-0 z-40 bg-base-0/90 p-4 backdrop-blur-md"
+	style="view-transition-name: header"
+>
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4 md:grid-cols-8 lg:grid-cols-12">
 		<a
 			class="col-span-5 text-xs font-medium tracking-wide uppercase md:col-span-4"
@@ -114,48 +117,45 @@
 				<p>Abhishek Kambli</p>
 				<p class="text-base-5">Product Designer & Frontend Engineer</p>
 			</a>
-			<button
-				class="flex h-8 w-8 cursor-pointer flex-col items-center justify-center gap-1.5"
-				onclick={closeMenu}
-				aria-label="Close menu"
-			>
+			<button class="relative h-8 w-8 cursor-pointer" onclick={closeMenu} aria-label="Close menu">
 				<span
-					class="block h-0.5 w-5 translate-y-2 rotate-45 bg-base-10 transition-all duration-300 ease-smooth"
+					class="absolute top-1/2 left-1/2 block h-0.5 w-5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-base-10 transition-all duration-300 ease-smooth"
 				></span>
 				<span
-					class="block h-0.5 w-5 -translate-y-0 -rotate-45 bg-base-10 transition-all duration-300 ease-smooth"
+					class="absolute top-1/2 left-1/2 block h-0.5 w-5 -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-base-10 transition-all duration-300 ease-smooth"
 				></span>
 			</button>
 		</div>
 
 		<!-- Menu Content -->
-		<nav class="flex flex-1 flex-col justify-center gap-8 px-4">
-			{#each PRIMARY_NAVIGATION as item, i (item.href)}
-				<a
-					class="text-4xl font-medium transition-colors duration-300 ease-smooth hover:text-base-5 {isActive(
-						item.href
-					)
-						? 'text-base-10'
-						: 'text-base-5'}"
-					href={item.href}
-					onclick={handleNavClick}
-					in:fly={{ y: 20, delay: i * 50, duration: 300 }}
-				>
-					{item.label}
-				</a>
-			{/each}
-		</nav>
+		<div class="flex flex-1 flex-col gap-12 px-4 py-12">
+			<!-- Primary Navigation -->
+			<nav class="flex flex-col gap-3">
+				{#each PRIMARY_NAVIGATION as item, i (item.href)}
+					<a
+						class="text-2xl font-medium text-base-10 transition-colors duration-300 ease-smooth"
+						href={item.href}
+						onclick={handleNavClick}
+						in:fly={{ y: 20, delay: i * 50, duration: 300 }}
+					>
+						{item.label}
+					</a>
+				{/each}
+			</nav>
 
-		<!-- Social Links -->
-		<nav class="flex flex-wrap gap-4 border-t border-base-3 p-4">
-			{#each SOCIAL_LINKS as item (item.href)}
-				<a
-					class="text-sm font-medium tracking-wide text-base-5 uppercase transition-colors duration-300 ease-smooth hover:text-base-10"
-					href={item.href}
-				>
-					{item.label}
-				</a>
-			{/each}
-		</nav>
+			<!-- Social Links -->
+			<nav class="flex flex-col gap-3">
+				<p class="text-xs font-medium tracking-wide text-base-5 uppercase">Let's Connect</p>
+				{#each SOCIAL_LINKS as item, i (item.href)}
+					<a
+						class="text-2xl font-medium transition-colors duration-300 ease-smooth"
+						href={item.href}
+						in:fly={{ y: 20, delay: (PRIMARY_NAVIGATION.length + i) * 50, duration: 300 }}
+					>
+						{item.label}
+					</a>
+				{/each}
+			</nav>
+		</div>
 	</div>
 {/if}
