@@ -4,7 +4,7 @@
 
 		<div class="col-span-6 flex flex-col gap-8">
 			<h2 class="text-3xl font-medium text-pretty">
-				<span class="inline-block w-[5ch]"></span>I had a memorable time working with Abhishek. His
+				<span class="inline-block w-[4ch]"></span>I had a memorable time working with Abhishek. His
 				grasp on UI and UX design theory was evident. He was a notable asset to the tlkn app with
 				relentless motivation towards creating a perfect product.
 			</h2>

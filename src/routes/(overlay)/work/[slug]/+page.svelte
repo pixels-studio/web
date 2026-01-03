@@ -4,6 +4,15 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
+<svelte:head>
+	<title>{data.work.title} – Abhishek Kambli</title>
+	<meta
+		name="description"
+		content={data.work.description ||
+			`${data.work.title} – A project by Abhishek Kambli. Explore the design process, challenges, and solutions.`}
+	/>
+</svelte:head>
+
 <section class="flex min-h-dvh flex-1 items-center justify-center bg-base-10">
 	<div class="relative aspect-2/1 w-full overflow-hidden">
 		{#if data.work.type === 'video'}

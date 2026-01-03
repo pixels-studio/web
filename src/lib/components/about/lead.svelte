@@ -11,6 +11,6 @@
 	</div>
 </section>
 
-<div class="col-span-full">
+<div class="col-span-full aspect-2/1 bg-base-1">
 	<enhanced:img src={HeadshotImage} alt="Abhishek Kambli" class="h-full w-full object-cover" />
 </div>
