@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
+	import RajaImage from '$lib/assets/raja.png';
 </script>
 
 <section
@@ -24,14 +25,19 @@
 
 		<div class="col-span-6 flex flex-col gap-8">
 			<h2 class={cn('text-2xl font-medium text-pretty', 'md:text-3xl')}>
-				<span class={cn('hidden w-[4ch]', 'md:inline-block')}></span>I had a memorable time working
-				with Abhishek. His grasp on UI and UX design theory was evident. He was a notable asset to
-				the tlkn app with relentless motivation towards creating a perfect product.
+				I had a memorable time working with Abhishek. His grasp on UI and UX design theory was
+				evident. He was a notable asset to the tlkn app with relentless motivation towards creating
+				a perfect product.
 			</h2>
 
-			<div class={cn('flex flex-col text-lg font-medium', 'md:text-xl')}>
-				<p>Raja Sandhu</p>
-				<p class="text-base-5">Co-Founder, tlkn</p>
+			<div class="flex items-center gap-4">
+				<div class="relative grid size-12 place-items-center bg-base-1">
+					<enhanced:img class="absolute inset-0 object-cover" src={RajaImage} alt="Raja Sandhu" />
+				</div>
+				<div class={cn('flex flex-col text-lg font-medium', 'md:text-xl')}>
+					<p>Raja Sandhu</p>
+					<p class="text-base-5">Co-Founder, tlkn</p>
+				</div>
 			</div>
 		</div>
 	</div>
