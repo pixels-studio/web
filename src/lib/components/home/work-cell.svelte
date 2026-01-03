@@ -3,15 +3,12 @@
 
 	interface Props {
 		item?: Work;
-		isEmpty?: boolean;
 	}
 
-	let { item, isEmpty = false }: Props = $props();
+	let { item }: Props = $props();
 </script>
 
-{#if isEmpty}
-	<div class="col-span-2 aspect-video"></div>
-{:else if item}
+{#if item}
 	<a href={`/work/${item._meta.path}`} class="group col-span-2">
 		<div
 			class="work-cell-wrapper relative aspect-video overflow-hidden bg-base-2"
@@ -37,4 +34,6 @@
 			{/if}
 		</div>
 	</a>
+{:else}
+	<div class="col-span-2 aspect-video"></div>
 {/if}
