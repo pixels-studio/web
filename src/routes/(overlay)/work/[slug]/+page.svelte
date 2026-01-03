@@ -13,7 +13,7 @@
 	/>
 </svelte:head>
 
-<section class="flex min-h-dvh flex-1 items-center justify-center bg-base-10">
+<section class="z-50 flex min-h-dvh flex-1 items-center justify-center bg-base-0">
 	<div class="relative aspect-2/1 w-full overflow-hidden">
 		{#if data.work.type === 'video'}
 			<video

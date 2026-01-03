@@ -13,13 +13,7 @@
 		let workIndex = 0;
 		let row = 0;
 		let emptyIndex = 0;
-		const emptyPatterns = [
-			[1],
-			[0, 4],
-			[5],
-			[2, 3],
-			[0]
-		];
+		const emptyPatterns = [[1], [0, 4], [5], [2, 3], [0]];
 
 		while (workIndex < publishedWorks.length) {
 			// Different patterns for different rows to create visual variety
@@ -44,7 +38,7 @@
 	const gridItems = createGridItems();
 </script>
 
-<section class="px-4 pb-48">
+<section class="bg-base-0 px-4 pb-48">
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 		{#each gridItems as gridItem (gridItem.id)}
 			<WorkCell item={gridItem.work} isEmpty={!gridItem.work} />

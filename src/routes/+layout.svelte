@@ -25,6 +25,12 @@
 
 <style>
 	@media (prefers-reduced-motion: no-preference) {
+		/* Disable default fade on root - only morphing elements will animate */
+		:global(::view-transition-old(root)),
+		:global(::view-transition-new(root)) {
+			animation: none;
+		}
+
 		:global(::view-transition-group(*)) {
 			animation-duration: 600ms;
 			animation-timing-function: var(--ease-smooth);
@@ -39,28 +45,28 @@
 		}
 
 		/* Fade out header, footer, lead, testimonial, and non-clicked work cells */
-		:global(::view-transition-old(header)),
+		/* :global(::view-transition-old(header)),
 		:global(::view-transition-old(footer)),
 		:global(::view-transition-old(lead)),
 		:global(::view-transition-old(testimonial)),
 		:global(::view-transition-old(work-cell-*)) {
 			animation: fade-out 200ms var(--ease-smooth);
-		}
+		} */
 
 		/* Hide new versions of these elements on work detail page */
-		:global(::view-transition-new(header)),
+		/* :global(::view-transition-new(header)),
 		:global(::view-transition-new(footer)),
 		:global(::view-transition-new(lead)),
 		:global(::view-transition-new(testimonial)),
 		:global(::view-transition-new(work-cell-*)) {
 			animation: none;
-		}
+		} */
 
-		@keyframes fade-out {
+		/* @keyframes fade-out {
 			to {
 				opacity: 0;
 			}
-		}
+		} */
 	}
 
 	@media (prefers-reduced-motion) {
