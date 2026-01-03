@@ -72,7 +72,7 @@
 </script>
 
 <div
-	class="pointer-events-none fixed inset-0 z-50 grid grid-cols-12 gap-4 px-4"
+	class="pointer-events-none fixed inset-0 z-50 grid grid-cols-6 gap-4 px-4 md:grid-cols-8 lg:grid-cols-12"
 	class:hidden={!mounted}
 	aria-hidden="true"
 	role="presentation"
