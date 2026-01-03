@@ -10,19 +10,18 @@
 	// We'll insert empty cells at varying positions for visual interest
 	function createGridItems() {
 		const items: Array<{ id: string; work?: (typeof publishedWorks)[0] }> = [];
+		const emptyPatterns = [[1], [0, 4], [5], [2, 3], [0]];
+		const positionsInRow = 6; // 12 columns / 2 col-span = 6 positions
 		let workIndex = 0;
 		let row = 0;
-		let emptyIndex = 0;
-		const emptyPatterns = [[1], [0, 4], [5], [2, 3], [0]];
 
 		while (workIndex < publishedWorks.length) {
 			// Different patterns for different rows to create visual variety
-			const positionsInRow = 6; // 12 columns / 2 col-span = 6 positions
 			const emptyPositions = emptyPatterns[row % emptyPatterns.length];
 
 			for (let pos = 0; pos < positionsInRow && workIndex < publishedWorks.length; pos++) {
 				if (emptyPositions.includes(pos)) {
-					items.push({ id: `empty-${emptyIndex++}` });
+					items.push({ id: `empty-${row}-${pos}` });
 				} else {
 					const work = publishedWorks[workIndex];
 					items.push({ id: work._meta.path, work });
@@ -41,7 +40,7 @@
 <section class="bg-base-0 px-4 pb-48">
 	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
 		{#each gridItems as gridItem (gridItem.id)}
-			<WorkCell item={gridItem.work} isEmpty={!gridItem.work} />
+			<WorkCell item={gridItem.work} />
 		{/each}
 	</div>
 </section>
