@@ -22,7 +22,7 @@
 		</p>
 		<div class={cn('col-span-full mb-16 flex flex-col gap-8', 'lg:col-span-6')}>
 			<h2 class="text-3xl font-medium text-pretty">
-				<span class={cn('hidden', 'lg:inline-block lg:w-[5ch]')}></span> I've spent over a decade designing
+				<span class={cn('hidden', 'lg:inline-block lg:w-[3.5ch]')}></span> I've spent over a decade designing
 				and building intuitive software across consumer, B2B and agentic AI platforms.
 			</h2>
 
