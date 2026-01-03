@@ -1,14 +1,29 @@
 <script>
 	import { EXPERIENCE } from '$lib/helpers/constants';
+	import { cn } from '$lib/helpers/utils';
 </script>
 
-<section class="px-4 py-48">
-	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-x-4">
-		<p class="col-span-4 text-xl font-medium text-base-5">Experience</p>
-		<div class="col-span-6 mb-16 flex flex-col gap-8">
+<section class={cn('px-4 py-24', 'md:py-32', 'lg:py-48')}>
+	<div
+		class={cn(
+			'mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-x-4',
+			'md:grid-cols-8',
+			'lg:grid-cols-12'
+		)}
+	>
+		<p
+			class={cn(
+				'col-span-full mb-8 text-lg font-medium text-base-5',
+				'md:col-span-full md:text-xl',
+				'lg:col-span-4 lg:mb-0'
+			)}
+		>
+			Experience
+		</p>
+		<div class={cn('col-span-full mb-16 flex flex-col gap-8', 'lg:col-span-6')}>
 			<h2 class="text-3xl font-medium text-pretty">
-				<span class="inline-block w-[5ch]"></span> I've spent over a decade designing and building intuitive
-				software across consumer, B2B and agentic AI platforms.
+				<span class={cn('hidden', 'lg:inline-block lg:w-[5ch]')}></span> I've spent over a decade designing
+				and building intuitive software across consumer, B2B and agentic AI platforms.
 			</h2>
 
 			<h2 class="text-3xl font-medium text-pretty">
@@ -17,10 +32,13 @@
 		</div>
 
 		<!-- Timeline -->
-		<div class="col-span-6 col-start-5 flex flex-col">
+		<div class={cn('col-span-full  flex flex-col', 'lg:col-span-6 lg:col-start-5')}>
 			{#each EXPERIENCE as experience (experience.company)}
 				<article
-					class="flex flex-col gap-8 border-b border-base-3 py-24 text-xl leading-tight font-medium first:border-t last:border-b-0 last:pb-0"
+					class={cn(
+						'flex flex-col gap-8 border-b border-base-3 py-16 text-lg leading-tight font-medium first:border-t last:border-b-0 last:pb-0',
+						'lg:py-24 lg:text-xl'
+					)}
 				>
 					<div class="flex items-start justify-between">
 						<div class="flex flex-col">

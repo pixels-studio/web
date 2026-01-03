@@ -20,12 +20,12 @@
 			<div
 				class={cn('col-span-full flex flex-col gap-4', 'md:col-span-6 md:gap-8', 'lg:col-span-5')}
 			>
-				<h2 class={cn('text-xl font-medium text-pretty', 'md:text-2xl', 'lg:text-3xl')}>
+				<h2 class={cn('text-lg font-medium text-pretty', 'md:text-2xl', 'lg:text-3xl')}>
 					Available for remote frontend or product design roles, and selective freelance work.
 				</h2>
 				<a
 					class={cn(
-						'text-xl font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
+						'text-lg font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
 						'md:text-2xl',
 						'lg:text-3xl'
 					)}
