@@ -5,8 +5,8 @@ export const ROUTES = {
 	about: '/about',
 	experience: '/experience',
 	contact: 'mailto:hello@pixels.studio',
-	twitter: 'https://x.com/abhishekkambli',
-	linkedin: 'https://www.linkedin.com/in/abhishek-kambli-861b5b1b/',
-	instagram: 'https://www.instagram.com/abhishek.kambli/',
-	resume: '/resume.pdf'
+	twitter: 'https://x.com/_abhiii',
+	linkedin: 'https://www.linkedin.com/in/abhishekkambli/',
+	instagram: 'https://www.instagram.com/pixels.studio.design/',
+	resume: 'https://media.pixels.studio/abhishek-kambli-resume.pdf'
 };
