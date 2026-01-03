@@ -10,7 +10,11 @@
 </script>
 
 {#if item}
-	<a href={`/work/${item._meta.path}`} class={cn('group col-span-3', 'md:col-span-2')}>
+	<a
+		href={`/work/${item._meta.path}`}
+		class={cn('group col-span-3', 'md:col-span-2')}
+		data-animate="true"
+	>
 		<div
 			class="work-cell-wrapper relative aspect-video overflow-hidden bg-base-2"
 			style="view-transition-name: work-cell-{item._meta.path}"

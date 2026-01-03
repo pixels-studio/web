@@ -2,6 +2,8 @@
 	import { allWorks } from 'content-collections';
 	import WorkCell from './work-cell.svelte';
 	import { cn } from '$lib/helpers/utils';
+	import gsap from 'gsap';
+	import { onMount } from 'svelte';
 
 	// Get only published works
 	const publishedWorks = allWorks.filter((work) => work.status === 'published');
@@ -58,25 +60,120 @@
 	const mobileGridItems = createGridItems('mobile');
 	const tabletGridItems = createGridItems('tablet');
 	const desktopGridItems = createGridItems('desktop');
+
+	let mobileGrid: HTMLDivElement | null = null;
+	let tabletGrid: HTMLDivElement | null = null;
+	let desktopGrid: HTMLDivElement | null = null;
+	let prefersReducedMotion = $state(false);
+
+	const getAnimItems = (container: HTMLElement) =>
+		Array.from(container.querySelectorAll<HTMLElement>('[data-animate="true"]'));
+
+	const setInitialState = (container: HTMLElement) => {
+		const items = getAnimItems(container);
+
+		if (!items.length) return;
+
+		if (prefersReducedMotion) {
+			gsap.set(items, { opacity: 1, y: 0 });
+		} else {
+			gsap.set(items, { opacity: 0, y: 24 });
+		}
+	};
+
+	const runAnimation = (container: HTMLElement) => {
+		const items = getAnimItems(container);
+
+		if (!items.length) return;
+
+		if (prefersReducedMotion) {
+			gsap.set(items, { opacity: 1, y: 0 });
+			return;
+		}
+
+		gsap.to(items, {
+			opacity: 1,
+			y: 0,
+			duration: 0.7,
+			ease: 'power3.out',
+			stagger: 0.08,
+			clearProps: 'transform'
+		});
+	};
+
+	onMount(() => {
+		const loadId = String(performance.timeOrigin || Date.now());
+		const animationKey = `homeWorkGridAnimated:${loadId}`;
+		const hasAnimated = sessionStorage.getItem(animationKey) === 'true';
+
+		const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const updatePreference = () => {
+			prefersReducedMotion = media.matches;
+		};
+
+		updatePreference();
+		media.addEventListener('change', updatePreference);
+
+		const grids = [mobileGrid, tabletGrid, desktopGrid].filter(
+			(grid): grid is HTMLDivElement => !!grid
+		);
+
+		const observers: IntersectionObserver[] = [];
+
+		grids.forEach((grid) => {
+			if (hasAnimated) {
+				gsap.set(getAnimItems(grid), { opacity: 1, y: 0 });
+				return;
+			}
+
+			setInitialState(grid);
+
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (!entry.isIntersecting) return;
+						runAnimation(entry.target as HTMLElement);
+						sessionStorage.setItem(animationKey, 'true');
+						observer.unobserve(entry.target);
+					});
+				},
+				{ threshold: 0.2 }
+			);
+
+			observer.observe(grid);
+			observers.push(observer);
+		});
+
+		return () => {
+			media.removeEventListener('change', updatePreference);
+			observers.forEach((observer) => observer.disconnect());
+		};
+	});
 </script>
 
 <section class={cn('bg-base-0 px-4 pb-24', 'md:pb-32', 'lg:pb-48')}>
 	<!-- Mobile grid: 2 columns (visible below md) -->
-	<div class={cn('mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4', 'md:hidden')}>
+	<div
+		class={cn('mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4', 'md:hidden')}
+		bind:this={mobileGrid}
+	>
 		{#each mobileGridItems as gridItem (gridItem.id)}
 			<WorkCell item={gridItem.work} />
 		{/each}
 	</div>
 
 	<!-- Tablet grid: 4 columns (visible md to lg) -->
-	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-8 gap-4', 'md:grid', 'lg:hidden')}>
+	<div
+		class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-8 gap-4', 'md:grid', 'lg:hidden')}
+		bind:this={tabletGrid}
+	>
 		{#each tabletGridItems as gridItem (gridItem.id)}
 			<WorkCell item={gridItem.work} />
 		{/each}
 	</div>
 
 	<!-- Desktop grid: 6 columns (visible lg and above) -->
-	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-12 gap-4', 'lg:grid')}>
+	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-12 gap-4', 'lg:grid')} bind:this={desktopGrid}>
 		{#each desktopGridItems as gridItem (gridItem.id)}
 			<WorkCell item={gridItem.work} />
 		{/each}

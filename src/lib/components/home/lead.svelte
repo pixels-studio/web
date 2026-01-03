@@ -1,6 +1,44 @@
 <script lang="ts">
 	import { ROUTES } from '$lib/helpers/routes';
 	import { cn } from '$lib/helpers/utils';
+	import gsap from 'gsap';
+	import { onMount } from 'svelte';
+
+	let leadLines: HTMLElement[] = [];
+	let prefersReducedMotion = $state(false);
+
+	onMount(() => {
+		const loadId = String(performance.timeOrigin || Date.now());
+		const animationKey = `homeLeadAnimated:${loadId}`;
+		const hasAnimated = sessionStorage.getItem(animationKey) === 'true';
+
+		const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const updatePreference = () => {
+			prefersReducedMotion = media.matches;
+		};
+
+		updatePreference();
+		media.addEventListener('change', updatePreference);
+
+		const lines = leadLines.filter(Boolean);
+
+		if (lines.length) {
+			if (hasAnimated || prefersReducedMotion) {
+				gsap.set(lines, { y: 0, opacity: 1 });
+			} else {
+				gsap.fromTo(
+					lines,
+					{ y: 24, opacity: 0 },
+					{ y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.12 }
+				);
+				sessionStorage.setItem(animationKey, 'true');
+			}
+		}
+
+		return () => {
+			media.removeEventListener('change', updatePreference);
+		};
+	});
 </script>
 
 <section
@@ -20,7 +58,7 @@
 				'lg:col-span-6 lg:col-start-5 lg:text-3xl'
 			)}
 		>
-			<p>
+			<p class="lead-line" bind:this={leadLines[0]}>
 				<span class="inline-block w-[3.5ch]"></span>
 				Designing and building production software for over a decade. Currently leading frontend and design
 				at
@@ -28,7 +66,9 @@
 					Origon in Mumbai, India.
 				</a>
 			</p>
-			<p>Below is a selection of work drawn from those efforts, along with independent projects.</p>
+			<p class="lead-line" bind:this={leadLines[1]}>
+				Below is a selection of work drawn from those efforts, along with independent projects.
+			</p>
 		</h1>
 	</div>
 </section>
