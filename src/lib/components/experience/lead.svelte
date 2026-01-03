@@ -3,7 +3,7 @@
 	import { cn } from '$lib/helpers/utils';
 </script>
 
-<section class={cn('px-4 py-24', 'md:py-32', 'lg:py-48')}>
+<section class={cn('px-4 py-24 bg-origon-0', 'md:py-32', 'lg:py-48')}>
 	<div
 		class={cn(
 			'mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-x-4',
