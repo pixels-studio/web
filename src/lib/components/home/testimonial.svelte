@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import RajaImage from '$lib/assets/raja.png';
+	import RajaImage from '$lib/assets/raja.png?enhanced';
 </script>
 
 <section
