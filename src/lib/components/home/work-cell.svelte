@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cn } from '$lib/helpers/utils';
 	import type { Work } from 'content-collections';
 
 	interface Props {
@@ -9,7 +10,7 @@
 </script>
 
 {#if item}
-	<a href={`/work/${item._meta.path}`} class="group col-span-2">
+	<a href={`/work/${item._meta.path}`} class={cn('group col-span-3', 'md:col-span-2')}>
 		<div
 			class="work-cell-wrapper relative aspect-video overflow-hidden bg-base-2"
 			style="view-transition-name: work-cell-{item._meta.path}"
@@ -35,5 +36,5 @@
 		</div>
 	</a>
 {:else}
-	<div class="col-span-2 aspect-video"></div>
+	<div class={cn('col-span-3 aspect-2/1', 'md:col-span-2')}></div>
 {/if}

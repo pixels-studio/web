@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { allWorks } from 'content-collections';
 	import WorkCell from './work-cell.svelte';
+	import { cn } from '$lib/helpers/utils';
 
 	// Get only published works
 	const publishedWorks = allWorks.filter((work) => work.status === 'published');
@@ -37,8 +38,14 @@
 	const gridItems = createGridItems();
 </script>
 
-<section class="bg-base-0 px-4 pb-48">
-	<div class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-4">
+<section class={cn('bg-base-0 px-4 pb-24', 'md:pb-32', 'lg:pb-48')}>
+	<div
+		class={cn(
+			'mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4',
+			'md:grid-cols-8',
+			'lg:grid-cols-12'
+		)}
+	>
 		{#each gridItems as gridItem (gridItem.id)}
 			<WorkCell item={gridItem.work} />
 		{/each}
