@@ -1,6 +1,7 @@
 export const ROUTES = {
 	home: '/',
 	colophon: '/colophon',
+	contact: '/#contact',
 	origon: 'https://origon.com',
 	about: '/about',
 	experience: '/experience',

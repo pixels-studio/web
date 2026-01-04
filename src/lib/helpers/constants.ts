@@ -12,6 +12,10 @@ export const PRIMARY_NAVIGATION = [
 	{
 		label: 'About',
 		href: ROUTES.about
+	},
+	{
+		label: 'Contact',
+		href: ROUTES.contact
 	}
 ];
 

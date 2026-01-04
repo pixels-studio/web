@@ -14,9 +14,7 @@
 				'lg:grid-cols-12'
 			)}
 		>
-			<p class={cn('col-span-full text-lg font-medium text-base-5', 'md:text-xl', 'lg:col-span-4')}>
-				Availability
-			</p>
+			<p class={cn('col-span-full font-medium text-base-5', 'lg:col-span-4')}>Availability</p>
 			<div
 				class={cn('col-span-full flex flex-col gap-4', 'md:col-span-6 md:gap-8', 'lg:col-span-5')}
 			>
@@ -80,18 +78,11 @@
 				'lg:grid-cols-12'
 			)}
 		>
-			<p
-				class={cn(
-					'col-span-2 text-xs font-medium tracking-wide text-base-0/40 uppercase',
-					'md:col-span-4'
-				)}
-			>
-				© Pixels Studio.
-			</p>
+			<p class={cn('col-span-2 font-medium opacity-30', 'md:col-span-4')}>© Pixels Studio.</p>
 			<a
 				href={'#'}
 				class={cn(
-					'col-span-2 text-center text-xs font-medium tracking-wide text-base-0/40 uppercase transition-colors duration-300 ease-smooth hover:text-base-0',
+					'col-span-2 text-center font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10',
 					'md:col-span-3 md:text-left',
 					'lg:col-span-4'
 				)}
@@ -101,9 +92,9 @@
 			<a
 				href={ROUTES.colophon}
 				class={cn(
-					'col-span-2 text-right text-xs font-medium tracking-wide text-base-0/40 uppercase transition-colors duration-300 ease-smooth hover:text-base-0',
-					'md:col-span-1 md:col-start-8',
-					'lg:col-start-12'
+					'col-span-2 font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10',
+					'md:col-start-6',
+					'lg:col-start-11'
 				)}
 			>
 				Colophon

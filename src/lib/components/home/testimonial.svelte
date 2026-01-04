@@ -14,12 +14,7 @@
 			'lg:grid-cols-12'
 		)}
 	>
-		<p
-			class={cn(
-				'col-span-full mb-8 text-lg font-medium text-base-5',
-				'md:col-span-4 md:mb-0 md:text-xl'
-			)}
-		>
+		<p class={cn('col-span-full mb-8 font-medium text-base-5', 'md:col-span-4 md:mb-0')}>
 			Testimonial
 		</p>
 
@@ -31,10 +26,10 @@
 			</h2>
 
 			<div class="flex items-center gap-4">
-				<div class="relative grid size-12 place-items-center bg-base-1">
+				<div class="relative grid size-10 place-items-center bg-base-1">
 					<enhanced:img class="absolute inset-0 object-cover" src={RajaImage} alt="Raja Sandhu" />
 				</div>
-				<div class={cn('flex flex-col text-lg font-medium', 'md:text-xl')}>
+				<div class={cn('flex flex-col font-medium')}>
 					<p>Raja Sandhu</p>
 					<p class="text-base-5">Co-Founder, tlkn</p>
 				</div>
