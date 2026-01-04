@@ -1,7 +1,7 @@
 ---
 title: Origon CRM Tickets
 description: Ticket management system for Origon CRM, handling customer support requests efficiently.
-cover: /src/lib/assets/work/origon-crm-tickets.png
+cover: /work/origon-crm-tickets.png
 type: image
 project: Origon
 status: published

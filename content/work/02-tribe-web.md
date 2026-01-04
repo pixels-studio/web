@@ -1,7 +1,7 @@
 ---
 title: Tribe Web
 description: Web platform for Tribe, bringing the social experience to desktop browsers.
-cover: /src/lib/assets/work/tribe-web.png
+cover: /work/tribe-web.png
 type: image
 project: Tribe
 status: published

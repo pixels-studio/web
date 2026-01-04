@@ -1,7 +1,7 @@
 ---
 title: Origon CRM Calling App
 description: Integrated calling application for Origon CRM, enabling seamless customer communication.
-cover: /src/lib/assets/work/origon-crm-calling-app.png
+cover: /work/origon-crm-calling-app.png
 type: image
 project: Origon
 status: published

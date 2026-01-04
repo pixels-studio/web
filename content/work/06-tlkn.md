@@ -1,7 +1,7 @@
 ---
 title: TLKN
 description: Modern communication app designed for seamless conversations and connectivity.
-cover: /src/lib/assets/work/tlkn.png
+cover: /work/tlkn.png
 type: image
 project: TLKN
 status: published

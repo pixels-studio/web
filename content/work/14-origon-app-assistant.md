@@ -1,7 +1,7 @@
 ---
 title: Origon App Assistant
 description: AI-powered assistant for the Origon application, providing smart automation and guidance.
-cover: /src/lib/assets/work/origon-app-assistant.png
+cover: /work/origon-app-assistant.png
 type: image
 project: Origon
 status: published

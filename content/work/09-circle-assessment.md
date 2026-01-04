@@ -1,7 +1,7 @@
 ---
 title: Circle Assessment
 description: Assessment and evaluation interface for Circle platform.
-cover: /src/lib/assets/work/circle-assessment.png
+cover: /work/circle-assessment.png
 type: image
 project: Circle
 status: published

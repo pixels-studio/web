@@ -1,7 +1,7 @@
 ---
 title: Samespace Dock V2
 description: Second iteration of Samespace Dock with enhanced features and refined interface.
-cover: /src/lib/assets/work/samespace-dock-2.png
+cover: /work/samespace-dock-2.png
 type: image
 project: Samespace
 status: published

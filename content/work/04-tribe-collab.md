@@ -1,7 +1,7 @@
 ---
 title: Tribe Collab
 description: Collaborative workspace features enabling real-time teamwork and document sharing.
-cover: /src/lib/assets/work/tribe-collab.png
+cover: /work/tribe-collab.png
 type: image
 project: Tribe
 status: published

@@ -1,7 +1,7 @@
 ---
 title: Origon Insights
 description: Data analytics and insights dashboard for Origon platform.
-cover: /src/lib/assets/work/origon-insights.png
+cover: /work/origon-insights.png
 type: image
 project: Origon
 status: published

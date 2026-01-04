@@ -1,7 +1,7 @@
 ---
 title: Origon CRM Tickets V2
 description: Enhanced ticket management interface with improved workflows and visualization.
-cover: /src/lib/assets/work/origon-crm-tickets-2.png
+cover: /work/origon-crm-tickets-2.png
 type: image
 project: Origon
 status: published

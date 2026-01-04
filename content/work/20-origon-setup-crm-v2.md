@@ -1,7 +1,7 @@
 ---
 title: Origon Setup CRM V2
 description: Second iteration of the CRM setup wizard with streamlined flow and better guidance.
-cover: /src/lib/assets/work/origon-setup-crm-2.png
+cover: /work/origon-setup-crm-2.png
 type: image
 project: Origon
 status: published

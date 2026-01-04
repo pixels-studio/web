@@ -1,7 +1,7 @@
 ---
 title: Tribe Assistant
 description: AI-powered assistant integrated into Tribe for smarter productivity and task management.
-cover: /src/lib/assets/work/tribe-assistant.png
+cover: /work/tribe-assistant.png
 type: image
 project: Tribe
 status: published

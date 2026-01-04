@@ -1,7 +1,7 @@
 ---
 title: Origon Setup CRM
 description: CRM setup and configuration wizard for Origon, guiding users through initial setup.
-cover: /src/lib/assets/work/origon-setup-crm-1.png
+cover: /work/origon-setup-crm-1.png
 type: image
 project: Origon
 status: published

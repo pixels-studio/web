@@ -1,7 +1,7 @@
 ---
 title: UG Exploration
 description: Design exploration and concept work for UG project.
-cover: /src/lib/assets/work/ug-exploration-1.png
+cover: /work/ug-exploration-1.png
 type: image
 project: UG
 status: published

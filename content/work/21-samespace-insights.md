@@ -1,7 +1,7 @@
 ---
 title: Samespace Insights
 description: Analytics and insights dashboard for Samespace, providing actionable communication metrics.
-cover: /src/lib/assets/work/samespace-insights.png
+cover: /work/samespace-insights.png
 type: image
 project: Samespace
 status: published

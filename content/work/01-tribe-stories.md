@@ -1,7 +1,7 @@
 ---
 title: Tribe Stories
 description: Social storytelling feature for Tribe, enabling users to share ephemeral content with their network.
-cover: /src/lib/assets/work/tribe-stories.png
+cover: /work/tribe-stories.png
 type: image
 project: Tribe
 status: published

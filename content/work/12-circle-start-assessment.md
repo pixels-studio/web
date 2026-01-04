@@ -1,7 +1,7 @@
 ---
 title: Circle Start Assessment
 description: Onboarding assessment flow for Circle, guiding new users through initial setup.
-cover: /src/lib/assets/work/circle-start-assessment.png
+cover: /work/circle-start-assessment.png
 type: image
 project: Circle
 status: published

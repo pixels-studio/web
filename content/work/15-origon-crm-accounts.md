@@ -1,7 +1,7 @@
 ---
 title: Origon CRM Accounts
 description: Account management interface for Origon CRM, streamlining customer relationship tracking.
-cover: /src/lib/assets/work/origon-crm-accounts.png
+cover: /work/origon-crm-accounts.png
 type: image
 project: Origon
 status: published

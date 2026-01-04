@@ -1,7 +1,7 @@
 ---
 title: Samespace Reports
 description: Comprehensive reporting interface for Samespace, enabling data-driven decision making.
-cover: /src/lib/assets/work/samespace-reports.png
+cover: /work/samespace-reports.png
 type: image
 project: Samespace
 status: published

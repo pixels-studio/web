@@ -1,7 +1,7 @@
 ---
 title: Tribe Status & HiFi Call
 description: Status updates and high-fidelity voice calling features for Tribe communication platform.
-cover: /src/lib/assets/work/tribe-status-and-hifi-call.png
+cover: /work/tribe-status-and-hifi-call.png
 type: image
 project: Tribe
 status: published

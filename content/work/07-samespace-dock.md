@@ -1,7 +1,7 @@
 ---
 title: Samespace Dock
 description: Unified communication dock for Samespace, bringing all channels together in one interface.
-cover: /src/lib/assets/work/samespace-dock.png
+cover: /work/samespace-dock.png
 type: image
 project: Samespace
 status: published

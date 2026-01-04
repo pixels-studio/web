@@ -1,7 +1,7 @@
 ---
 title: Tax Germany
 description: Tax calculation and filing platform for German tax regulations.
-cover: /src/lib/assets/work/tax-germany.png
+cover: /work/tax-germany.png
 type: image
 project: Tax Germany
 status: published
