@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
 	import type { PageData } from './$types';
-	import ChevronLeft from '$lib/assets/chevron-left.svg?raw';
 	import CloseIcon from '$lib/assets/close.svg?raw';
 	import { onMount } from 'svelte';
 
@@ -57,7 +56,7 @@
 				autoplay
 			></video>
 		{:else}
-			<img
+			<enhanced:img
 				src={data.work.cover}
 				alt={data.work.title}
 				class="work-cover h-full w-full object-cover"
