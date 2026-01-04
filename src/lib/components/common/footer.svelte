@@ -3,6 +3,8 @@
 	import { SOCIAL_LINKS } from '$lib/helpers/constants';
 	import { ROUTES } from '$lib/helpers/routes';
 	import { cn } from '$lib/helpers/utils';
+	import LayoutGrid from '$lib/assets/layout-grid.svg?raw';
+	import { gridState } from '$lib/stores/grid-state.svelte';
 </script>
 
 <footer id="contact" class="mt-auto bg-base-8 text-base-0" style="view-transition-name: footer">
@@ -82,7 +84,7 @@
 			<a
 				href={'#'}
 				class={cn(
-					'col-span-2 text-center font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
+					'col-span-2 w-fit text-center font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
 					'md:col-span-3 md:text-left',
 					'lg:col-span-4'
 				)}
@@ -92,13 +94,20 @@
 			<a
 				href={ROUTES.colophon}
 				class={cn(
-					'col-span-2 font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
+					'col-span-1 w-fit font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
 					'md:col-start-6',
 					'lg:col-start-11'
 				)}
 			>
 				Colophon
 			</a>
+
+			<button
+				class="col-span-1 grid hidden size-6 cursor-pointer place-items-center justify-self-end text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0 md:block"
+				onclick={() => gridState.toggle()}
+			>
+				<span class="block size-4">{@html LayoutGrid}</span>
+			</button>
 		</div>
 	</div>
 </footer>

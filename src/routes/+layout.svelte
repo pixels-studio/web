@@ -18,7 +18,10 @@
 	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+	<meta property="og:image" content="https://media.pixels.studio/open-graph.png" />
+</svelte:head>
 
 {@render children()}
 <Grid />

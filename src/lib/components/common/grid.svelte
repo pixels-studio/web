@@ -1,5 +1,6 @@
 <script lang="ts">
 	import gsap from 'gsap';
+	import { gridState } from '$lib/stores/grid-state.svelte';
 
 	interface GridProps {
 		barColor?: string;
@@ -8,10 +9,10 @@
 
 	let { barColor = 'bg-base-10/8', toggleKey = 'g' }: GridProps = $props();
 
-	let visible = $state(false);
 	let mounted = $state(false);
 	let bars: HTMLDivElement[] = [];
 
+	const visible = $derived(gridState.visible);
 	const validBars = $derived(bars.filter((bar) => bar !== undefined));
 	const prefersReducedMotion = $derived(
 		mounted ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false
@@ -59,7 +60,7 @@
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.shiftKey && e.key.toLowerCase() === toggleKey.toLowerCase()) {
 				e.preventDefault();
-				visible = !visible;
+				gridState.toggle();
 			}
 		};
 
