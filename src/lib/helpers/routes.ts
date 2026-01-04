@@ -5,7 +5,7 @@ export const ROUTES = {
 	origon: 'https://origon.com',
 	about: '/about',
 	experience: '/experience',
-	contact: 'mailto:hello@pixels.studio',
+	email: 'mailto:hello@pixels.studio',
 	twitter: 'https://x.com/_abhiii',
 	linkedin: 'https://www.linkedin.com/in/abhishekkambli/',
 	instagram: 'https://www.instagram.com/pixels.studio.design/',

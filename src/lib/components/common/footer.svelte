@@ -5,7 +5,7 @@
 	import { cn } from '$lib/helpers/utils';
 </script>
 
-<footer class="mt-auto bg-base-8 text-base-0" style="view-transition-name: footer">
+<footer id="contact" class="mt-auto bg-base-8 text-base-0" style="view-transition-name: footer">
 	<div class={cn('px-4 py-16', 'md:py-32', 'lg:py-48')}>
 		<div
 			class={cn(
@@ -27,7 +27,7 @@
 						'md:text-2xl',
 						'lg:text-3xl'
 					)}
-					href={ROUTES.contact}
+					href={ROUTES.email}
 				>
 					hello@pixels.studio
 				</a>
@@ -82,7 +82,7 @@
 			<a
 				href={'#'}
 				class={cn(
-					'col-span-2 text-center font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10',
+					'col-span-2 text-center font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
 					'md:col-span-3 md:text-left',
 					'lg:col-span-4'
 				)}
@@ -92,7 +92,7 @@
 			<a
 				href={ROUTES.colophon}
 				class={cn(
-					'col-span-2 font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10',
+					'col-span-2 font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-0',
 					'md:col-start-6',
 					'lg:col-start-11'
 				)}

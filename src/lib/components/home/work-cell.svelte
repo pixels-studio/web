@@ -36,5 +36,5 @@
 		</div>
 	</a>
 {:else}
-	<div class={cn('col-span-3 aspect-2/1', 'md:col-span-2')}></div>
+	<div class={cn('col-span-3 aspect-video', 'md:col-span-2')}></div>
 {/if}

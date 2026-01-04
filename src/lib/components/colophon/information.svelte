@@ -2,9 +2,9 @@
 	import { PEOPLE } from '$lib/helpers/constants';
 </script>
 
-<section class="flex flex-col gap-24 px-4 py-48">
+<section class="flex flex-col gap-24 px-4 pb-48">
 	<article class="mx-auto grid w-full max-w-[1512px] grid-cols-12 gap-x-4">
-		<div class="col-span-2 flex flex-col gap-8 text-xl font-medium">
+		<div class="col-span-2 flex flex-col gap-5 font-medium">
 			<div class="flex flex-col gap-2">
 				<p class="text-base-5">Font</p>
 				<p>Helvetica Neue</p>
@@ -21,7 +21,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col-span-6 col-start-5 flex flex-col gap-8 text-xl font-medium text-pretty">
+		<div class="col-span-5 col-start-5 flex flex-col gap-5 font-medium text-pretty">
 			<p>
 				This site exists to present work without interference. It avoids trends, unnecessary
 				movement, and decorative systems that compete with content.
@@ -45,7 +45,7 @@
 				think, work, and build.
 			</p>
 
-			<ul class="mt-16 grid grid-cols-2 gap-4 text-base-5">
+			<ul class="mt-10 grid grid-cols-2 gap-4 text-base-5">
 				{#each PEOPLE as item}
 					<li>{item}</li>
 				{/each}
