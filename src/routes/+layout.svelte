@@ -3,7 +3,6 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { onNavigate } from '$app/navigation';
 	import Grid from '$lib/components/common/grid.svelte';
-	import * as seline from '@seline-analytics/web';
 
 	let { children } = $props();
 
@@ -16,10 +15,6 @@
 				await navigation.complete;
 			});
 		});
-	});
-
-	seline.init({
-		token: '0bf23da05cb98a7'
 	});
 </script>
 
