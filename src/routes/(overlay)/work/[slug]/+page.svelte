@@ -45,7 +45,7 @@
 		</span>
 	</button>
 
-	<div class="relative mx-auto aspect-video w-full max-w-[1024px] overflow-hidden">
+	<div class="relative mx-auto aspect-video w-full max-w-[1280px] overflow-hidden">
 		{#if data.work.type === 'video'}
 			<video
 				src={data.work.cover}
