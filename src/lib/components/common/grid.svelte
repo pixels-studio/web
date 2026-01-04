@@ -6,7 +6,7 @@
 		toggleKey?: string;
 	}
 
-	let { barColor = 'bg-red-500/10', toggleKey = 'g' }: GridProps = $props();
+	let { barColor = 'bg-base-10/8', toggleKey = 'g' }: GridProps = $props();
 
 	let visible = $state(false);
 	let mounted = $state(false);
