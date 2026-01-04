@@ -1,16 +1,22 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { ROUTES } from '$lib/helpers/routes';
-	import { PRIMARY_NAVIGATION, SOCIAL_LINKS } from '$lib/helpers/constants';
-	import { fade, fly } from 'svelte/transition';
+	import { PRIMARY_NAVIGATION } from '$lib/helpers/constants';
 	import { cn } from '$lib/helpers/utils';
+	import { introState } from '$lib/stores/intro-state.svelte';
 
 	function isActive(href: string): boolean {
 		return page.url.pathname === href;
 	}
+
+	// Only animate on initial load, not on navigation
+	const shouldAnimate = !introState.hasPlayed;
 </script>
 
-<header class="sticky top-0 z-40 bg-base-0 p-4 text-base-10" style="view-transition-name: header">
+<header
+	class={cn('sticky top-0 z-40 bg-base-0 p-4 text-base-10', shouldAnimate && 'header-animate')}
+	style="view-transition-name: header"
+>
 	<div
 		class={cn(
 			'mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4',
@@ -41,3 +47,18 @@
 		</nav>
 	</div>
 </header>
+
+<style>
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	.header-animate {
+		animation: fadeIn 0.8s var(--ease-smooth) forwards;
+	}
+</style>

@@ -3,11 +3,13 @@
 	import type { PageData } from './$types';
 	import CloseIcon from '$lib/assets/close.svg?raw';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { ROUTES } from '$lib/helpers/routes';
 
 	let { data }: { data: PageData } = $props();
 
 	function goBack() {
-		history.back();
+		goto(ROUTES.home);
 	}
 
 	onMount(() => {

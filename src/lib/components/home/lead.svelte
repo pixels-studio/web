@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { ROUTES } from '$lib/helpers/routes';
 	import { cn } from '$lib/helpers/utils';
+	import { introState } from '$lib/stores/intro-state.svelte';
+
+	// Only animate on initial load, not on navigation
+	const shouldAnimate = !introState.hasPlayed;
 </script>
 
 <section
-	class={cn('bg-base-0 px-4 py-24', 'md:py-32', 'lg:py-48')}
+	class={cn('bg-base-0 px-4 pt-24 pb-24', 'md:pt-32 md:pb-32', 'lg:pt-48 lg:pb-24')}
 	style="view-transition-name: lead"
 >
 	<div
@@ -20,7 +24,7 @@
 				'lg:col-span-6 lg:col-start-5 lg:text-3xl'
 			)}
 		>
-			<p class="lead-line">
+			<p class={cn(shouldAnimate && 'lead-line-animate')} style="--delay: 0.4s">
 				<span class="inline-block w-[3.5ch]"></span>
 				Designing and building thoughtful software for over a decade. Currently leading frontend and design
 				at
@@ -28,9 +32,30 @@
 					Origon in Mumbai, India.
 				</a>
 			</p>
-			<p class="lead-line">
+			<p class={cn(shouldAnimate && 'lead-line-animate')} style="--delay: 0.55s">
 				Below is a selection of work drawn from those efforts, along with independent projects.
 			</p>
 		</h1>
 	</div>
 </section>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			filter: blur(10px);
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			filter: blur(0px);
+			transform: translateY(0);
+		}
+	}
+
+	.lead-line-animate {
+		opacity: 0;
+		animation: fadeInUp 0.7s var(--ease-smooth) forwards;
+		animation-delay: var(--delay, 0s);
+	}
+</style>

@@ -55,22 +55,22 @@
 <section class={cn('bg-base-0 px-4 pb-24', 'md:pb-32', 'lg:pb-48')}>
 	<!-- Mobile grid: 2 columns (visible below md) -->
 	<div class={cn('mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4', 'md:hidden')}>
-		{#each mobileGridItems as gridItem (gridItem.id)}
-			<WorkCell item={gridItem.work} />
+		{#each mobileGridItems as gridItem, i (gridItem.id)}
+			<WorkCell item={gridItem.work} index={i} />
 		{/each}
 	</div>
 
 	<!-- Tablet grid: 4 columns (visible md to lg) -->
 	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-8 gap-4', 'md:grid', 'lg:hidden')}>
-		{#each tabletGridItems as gridItem (gridItem.id)}
-			<WorkCell item={gridItem.work} />
+		{#each tabletGridItems as gridItem, i (gridItem.id)}
+			<WorkCell item={gridItem.work} index={i} />
 		{/each}
 	</div>
 
 	<!-- Desktop grid: 6 columns (visible lg and above) -->
 	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-12 gap-4', 'lg:grid')}>
-		{#each desktopGridItems as gridItem (gridItem.id)}
-			<WorkCell item={gridItem.work} />
+		{#each desktopGridItems as gridItem, i (gridItem.id)}
+			<WorkCell item={gridItem.work} index={i} />
 		{/each}
 	</div>
 </section>
