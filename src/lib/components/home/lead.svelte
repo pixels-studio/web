@@ -22,7 +22,7 @@
 		>
 			<p class="lead-line">
 				<span class="inline-block w-[3.5ch]"></span>
-				Designing and building production software for over a decade. Currently leading frontend and design
+				Designing and building thoughtful software for over a decade. Currently leading frontend and design
 				at
 				<a href={ROUTES.origon} class="text-base-5" target="_blank" rel="noopener noreferrer">
 					Origon in Mumbai, India.
