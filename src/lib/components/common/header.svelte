@@ -18,11 +18,20 @@
 			'lg:grid-cols-12'
 		)}
 	>
-		<a class="col-span-4 font-medium" href={ROUTES.home}> Abhishek Kambli </a>
+		<a class={cn('col-span-full font-medium', 'lg:col-span-4')} href={ROUTES.home}>
+			Abhishek Kambli
+		</a>
 
-		<p class="col-span-5 font-medium text-base-5">Product Designer & Frontend Engineer</p>
+		<p
+			class={cn(
+				'text-base-full col-span-full hidden font-medium text-base-5',
+				'lg:col-span-5 lg:block'
+			)}
+		>
+			Product Designer & Frontend Engineer
+		</p>
 
-		<nav class="col-span-3 flex justify-end gap-8">
+		<nav class={cn('col-span-full flex  gap-8', 'lg:col-span-3 lg:justify-end')}>
 			{#each PRIMARY_NAVIGATION as item}
 				<a
 					class="font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"

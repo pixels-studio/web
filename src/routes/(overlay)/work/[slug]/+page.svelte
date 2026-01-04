@@ -2,6 +2,7 @@
 	import { cn } from '$lib/helpers/utils';
 	import type { PageData } from './$types';
 	import ChevronLeft from '$lib/assets/chevron-left.svg?raw';
+	import CloseIcon from '$lib/assets/close.svg?raw';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -35,6 +36,15 @@
 </svelte:head>
 
 <section class={cn('z-50 flex min-h-dvh flex-1 items-center justify-center bg-base-0 ')}>
+	<button
+		onclick={goBack}
+		class="fixed top-4 right-4 z-50 size-8 cursor-pointer text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
+	>
+		<span class="block size-5">
+			{@html CloseIcon}
+		</span>
+	</button>
+
 	<div class="relative mx-auto aspect-video w-full max-w-[1024px] overflow-hidden">
 		{#if data.work.type === 'video'}
 			<video
