@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FooterLogo from '$lib/assets/footer-logo.svg?raw';
+	import PixelLogo from './pixel-logo.svelte';
 	import { SOCIAL_LINKS } from '$lib/helpers/constants';
 	import { ROUTES } from '$lib/helpers/routes';
 	import { cn } from '$lib/helpers/utils';
@@ -8,7 +8,7 @@
 </script>
 
 <footer id="contact" class="mt-auto bg-base-8 text-base-0" style="view-transition-name: footer">
-	<div class={cn('px-4 py-16', 'md:py-32', 'lg:py-48')}>
+	<div class={cn('px-4 py-16', 'md:py-32', 'lg:py-40')}>
 		<div
 			class={cn(
 				'mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4 gap-y-8',
@@ -67,8 +67,8 @@
 		</div>
 	</div>
 	<div class="px-4 py-4">
-		<div class="mx-auto w-full max-w-[1512px] text-base-7">
-			{@html FooterLogo}
+		<div class="mx-auto w-full max-w-[1512px]">
+			<PixelLogo />
 		</div>
 	</div>
 
