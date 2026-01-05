@@ -3,7 +3,9 @@
 	import WorkCell from './work-cell.svelte';
 	import { cn } from '$lib/helpers/utils';
 
-	const publishedWorks = allWorks.filter((work) => work.status === 'published');
+	const publishedWorks = allWorks
+		.filter((work) => work.status === 'published')
+		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 	const gridConfigs = {
 		mobile: {
