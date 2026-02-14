@@ -57,6 +57,12 @@ const { title, description } = Astro.props;
 		}
 	}
 
+	html.instant-transition ::view-transition-group(*),
+	html.instant-transition ::view-transition-old(*),
+	html.instant-transition ::view-transition-new(*) {
+		animation-duration: 0s !important;
+	}
+
 	@media (prefers-reduced-motion) {
 		::view-transition-group(*),
 		::view-transition-old(*),

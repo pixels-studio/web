@@ -2,20 +2,25 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import WorkLayout from '@layouts/WorkLayout.astro';
-import { cn } from '@helpers/utils';
 import closeSvg from '@assets/close.svg?raw';
 
 export async function getStaticPaths() {
 	const works = await getCollection('work');
-	return works
+	const published = works
 		.filter((work) => work.data.status === 'published')
-		.map((work) => ({
-			params: { slug: work.id },
-			props: { work }
-		}));
+		.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+	return published.map((work, index) => ({
+		params: { slug: work.id },
+		props: {
+			work,
+			prevSlug: index > 0 ? published[index - 1].id : published[published.length - 1].id,
+			nextSlug: index < published.length - 1 ? published[index + 1].id : published[0].id
+		}
+	}));
 }
 
-const { work } = Astro.props;
+const { work, prevSlug, nextSlug } = Astro.props;
 ---
 
 <WorkLayout
@@ -23,7 +28,11 @@ const { work } = Astro.props;
 	description={work.data.description ||
 		`${work.data.title} – A project by Abhishek Kambli. Explore the design process, challenges, and solutions.`}
 >
-	<section class={cn('z-50 flex min-h-dvh flex-1 items-center justify-center bg-base-0')}>
+	<section
+		class="z-50 flex min-h-dvh flex-1 items-center justify-center bg-base-0"
+		data-prev-slug={prevSlug}
+		data-next-slug={nextSlug}
+	>
 		<a
 			href="/"
 			class="fixed top-4 right-4 z-50 size-8 cursor-pointer text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
@@ -31,6 +40,11 @@ const { work } = Astro.props;
 		>
 			<span class="block size-5" set:html={closeSvg} />
 		</a>
+
+		<div class="fixed inset-0 z-10 flex">
+			<div class="h-full w-1/2 cursor-w-resize" data-nav="prev"></div>
+			<div class="h-full w-1/2 cursor-e-resize" data-nav="next"></div>
+		</div>
 
 		<div class="relative mx-auto aspect-video w-full max-w-[1280px] overflow-hidden">
 			<Image
@@ -47,13 +61,32 @@ const { work } = Astro.props;
 <script>
 	import { navigate } from 'astro:transitions/client';
 
+	function goTo(slug: string) {
+		document.documentElement.classList.add('instant-transition');
+		navigate(`/work/${slug}`, { history: 'push' });
+	}
+
 	document.addEventListener('astro:page-load', () => {
+		document.documentElement.classList.remove('instant-transition');
+		const section = document.querySelector('[data-prev-slug]') as HTMLElement | null;
+		if (!section) return;
+
+		const prevSlug = section.dataset.prevSlug!;
+		const nextSlug = section.dataset.nextSlug!;
+
 		const handleKeydown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
 				navigate('/');
+			} else if (event.key === 'ArrowLeft') {
+				goTo(prevSlug);
+			} else if (event.key === 'ArrowRight') {
+				goTo(nextSlug);
 			}
 		};
 
 		window.addEventListener('keydown', handleKeydown);
+		section.querySelector('[data-nav="prev"]')?.addEventListener('click', () => goTo(prevSlug));
+		section.querySelector('[data-nav="next"]')?.addEventListener('click', () => goTo(nextSlug));
 	});
 </script>
+
