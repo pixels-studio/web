@@ -2,7 +2,7 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-	--font-sans: 'Helvetica Neue', 'Inter', sans-serif;
+	--font-sans: 'Helvetica Neue', sans-serif;
 
 	--color-base-0: #ffffff;
 	--color-base-1: #fafafa;
