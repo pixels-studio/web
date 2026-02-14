@@ -1,1 +1,0 @@
-import{i as t}from"./intro-state.COa8G5iW.js";document.addEventListener("astro:page-load",()=>{const e=document.querySelector("[data-header]");e&&(t.hasPlayed?e.removeAttribute("data-intro"):e.classList.add("header-animate"))});
