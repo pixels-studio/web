@@ -20,7 +20,7 @@ import { cn } from '@helpers/utils';
 				'lg:col-span-6 lg:col-start-5 lg:text-3xl'
 			)}
 		>
-			<p data-lead-line style="--delay: 0.4s">
+			<p data-lead-line data-intro style="--delay: 0.4s">
 				<span class="inline-block w-[3.5ch]"></span>
 				Designing and building thoughtful software for over a decade. Currently leading frontend and
 				design at
@@ -28,7 +28,7 @@ import { cn } from '@helpers/utils';
 					Origon in Mumbai, India.
 				</a>
 			</p>
-			<p data-lead-line style="--delay: 0.55s">
+			<p data-lead-line data-intro style="--delay: 0.55s">
 				Below is a selection of work drawn from those efforts, along with independent projects.
 			</p>
 		</h1>
@@ -39,9 +39,12 @@ import { cn } from '@helpers/utils';
 	import { introState } from '@helpers/intro-state';
 
 	document.addEventListener('astro:page-load', () => {
-		if (introState.hasPlayed) return;
 		document.querySelectorAll('[data-lead-line]').forEach((el) => {
-			el.classList.add('lead-line-animate');
+			if (introState.hasPlayed) {
+				el.removeAttribute('data-intro');
+			} else {
+				el.classList.add('lead-line-animate');
+			}
 		});
 	});
 </script>

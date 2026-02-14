@@ -77,9 +77,12 @@ const desktopGridItems = createGridItems('desktop');
 	import { introState } from '@helpers/intro-state';
 
 	document.addEventListener('astro:page-load', () => {
-		if (introState.hasPlayed) return;
 		document.querySelectorAll('[data-work-cell]').forEach((el) => {
-			el.classList.add('work-cell-animate');
+			if (introState.hasPlayed) {
+				el.removeAttribute('data-intro');
+			} else {
+				el.classList.add('work-cell-animate');
+			}
 		});
 	});
 </script>

@@ -10,6 +10,7 @@ const currentPath = Astro.url.pathname;
 	class={cn('sticky top-0 z-40 bg-base-0 p-4 text-base-10')}
 	style="view-transition-name: header"
 	data-header
+	data-intro
 >
 	<div
 		class={cn(
@@ -51,7 +52,10 @@ const currentPath = Astro.url.pathname;
 
 	document.addEventListener('astro:page-load', () => {
 		const header = document.querySelector('[data-header]');
-		if (header && !introState.hasPlayed) {
+		if (!header) return;
+		if (introState.hasPlayed) {
+			header.removeAttribute('data-intro');
+		} else {
 			header.classList.add('header-animate');
 		}
 	});

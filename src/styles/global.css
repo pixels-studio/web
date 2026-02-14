@@ -31,6 +31,10 @@
 			'cv13' 1;
 	}
 
+	[data-intro] {
+		opacity: 0;
+	}
+
 	.js [data-animate='true']:not([data-animate-ready='true']) {
 		opacity: 0;
 		transform: translateY(24px);

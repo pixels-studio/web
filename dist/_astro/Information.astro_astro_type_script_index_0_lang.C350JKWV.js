@@ -1,0 +1,1 @@
+import{i as a}from"./intro-state.COa8G5iW.js";document.addEventListener("astro:page-load",()=>{document.querySelectorAll("[data-colophon-info]").forEach(t=>{a.hasPlayed?t.removeAttribute("data-intro"):t.classList.add("info-animate")})});
