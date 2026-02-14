@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import { cn } from '@helpers/utils';
+
+interface Props {
+	item?: {
+		id: string;
+		data: {
+			title: string;
+			cover: ImageMetadata;
+			type: 'image' | 'video';
+		};
+	};
+	index?: number;
+}
+
+const { item, index = 0 } = Astro.props;
+---
+
+{
+	item ? (
+		<a
+			href={`/work/${item.id}`}
+			class={cn('group col-span-3', 'md:col-span-2')}
+			style={`--index: ${index}`}
+			data-work-cell
+		>
+			<div
+				class="work-cell-wrapper relative aspect-video overflow-hidden bg-base-2"
+				style={`view-transition-name: work-cell-${item.id}`}
+			>
+				<Image
+					src={item.data.cover}
+					alt={item.data.title}
+					class="work-cover h-full w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+					style={`view-transition-name: work-cover-${item.id}`}
+					loading="lazy"
+					widths={[400, 800]}
+				/>
+			</div>
+		</a>
+	) : (
+		<div class={cn('col-span-3 aspect-video', 'md:col-span-2')} />
+	)
+}
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.work-cell-animate {
+		opacity: 0;
+		animation: fadeInUp 0.6s var(--ease-smooth) forwards;
+		animation-delay: calc(0.6s + var(--index, 0) * 0.08s);
+	}
+</style>

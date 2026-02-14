@@ -1,0 +1,73 @@
+---
+import { ROUTES } from '@helpers/routes';
+import { PRIMARY_NAVIGATION } from '@helpers/constants';
+import { cn } from '@helpers/utils';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+	class={cn('sticky top-0 z-40 bg-base-0 p-4 text-base-10')}
+	style="view-transition-name: header"
+	data-header
+>
+	<div
+		class={cn(
+			'mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4',
+			'md:grid-cols-8',
+			'lg:grid-cols-12'
+		)}
+	>
+		<a class={cn('col-span-full font-medium', 'lg:col-span-4')} href={ROUTES.home}>
+			Abhishek Kambli
+		</a>
+
+		<p
+			class={cn(
+				'text-base-full col-span-full hidden font-medium text-base-5',
+				'lg:col-span-5 lg:block'
+			)}
+		>
+			Product Designer & Frontend Engineer
+		</p>
+
+		<nav class={cn('col-span-full flex gap-8', 'lg:col-span-3 lg:justify-end')}>
+			{
+				PRIMARY_NAVIGATION.map((item) => (
+					<a
+						class="font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
+						href={item.href}
+					>
+						{item.label}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+</header>
+
+<script>
+	import { introState } from '@helpers/intro-state';
+
+	document.addEventListener('astro:page-load', () => {
+		const header = document.querySelector('[data-header]');
+		if (header && !introState.hasPlayed) {
+			header.classList.add('header-animate');
+		}
+	});
+</script>
+
+<style>
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	.header-animate {
+		animation: fadeIn 0.8s var(--ease-smooth) forwards;
+	}
+</style>

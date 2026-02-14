@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import WorkLayout from '@layouts/WorkLayout.astro';
+import { cn } from '@helpers/utils';
+import closeSvg from '@assets/close.svg?raw';
+
+export async function getStaticPaths() {
+	const works = await getCollection('work');
+	return works
+		.filter((work) => work.data.status === 'published')
+		.map((work) => ({
+			params: { slug: work.id },
+			props: { work }
+		}));
+}
+
+const { work } = Astro.props;
+---
+
+<WorkLayout
+	title={`${work.data.title} – Abhishek Kambli`}
+	description={work.data.description ||
+		`${work.data.title} – A project by Abhishek Kambli. Explore the design process, challenges, and solutions.`}
+>
+	<section class={cn('z-50 flex min-h-dvh flex-1 items-center justify-center bg-base-0')}>
+		<a
+			href="/"
+			class="fixed top-4 right-4 z-50 size-8 cursor-pointer text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
+			data-close-btn
+		>
+			<span class="block size-5" set:html={closeSvg} />
+		</a>
+
+		<div class="relative mx-auto aspect-video w-full max-w-[1280px] overflow-hidden">
+			<Image
+				src={work.data.cover}
+				alt={work.data.title}
+				class="work-cover h-full w-full object-cover"
+				style={`view-transition-name: work-cover-${work.id}`}
+				widths={[800, 1280]}
+			/>
+		</div>
+	</section>
+</WorkLayout>
+
+<script>
+	import { navigate } from 'astro:transitions/client';
+
+	document.addEventListener('astro:page-load', () => {
+		const handleKeydown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				navigate('/');
+			}
+		};
+
+		window.addEventListener('keydown', handleKeydown);
+	});
+</script>

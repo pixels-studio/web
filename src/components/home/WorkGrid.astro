@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import WorkCell from './WorkCell.astro';
+import { cn } from '@helpers/utils';
+
+const allWorks = await getCollection('work');
+const publishedWorks = allWorks
+	.filter((work) => work.data.status === 'published')
+	.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const gridConfigs = {
+	mobile: {
+		columns: 2,
+		emptyPatterns: [[1], [], [0]]
+	},
+	tablet: {
+		columns: 4,
+		emptyPatterns: [[1], [2], [0], [3]]
+	},
+	desktop: {
+		columns: 6,
+		emptyPatterns: [[1], [0, 4], [5], [2, 3], [0]]
+	}
+};
+
+type Breakpoint = keyof typeof gridConfigs;
+
+function createGridItems(breakpoint: Breakpoint) {
+	const config = gridConfigs[breakpoint];
+	const items: Array<{ id: string; work?: (typeof publishedWorks)[0] }> = [];
+	let workIndex = 0;
+	let row = 0;
+
+	while (workIndex < publishedWorks.length) {
+		const emptyPositions = config.emptyPatterns[row % config.emptyPatterns.length];
+
+		for (let pos = 0; pos < config.columns && workIndex < publishedWorks.length; pos++) {
+			if (emptyPositions.includes(pos)) {
+				items.push({ id: `${breakpoint}-empty-${row}-${pos}` });
+			} else {
+				const work = publishedWorks[workIndex];
+				items.push({ id: `${breakpoint}-${work.id}`, work });
+				workIndex++;
+			}
+		}
+		row++;
+	}
+
+	return items;
+}
+
+const mobileGridItems = createGridItems('mobile');
+const tabletGridItems = createGridItems('tablet');
+const desktopGridItems = createGridItems('desktop');
+---
+
+<section class={cn('bg-base-0 px-4 pb-24', 'md:pb-32', 'lg:pb-48')}>
+	<!-- Mobile grid: 2 columns (visible below md) -->
+	<div class={cn('mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4', 'md:hidden')}>
+		{mobileGridItems.map((gridItem, i) => <WorkCell item={gridItem.work} index={i} />)}
+	</div>
+
+	<!-- Tablet grid: 4 columns (visible md to lg) -->
+	<div
+		class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-8 gap-4', 'md:grid', 'lg:hidden')}
+	>
+		{tabletGridItems.map((gridItem, i) => <WorkCell item={gridItem.work} index={i} />)}
+	</div>
+
+	<!-- Desktop grid: 6 columns (visible lg and above) -->
+	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-12 gap-4', 'lg:grid')}>
+		{desktopGridItems.map((gridItem, i) => <WorkCell item={gridItem.work} index={i} />)}
+	</div>
+</section>
+
+<script>
+	import { introState } from '@helpers/intro-state';
+
+	document.addEventListener('astro:page-load', () => {
+		if (introState.hasPlayed) return;
+		document.querySelectorAll('[data-work-cell]').forEach((el) => {
+			el.classList.add('work-cell-animate');
+		});
+	});
+</script>

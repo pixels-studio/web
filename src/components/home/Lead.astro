@@ -1,0 +1,68 @@
+---
+import { ROUTES } from '@helpers/routes';
+import { cn } from '@helpers/utils';
+---
+
+<section
+	class={cn('bg-base-0 px-4 pt-24 pb-24', 'md:pt-32 md:pb-32', 'lg:pt-48 lg:pb-24')}
+	style="view-transition-name: lead"
+>
+	<div
+		class={cn(
+			'mx-auto grid w-full max-w-[1512px] grid-cols-6 gap-4',
+			'md:grid-cols-8',
+			'lg:grid-cols-12'
+		)}
+	>
+		<h1
+			class={cn(
+				'col-span-full flex flex-col gap-8 text-2xl leading-tight font-medium text-pretty',
+				'lg:col-span-6 lg:col-start-5 lg:text-3xl'
+			)}
+		>
+			<p data-lead-line style="--delay: 0.4s">
+				<span class="inline-block w-[3.5ch]"></span>
+				Designing and building thoughtful software for over a decade. Currently leading frontend and
+				design at
+				<a href={ROUTES.origon} class="text-base-5" target="_blank" rel="noopener noreferrer">
+					Origon in Mumbai, India.
+				</a>
+			</p>
+			<p data-lead-line style="--delay: 0.55s">
+				Below is a selection of work drawn from those efforts, along with independent projects.
+			</p>
+		</h1>
+	</div>
+</section>
+
+<script>
+	import { introState } from '@helpers/intro-state';
+
+	document.addEventListener('astro:page-load', () => {
+		if (introState.hasPlayed) return;
+		document.querySelectorAll('[data-lead-line]').forEach((el) => {
+			el.classList.add('lead-line-animate');
+		});
+	});
+</script>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			filter: blur(10px);
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			filter: blur(0px);
+			transform: translateY(0);
+		}
+	}
+
+	.lead-line-animate {
+		opacity: 0;
+		animation: fadeInUp 0.7s var(--ease-smooth) forwards;
+		animation-delay: var(--delay, 0s);
+	}
+</style>

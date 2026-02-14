@@ -1,0 +1,26 @@
+---
+import MainLayout from '@layouts/MainLayout.astro';
+import Lead from '@components/home/Lead.astro';
+import WorkGrid from '@components/home/WorkGrid.astro';
+import Testimonial from '@components/home/Testimonial.astro';
+---
+
+<MainLayout
+	title="Abhishek Kambli – Product Designer"
+	description="Portfolio of Abhishek Kambli, a product designer crafting intuitive digital experiences. Explore my latest work, projects, and design process."
+>
+	<Lead />
+	<WorkGrid />
+	<Testimonial />
+</MainLayout>
+
+<script>
+	import { introState } from '@helpers/intro-state';
+
+	document.addEventListener('astro:page-load', () => {
+		if (introState.hasPlayed) return;
+		setTimeout(() => {
+			introState.markPlayed();
+		}, 2000);
+	});
+</script>
