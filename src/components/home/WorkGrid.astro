@@ -18,8 +18,8 @@ const gridConfigs = {
 		emptyPatterns: [[1], [2], [0], [3]]
 	},
 	desktop: {
-		columns: 6,
-		emptyPatterns: [[1], [0, 4], [5], [2, 3], [0]]
+		columns: 5,
+		emptyPatterns: [[1], [0, 4], [3], [2], [0]]
 	}
 };
 
@@ -67,8 +67,8 @@ const desktopGridItems = createGridItems('desktop');
 		{tabletGridItems.map((gridItem, i) => <WorkCell item={gridItem.work} index={i} />)}
 	</div>
 
-	<!-- Desktop grid: 6 columns (visible lg and above) -->
-	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-12 gap-4', 'lg:grid')}>
+	<!-- Desktop grid: 5 columns (visible lg and above) -->
+	<div class={cn('mx-auto hidden w-full max-w-[1512px] grid-cols-10 gap-4', 'lg:grid')}>
 		{desktopGridItems.map((gridItem, i) => <WorkCell item={gridItem.work} index={i} />)}
 	</div>
 </section>
