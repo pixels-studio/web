@@ -19,7 +19,7 @@ const { title, description, fullHeight = false } = Astro.props;
 			fullHeight ? 'h-dvh overflow-hidden' : 'min-h-dvh'
 		]}
 	>
-		<Header />
+		<Header variant={fullHeight ? 'home' : 'default'} />
 		<slot />
 		{!fullHeight && <Footer />}
 	</main>
