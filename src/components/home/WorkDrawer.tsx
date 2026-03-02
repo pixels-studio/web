@@ -90,7 +90,7 @@ export default function WorkDrawer({ works }: Props) {
 									<h2 className="text-lg font-medium text-black">
 										{activeWork.title}
 									</h2>
-									<div className="flex gap-8">
+									<div className="hidden gap-8 md:flex">
 										<button
 											onClick={() => goTo(activeIndex - 1)}
 											className="cursor-pointer text-lg font-medium text-base-5 transition-colors duration-200 hover:text-black"
