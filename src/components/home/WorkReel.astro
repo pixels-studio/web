@@ -1,0 +1,134 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { cn } from '@helpers/utils';
+
+const allWorks = await getCollection('work');
+const publishedWorks = allWorks
+	.filter((work) => work.data.status === 'published')
+	.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<section class="flex-1 overflow-hidden" data-work-reel>
+	<div
+		class="flex h-full items-center gap-3 px-4 will-change-transform"
+		data-reel-track
+	>
+		{/* Three copies for infinite loop: clone | original | clone */}
+		{
+			[...publishedWorks, ...publishedWorks, ...publishedWorks].map((work, i) => (
+				<a
+					href={`/work/${work.id}`}
+					class="group h-[70%] flex-shrink-0"
+					data-reel-item
+				>
+					<div
+						class="relative h-full overflow-hidden bg-base-2"
+						style={i < publishedWorks.length || i >= publishedWorks.length * 2
+							? ''
+							: `view-transition-name: work-cell-${work.id}`}
+					>
+						<Image
+							src={work.data.cover}
+							alt={work.data.title}
+							class="work-cover h-full w-auto object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+							style={i < publishedWorks.length || i >= publishedWorks.length * 2
+								? ''
+								: `view-transition-name: work-cover-${work.id}`}
+							loading={i < publishedWorks.length * 2 ? 'eager' : 'lazy'}
+						/>
+					</div>
+				</a>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	[data-reel-item] {
+		aspect-ratio: 16 / 9;
+	}
+</style>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const reel = document.querySelector('[data-work-reel]') as HTMLElement | null;
+		const track = document.querySelector('[data-reel-track]') as HTMLElement | null;
+		if (!reel || !track) return;
+
+		const items = track.querySelectorAll('[data-reel-item]');
+		const totalItems = items.length;
+		const setSize = totalItems / 3; // One third is one full set
+
+		let currentX = 0;
+		let targetX = 0;
+		let velocity = 0;
+		let isInitialized = false;
+		let singleSetWidth = 0;
+
+		function measureAndInit() {
+			// Measure the width of one full set of items
+			const firstItem = items[0] as HTMLElement;
+			if (!firstItem) return;
+			const gap = 12; // gap-3 = 12px
+			const itemWidth = firstItem.offsetWidth + gap;
+			singleSetWidth = itemWidth * setSize;
+
+			// Start at the middle set (offset by one full set)
+			currentX = -singleSetWidth;
+			targetX = currentX;
+			track!.style.transform = `translateX(${currentX}px)`;
+			isInitialized = true;
+		}
+
+		// Initialize after images have a chance to lay out
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				measureAndInit();
+			});
+		});
+
+		// Handle resize
+		window.addEventListener('resize', () => {
+			if (isInitialized) measureAndInit();
+		});
+
+		// Wheel handler: translate vertical scroll to horizontal movement
+		reel.addEventListener(
+			'wheel',
+			(e: WheelEvent) => {
+				e.preventDefault();
+				// Use deltaY for vertical scroll -> horizontal, also support deltaX for horizontal trackpad gestures
+				const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+				targetX -= delta;
+			},
+			{ passive: false }
+		);
+
+		// Animation loop with momentum
+		function animate() {
+			if (!isInitialized) {
+				requestAnimationFrame(animate);
+				return;
+			}
+
+			// Smooth interpolation
+			const ease = 0.08;
+			currentX += (targetX - currentX) * ease;
+
+			// Infinite loop: wrap around when we've scrolled past one full set
+			if (currentX > 0) {
+				currentX -= singleSetWidth;
+				targetX -= singleSetWidth;
+			} else if (currentX < -singleSetWidth * 2) {
+				currentX += singleSetWidth;
+				targetX += singleSetWidth;
+			}
+
+			track!.style.transform = `translateX(${currentX}px)`;
+			requestAnimationFrame(animate);
+		}
+
+		requestAnimationFrame(animate);
+	});
+</script>
