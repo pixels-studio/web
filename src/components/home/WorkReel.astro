@@ -112,6 +112,20 @@ const publishedWorks = allWorks
 			}
 		});
 
+		// Work item click → open drawer (must run on all screen sizes)
+		document.querySelectorAll<HTMLElement>('[data-work-id]').forEach((el) => {
+			el.addEventListener('click', () => {
+				const workId = el.dataset.workId!;
+				const img = el.querySelector('img');
+				const coverSrc = img?.getAttribute('src') || '';
+				window.dispatchEvent(
+					new CustomEvent('open-work-drawer', {
+						detail: { id: workId, coverSrc },
+					})
+				);
+			});
+		});
+
 		const reel = document.querySelector('[data-work-reel]') as HTMLElement | null;
 		const track = document.querySelector('[data-reel-track]') as HTMLElement | null;
 		if (!reel || !track) return;
@@ -266,19 +280,5 @@ const publishedWorks = allWorks
 		}
 
 		document.addEventListener('astro:before-preparation', cleanup, { once: true });
-
-		// Work item click → open drawer
-		document.querySelectorAll<HTMLElement>('[data-work-id]').forEach((el) => {
-			el.addEventListener('click', () => {
-				const workId = el.dataset.workId!;
-				const img = el.querySelector('img');
-				const coverSrc = img?.getAttribute('src') || '';
-				window.dispatchEvent(
-					new CustomEvent('open-work-drawer', {
-						detail: { id: workId, coverSrc },
-					})
-				);
-			});
-		});
 	});
 </script>
