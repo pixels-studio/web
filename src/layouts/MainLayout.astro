@@ -13,14 +13,16 @@ const { title, description, fullHeight = false } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-	<main
-		class:list={[
-			'relative z-10 flex flex-col bg-base-0',
-			fullHeight ? 'h-dvh overflow-hidden' : 'min-h-dvh'
-		]}
-	>
-		<Header variant={fullHeight ? 'home' : 'default'} />
-		<slot />
-		{!fullHeight && <Footer />}
-	</main>
+	<div data-vaul-drawer-wrapper class="bg-base-0">
+		<main
+			class:list={[
+				'relative z-10 flex flex-col bg-base-0',
+				fullHeight ? 'min-h-dvh md:h-dvh md:overflow-hidden' : 'min-h-dvh'
+			]}
+		>
+			<Header />
+			<slot />
+			{!fullHeight && <Footer />}
+		</main>
+	</div>
 </BaseLayout>

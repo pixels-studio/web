@@ -1,10 +1,7 @@
 export const ROUTES = {
 	home: '/',
-	colophon: '/colophon',
 	contact: '/#contact',
 	origon: 'https://origon.com',
-	about: '/about',
-	experience: '/experience',
 	email: 'mailto:hello@pixels.studio',
 	twitter: 'https://x.com/_abhiii',
 	linkedin: 'https://www.linkedin.com/in/abhishekkambli/',

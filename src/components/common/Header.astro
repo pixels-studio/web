@@ -1,16 +1,6 @@
 ---
 import { ROUTES } from '@helpers/routes';
-import { PRIMARY_NAVIGATION } from '@helpers/constants';
 import { cn } from '@helpers/utils';
-
-interface Props {
-	variant?: 'default' | 'home';
-}
-
-const { variant = 'default' } = Astro.props;
-const isHome = variant === 'home';
-const currentPath = Astro.url.pathname;
-const email = 'abhi@pixels.studio';
 ---
 
 <header
@@ -26,56 +16,47 @@ const email = 'abhi@pixels.studio';
 			'lg:grid-cols-12'
 		)}
 	>
-		{isHome ? (
-			<a class={cn('col-span-full font-medium', 'lg:col-span-4')} href={ROUTES.home}>
-				Abhishek Kambli
-			</a>
+		<a class={cn('col-span-3 font-medium', 'md:col-span-4', 'lg:col-span-4')} href={ROUTES.home}>
+			Abhishek Kambli
+		</a>
 
-			<p
-				class={cn(
-					'col-span-full hidden font-medium text-base-5',
-					'lg:col-span-5 lg:block'
-				)}
+		<p
+			class={cn(
+				'col-span-full hidden font-medium text-base-5',
+				'lg:col-span-5 lg:block'
+			)}
+		>
+			Open to new opportunities
+		</p>
+
+		<nav class={cn('col-span-3 flex items-center justify-end gap-8', 'md:col-span-4', 'lg:col-span-3')}>
+			<a
+				href={ROUTES.instagram}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
 			>
-				Product Designer & Frontend Engineer
-			</p>
-
-			<div class={cn('col-span-full flex', 'lg:col-span-3 lg:justify-end')}>
-				<button
-					class="font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
-					data-email-copy
-					data-email={email}
-				>
-					<span data-email-label>{email}</span>
-				</button>
-			</div>
-		) : (
-			<a class={cn('col-span-full font-medium', 'lg:col-span-4')} href={ROUTES.home}>
-				Abhishek Kambli
+				Ig
 			</a>
-
-			<p
-				class={cn(
-					'text-base-full col-span-full hidden font-medium text-base-5',
-					'lg:col-span-5 lg:block'
-				)}
+			<a
+				href={ROUTES.twitter}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
 			>
-				Product Designer & Frontend Engineer
-			</p>
-
-			<nav class={cn('col-span-full flex gap-8', 'lg:col-span-3 lg:justify-end')}>
-				{
-					PRIMARY_NAVIGATION.map((item) => (
-						<a
-							class="font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
-							href={item.href}
-						>
-							{item.label}
-						</a>
-					))
-				}
-			</nav>
-		)}
+				Tw
+			</a>
+			<button
+				data-email-copy
+				data-email={ROUTES.email.replace('mailto:', '')}
+				class="cursor-pointer font-medium text-base-5 transition-colors duration-300 ease-smooth hover:text-base-10"
+			>
+				<span class="grid overflow-hidden" data-email-label>
+					<span class="col-start-1 row-start-1">Email</span>
+					<span class="col-start-1 row-start-1 invisible" aria-hidden="true">Copied</span>
+				</span>
+			</button>
+		</nav>
 	</div>
 </header>
 
@@ -91,19 +72,19 @@ const email = 'abhi@pixels.studio';
 			header.classList.add('header-animate');
 		}
 
-		// Email copy functionality
 		const btn = document.querySelector('[data-email-copy]') as HTMLButtonElement | null;
 		if (!btn) return;
 
 		const email = btn.dataset.email || '';
 		const label = btn.querySelector('[data-email-label]') as HTMLElement | null;
+		const visibleSpan = label?.firstElementChild as HTMLElement | null;
 
 		btn.addEventListener('click', async () => {
 			try {
 				await navigator.clipboard.writeText(email);
-				if (label) label.textContent = 'Copied!';
+				if (visibleSpan) visibleSpan.textContent = 'Copied';
 				setTimeout(() => {
-					if (label) label.textContent = email;
+					if (visibleSpan) visibleSpan.textContent = 'Email';
 				}, 2000);
 			} catch {
 				window.location.href = `mailto:${email}`;
@@ -123,6 +104,6 @@ const email = 'abhi@pixels.studio';
 	}
 
 	.header-animate {
-		animation: fadeIn 0.8s var(--ease-smooth) forwards;
+		animation: fadeIn 0.6s var(--ease-smooth) forwards;
 	}
 </style>

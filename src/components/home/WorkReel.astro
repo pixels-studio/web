@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import { cn } from '@helpers/utils';
+import WorkDrawer from '@components/home/WorkDrawer';
 
 const allWorks = await getCollection('work');
 const publishedWorks = allWorks
@@ -9,114 +9,239 @@ const publishedWorks = allWorks
 	.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<section class="flex-1 overflow-hidden pb-4" data-work-reel>
+{/* Mobile: vertical stack with natural scroll */}
+<section class="flex flex-col gap-4 px-4 pb-4 md:hidden">
+	{
+		publishedWorks.map((work, i) => (
+			<div
+				class="group block cursor-pointer"
+				data-intro
+				data-work-id={work.id}
+				style={`--delay: ${0.5 + i * 0.06}s`}
+				role="button"
+				tabindex="0"
+			>
+				<div class="relative overflow-hidden bg-base-2">
+					<Image
+						src={work.data.cover}
+						alt={work.data.title}
+						class="work-cover w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+						loading="lazy"
+					/>
+				</div>
+			</div>
+		))
+	}
+</section>
+
+{/* Desktop: horizontal infinite reel */}
+<section class="hidden flex-1 overflow-hidden pb-4 md:block" data-work-reel>
 	<div
-		class="flex h-full gap-3 px-4 will-change-transform"
+		class="flex h-full gap-4 opacity-0 will-change-transform"
 		data-reel-track
 	>
 		{/* Three copies for infinite loop: clone | original | clone */}
 		{
 			[...publishedWorks, ...publishedWorks, ...publishedWorks].map((work, i) => (
-				<a
-					href={`/work/${work.id}`}
-					class="group h-full shrink-0"
+				<div
+					class="group h-full shrink-0 cursor-pointer"
 					data-reel-item
+					data-work-id={work.id}
 				>
-					<div
-						class="relative h-full overflow-hidden bg-base-2"
-						style={i < publishedWorks.length || i >= publishedWorks.length * 2
-							? ''
-							: `view-transition-name: work-cell-${work.id}`}
-					>
+					<div class="relative h-full overflow-hidden bg-base-2">
 						<Image
 							src={work.data.cover}
 							alt={work.data.title}
 							class="work-cover h-full w-auto object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
-							style={i < publishedWorks.length || i >= publishedWorks.length * 2
-								? ''
-								: `view-transition-name: work-cover-${work.id}`}
-							loading={i < publishedWorks.length * 2 ? 'eager' : 'lazy'}
+							loading={i >= publishedWorks.length && i < publishedWorks.length * 2 ? 'eager' : 'lazy'}
 						/>
 					</div>
-				</a>
+				</div>
 			))
 		}
 	</div>
 </section>
 
+<WorkDrawer client:load works={publishedWorks.map((work) => ({
+	id: work.id,
+	title: work.data.title,
+}))} />
+
 <style>
 	[data-reel-item] {
 		aspect-ratio: 16 / 9;
 	}
+
+	@keyframes reelEnter {
+		from {
+			opacity: 0;
+			transform: translateY(12px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* Mobile: staggered item entrance */
+	.reel-item-animate {
+		animation: reelEnter 0.5s ease both;
+		animation-delay: var(--delay, 0.5s);
+	}
+
+	/* Desktop: per-item staggered entrance */
+	[data-reel-item].reel-item-animate {
+		opacity: 0;
+		animation: reelEnter 0.4s ease both;
+		animation-delay: var(--delay, 0s);
+	}
 </style>
 
 <script>
+	import { introState } from '@helpers/intro-state';
+
 	document.addEventListener('astro:page-load', () => {
+		const shouldAnimate = !introState.hasPlayed;
+
+		// Mobile intro animations
+		document.querySelectorAll<HTMLElement>('[data-intro][style*="--delay"]').forEach((el) => {
+			if (!shouldAnimate) {
+				el.removeAttribute('data-intro');
+			} else {
+				el.classList.add('reel-item-animate');
+			}
+		});
+
 		const reel = document.querySelector('[data-work-reel]') as HTMLElement | null;
 		const track = document.querySelector('[data-reel-track]') as HTMLElement | null;
 		if (!reel || !track) return;
 
-		const items = track.querySelectorAll('[data-reel-item]');
+		const mql = window.matchMedia('(min-width: 768px)');
+		if (!mql.matches) return;
+
+		const items = track.querySelectorAll<HTMLElement>('[data-reel-item]');
 		const totalItems = items.length;
-		const setSize = totalItems / 3; // One third is one full set
+		const setSize = totalItems / 3;
 
 		let currentX = 0;
 		let targetX = 0;
-		let velocity = 0;
 		let isInitialized = false;
 		let singleSetWidth = 0;
+		let animId = 0;
+		let autoScrollSpeed = 0.24; // px per frame — very slow drift
+		let isAutoScrolling = false;
+		let autoScrollTimeout: ReturnType<typeof setTimeout>;
+
+		// Intro animation timing
+		// Header: 0–0.8s | Lead: 0.6–1.32s | Reel items: start at 1.2s
+		const REEL_INTRO_START = 0.5; // seconds from page load (after lead text starts)
+		const ITEM_STAGGER = 0.06; // seconds between each item
+		const AUTO_SCROLL_DELAY = 3000; // ms after reel appears
 
 		function measureAndInit() {
-			// Measure the width of one full set of items
 			const firstItem = items[0] as HTMLElement;
-			if (!firstItem) return;
-			const gap = 12; // gap-3 = 12px
-			const itemWidth = firstItem.offsetWidth + gap;
-			singleSetWidth = itemWidth * setSize;
+			const secondSetFirst = items[setSize] as HTMLElement;
+			if (!firstItem || !secondSetFirst) return;
 
-			// Start at the middle set (offset by one full set)
-			currentX = -singleSetWidth;
+			singleSetWidth = secondSetFirst.getBoundingClientRect().left - firstItem.getBoundingClientRect().left;
+
+			const gap = parseFloat(getComputedStyle(track!).gap) || 0;
+			currentX = -singleSetWidth + gap;
 			targetX = currentX;
 			track!.style.transform = `translateX(${currentX}px)`;
+			track!.style.opacity = '1';
 			isInitialized = true;
 		}
 
-		// Initialize after images have a chance to lay out
-		requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-				measureAndInit();
+		if (shouldAnimate) {
+			// Hide all items initially, stagger them in after lead text
+			items.forEach((item) => {
+				item.style.opacity = '0';
 			});
-		});
 
-		// Handle resize
-		window.addEventListener('resize', () => {
-			if (isInitialized) measureAndInit();
-		});
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					measureAndInit();
 
-		// Wheel handler: translate vertical scroll to horizontal movement (listen on document so scrolling anywhere works)
-		document.addEventListener(
-			'wheel',
-			(e: WheelEvent) => {
-				e.preventDefault();
-				// Use deltaY for vertical scroll -> horizontal, also support deltaX for horizontal trackpad gestures
-				const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-				targetX -= delta;
-			},
-			{ passive: false }
-		);
+					// Stagger-reveal each item in the visible middle set
+					// Clone sets (first and third) appear instantly with middle set
+					for (let i = 0; i < setSize; i++) {
+						const delay = REEL_INTRO_START + i * ITEM_STAGGER;
+						const cloneFirst = items[i] as HTMLElement;
+						const original = items[setSize + i] as HTMLElement;
+						const cloneLast = items[setSize * 2 + i] as HTMLElement;
 
-		// Animation loop with momentum
+						// Animate the middle set item (staggered)
+						original.style.setProperty('--delay', `${delay}s`);
+						original.classList.add('reel-item-animate');
+
+						// Mirror clones with same timing
+						cloneFirst.style.setProperty('--delay', `${delay}s`);
+						cloneFirst.classList.add('reel-item-animate');
+						cloneLast.style.setProperty('--delay', `${delay}s`);
+						cloneLast.classList.add('reel-item-animate');
+					}
+
+					// Start auto-scroll 3s after the reel starts appearing
+					const totalIntroTime = (REEL_INTRO_START * 1000) + AUTO_SCROLL_DELAY;
+					autoScrollTimeout = setTimeout(() => {
+						isAutoScrolling = true;
+					}, totalIntroTime);
+				});
+			});
+		} else {
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					measureAndInit();
+					// No intro — start auto-scroll after 2s
+					autoScrollTimeout = setTimeout(() => {
+						isAutoScrolling = true;
+					}, 2000);
+				});
+			});
+		}
+
+		let resizeTimer: ReturnType<typeof setTimeout>;
+
+		function onResize() {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				if (isInitialized) measureAndInit();
+			}, 100);
+		}
+
+		function onWheel(e: WheelEvent) {
+			// Guard: only hijack scroll on desktop
+			if (!mql.matches) return;
+			e.preventDefault();
+			const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+			targetX -= delta;
+
+			// Pause auto-scroll while user is scrolling, resume after 3s idle
+			isAutoScrolling = false;
+			clearTimeout(autoScrollTimeout);
+			autoScrollTimeout = setTimeout(() => {
+				isAutoScrolling = true;
+			}, 3000);
+		}
+
+		window.addEventListener('resize', onResize);
+		reel.addEventListener('wheel', onWheel, { passive: false });
+
 		function animate() {
 			if (!isInitialized) {
-				requestAnimationFrame(animate);
+				animId = requestAnimationFrame(animate);
 				return;
 			}
 
-			// Smooth interpolation
+			// Auto-scroll: nudge targetX left each frame
+			if (isAutoScrolling) {
+				targetX -= autoScrollSpeed;
+			}
+
 			const ease = 0.08;
 			currentX += (targetX - currentX) * ease;
 
-			// Infinite loop: wrap around when we've scrolled past one full set
 			if (currentX > 0) {
 				currentX -= singleSetWidth;
 				targetX -= singleSetWidth;
@@ -126,9 +251,34 @@ const publishedWorks = allWorks
 			}
 
 			track!.style.transform = `translateX(${currentX}px)`;
-			requestAnimationFrame(animate);
+			animId = requestAnimationFrame(animate);
 		}
 
-		requestAnimationFrame(animate);
+		animId = requestAnimationFrame(animate);
+
+		// Clean up on navigation to prevent stale listeners
+		function cleanup() {
+			reel.removeEventListener('wheel', onWheel);
+			window.removeEventListener('resize', onResize);
+			cancelAnimationFrame(animId);
+			clearTimeout(autoScrollTimeout);
+			clearTimeout(resizeTimer);
+		}
+
+		document.addEventListener('astro:before-preparation', cleanup, { once: true });
+
+		// Work item click → open drawer
+		document.querySelectorAll<HTMLElement>('[data-work-id]').forEach((el) => {
+			el.addEventListener('click', () => {
+				const workId = el.dataset.workId!;
+				const img = el.querySelector('img');
+				const coverSrc = img?.getAttribute('src') || '';
+				window.dispatchEvent(
+					new CustomEvent('open-work-drawer', {
+						detail: { id: workId, coverSrc },
+					})
+				);
+			});
+		});
 	});
 </script>

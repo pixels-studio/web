@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:vaul.emilkowal.ski)",
+      "Bash(npm install @astrojs/react react react-dom vaul)",
+      "WebFetch(domain:www.vaul-svelte.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npx tsc --noEmit)"
+    ],
+    "additionalDirectories": [
+      "/Users/abhishekkambli/Desktop/projects/personal/web/docs"
+    ]
+  }
+}
