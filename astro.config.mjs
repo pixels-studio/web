@@ -3,8 +3,11 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
+  output: 'static',
   fonts: [
     {
       provider: fontProviders.local(),
@@ -26,7 +29,10 @@ export default defineConfig({
       cssVariable: '--font-fragment-mono',
     },
   ],
+
   vite: {
     plugins: [tailwindcss()],
   },
+
+  adapter: vercel(),
 });
