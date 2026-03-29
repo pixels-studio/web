@@ -10,8 +10,8 @@ import GridLines from "./GridLines.astro";
   <nav
     class="mx-auto h-full w-full flex max-w-[1464px] items-center justify-between"
   >
-    <a href="/" class="flex items-center gap-3 text-sm uppercase tracking-wide">
-      <span class="inline-block size-3 bg-ink-primary"></span>
+    <a href="/" class="group flex items-center gap-3 text-sm uppercase tracking-wide">
+      <span class="inline-block size-3 bg-ink-primary group-hover:animate-blink"></span>
       Pixels Studio
     </a>
 
@@ -22,6 +22,7 @@ import GridLines from "./GridLines.astro";
             <a
               href={href}
               class="text-sm uppercase tracking-wide text-ink-secondary hover:text-ink-primary transition-colors"
+              data-scramble
             >
               {label}
             </a>
@@ -31,3 +32,45 @@ import GridLines from "./GridLines.astro";
     </ul>
   </nav>
 </header>
+
+<script>
+  const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-=/:;.<>!?#^*|";
+
+  document.querySelectorAll<HTMLElement>("[data-scramble]").forEach((el) => {
+    const original = el.textContent!;
+    el.style.display = "inline-block";
+    el.style.width = `${el.offsetWidth}px`;
+    el.style.height = `${el.offsetHeight}px`;
+    el.style.overflow = "hidden";
+    let frame: number;
+    let iteration = 0;
+
+    el.addEventListener("mouseenter", () => {
+      iteration = 0;
+      cancelAnimationFrame(frame);
+
+      const scramble = () => {
+        el.textContent = original
+          .split("")
+          .map((char, i) => {
+            if (char === " ") return " ";
+            if (i < iteration) return original[i];
+            return CHARS[Math.floor(Math.random() * CHARS.length)];
+          })
+          .join("");
+
+        if (iteration < original.length) {
+          iteration += 1 / 5;
+          frame = requestAnimationFrame(scramble);
+        }
+      };
+
+      scramble();
+    });
+
+    el.addEventListener("mouseleave", () => {
+      cancelAnimationFrame(frame);
+      el.textContent = original;
+    });
+  });
+</script>

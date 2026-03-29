@@ -8,12 +8,8 @@
   const canvas = document.getElementById("hex-pattern") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
 
-  const HEX_VALUES = [
-    "00", "0D", "3B", "61", "67", "7A", "88",
-    "A3", "B2", "C4", "FD", "FE", "FF",
-  ];
+  const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-=/:;.,<>!?#^*|'\"\\(){}[]".split("");
 
-  // Seeded PRNG for consistent renders across reloads
   function mulberry32(seed: number) {
     return () => {
       seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
@@ -25,47 +21,128 @@
 
   const rand = mulberry32(42);
 
-  function resize() {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
-    draw(rect.width, rect.height);
+  const CHAR_W = 14;
+  const CHAR_H = 18;
+  const TRANSITION_DURATION = 4000;
+  const SWAP_INTERVAL = 800;
+
+  interface Glyph {
+    col: number;
+    row: number;
+    char: string;
+    baseOpacity: number;
+    fade: number; // 0 = invisible, 1 = fully visible
+    state: "visible" | "fading-out" | "fading-in";
+    transitionStart: number;
   }
 
-  const CHAR_W = 28;
-  const CHAR_H = 18;
+  let glyphs: Glyph[] = [];
+  let cols = 0;
+  let rows = 0;
+  let w = 0;
+  let h = 0;
+  let lastSwap = 0;
 
-  function draw(w: number, h: number) {
+  function init() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    w = rect.width;
+    h = rect.height;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
+
+    cols = Math.floor(w / CHAR_W);
+    rows = Math.floor(h / CHAR_H);
+    const occupied = new Set<string>();
+    const count = Math.floor((cols * rows) * 0.35);
+
+    glyphs = [];
+    for (let i = 0; i < count; i++) {
+      const col = Math.floor(rand() * cols);
+      const row = Math.floor(rand() * rows);
+      const key = `${col},${row}`;
+      if (occupied.has(key)) continue;
+      occupied.add(key);
+
+      glyphs.push({
+        col,
+        row,
+        char: CHARS[Math.floor(rand() * CHARS.length)],
+        baseOpacity: rand() * 0.9 + 0.04,
+        fade: 1,
+        state: "visible",
+        transitionStart: 0,
+      });
+    }
+
+    lastSwap = performance.now();
+  }
+
+  function pickRandomSlot(): { col: number; row: number } {
+    const occupied = new Set(glyphs.map((g) => `${g.col},${g.row}`));
+    let col: number, row: number;
+    do {
+      col = Math.floor(Math.random() * cols);
+      row = Math.floor(Math.random() * rows);
+    } while (occupied.has(`${col},${row}`));
+    return { col, row };
+  }
+
+  function animate(now: number) {
+    // Swap a character periodically
+    if (now - lastSwap > SWAP_INTERVAL && glyphs.length > 0) {
+      lastSwap = now;
+      const candidates = glyphs.filter((g) => g.state === "visible");
+      if (candidates.length > 0) {
+        const g = candidates[Math.floor(Math.random() * candidates.length)];
+        g.state = "fading-out";
+        g.transitionStart = now;
+      }
+    }
+
+    // Update transitions
+    for (const g of glyphs) {
+      if (g.state === "fading-out") {
+        const t = (now - g.transitionStart) / TRANSITION_DURATION;
+        g.fade = Math.max(0, 1 - t);
+        if (t >= 1) {
+          const slot = pickRandomSlot();
+          g.col = slot.col;
+          g.row = slot.row;
+          g.char = CHARS[Math.floor(Math.random() * CHARS.length)];
+          g.baseOpacity = Math.random() * 0.9 + 0.04;
+          g.state = "fading-in";
+          g.transitionStart = now;
+          g.fade = 0;
+        }
+      } else if (g.state === "fading-in") {
+        const t = (now - g.transitionStart) / TRANSITION_DURATION;
+        g.fade = Math.min(1, t);
+        if (t >= 1) {
+          g.state = "visible";
+          g.fade = 1;
+        }
+      }
+    }
+
+    // Draw
     ctx.clearRect(0, 0, w, h);
     ctx.font = "13px 'Fragment Mono', monospace";
     ctx.textBaseline = "middle";
     ctx.textAlign = "left";
 
-    const cols = Math.floor(w / CHAR_W);
-    const rows = Math.floor(h / CHAR_H);
-    const occupied = new Set<string>();
-    const count = Math.floor((cols * rows) * 0.35);
-
-    for (let i = 0; i < count; i++) {
-      const col = Math.floor(rand() * cols);
-      const row = Math.floor(rand() * rows);
-      const key = `${col},${row}`;
-
-      if (occupied.has(key)) continue;
-      occupied.add(key);
-
-      const x = col * CHAR_W + (rand() * 6 - 3);
-      const y = row * CHAR_H + (rand() * 4 - 2);
-      const hex = HEX_VALUES[Math.floor(rand() * HEX_VALUES.length)];
-      const opacity = rand() * 0.9 + 0.04;
-
+    for (const g of glyphs) {
+      const opacity = g.baseOpacity * g.fade;
+      if (opacity <= 0) continue;
       ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-      ctx.fillText(hex, x, y);
+      ctx.fillText(g.char, g.col * CHAR_W, g.row * CHAR_H);
     }
+
+    requestAnimationFrame(animate);
   }
 
-  resize();
-  window.addEventListener("resize", resize);
+  init();
+  requestAnimationFrame(animate);
+  window.addEventListener("resize", init);
 </script>
