@@ -4,6 +4,8 @@ import "../styles/global.css";
 import GridLines from "../components/GridLines.astro";
 import Header from "../components/Header.astro";
 import ScrollAnimations from "../components/ScrollAnimations.astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
+import Analytics from "@vercel/analytics/astro";
 ---
 
 <!doctype html>
@@ -64,5 +66,7 @@ import ScrollAnimations from "../components/ScrollAnimations.astro";
     </script>
 
     <ScrollAnimations />
+    <Analytics />
+    <SpeedInsights />
   </body>
 </html>
