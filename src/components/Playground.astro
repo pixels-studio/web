@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import claudeMemory from "../assets/media/claude-memory.png";
 import photographyPortfolio from "../assets/media/photography-portfolio.png";
 import sleepApp from "../assets/media/sleep-app.png";
@@ -36,8 +37,8 @@ const images = [
     <div class="flex gap-6 animate-marquee will-change-transform">
       {
         [...images, ...images].map(({ src, alt }) => (
-          <img
-            src={src.src}
+          <Image
+            src={src}
             alt={alt}
             class="w-[calc((100vw-5*1.5rem)/3)] md:w-[calc((min(1464px,100vw-3rem)-11*1.5rem)/12*4+3*1.5rem)] aspect-video object-cover shrink-0"
           />
