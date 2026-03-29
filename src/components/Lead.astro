@@ -19,7 +19,10 @@ const features = [
 ];
 ---
 
-<section data-hero class="relative z-10 flex min-h-dvh flex-col px-6 py-30">
+<section
+  data-hero
+  class="relative z-10 flex md:min-h-dvh flex-col px-6 py-16 md:py-30"
+>
   <div
     data-hero-pattern
     class="absolute mask-radial-farthest-side mask-radial-at-bottom-right mask-radial-from-10% mask-radial-to-80% inset-x-0 top-0 h-full max-h-140 pointer-events-none select-none"
@@ -28,7 +31,9 @@ const features = [
   >
     <HexPattern />
   </div>
-  <div class="relative mx-auto flex w-full max-w-[1464px] flex-1 flex-col">
+  <div
+    class="relative mx-auto flex w-full max-w-[1464px] flex-1 flex-col gap-15"
+  >
     <div class="flex flex-col gap-6">
       <OpenBadge
         class="h-6 text-ink-secondary w-auto self-start"
