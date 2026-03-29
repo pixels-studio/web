@@ -1,0 +1,38 @@
+---
+const id = "footer-logo-pattern";
+---
+
+<div class="relative z-10 w-full overflow-hidden px-6 pt-12 pb-6">
+  <svg
+    class="w-full"
+    viewBox="0 0 1200 160"
+    preserveAspectRatio="xMidYMid meet"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <pattern id={id} patternUnits="userSpaceOnUse" width="1200" height="6">
+        <line
+          x1="0"
+          y1="3"
+          x2="1200"
+          y2="3"
+          stroke="currentColor"
+          opacity="0.08"
+          stroke-width="1.5"></line>
+      </pattern>
+    </defs>
+    <text
+      x="50%"
+      y="50%"
+      dominant-baseline="central"
+      text-anchor="middle"
+      textLength="1160"
+      lengthAdjust="spacing"
+      fill={`url(#${id})`}
+      class="font-sans text-[160px] font-bold uppercase tracking-tight"
+      style="font-family: var(--font-inter), sans-serif; font-weight: 800; letter-spacing: -0.02em;"
+    >
+      PIXELS STUDIO
+    </text>
+  </svg>
+</div>
