@@ -38,43 +38,45 @@ import GridLines from "./GridLines.astro";
 </header>
 
 <script>
-  const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-=/:;.<>!?#^*|";
+  if (window.matchMedia("(min-width: 768px)").matches) {
+    const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-=/:;.<>!?#^*|";
 
-  document.querySelectorAll<HTMLElement>("[data-scramble]").forEach((el) => {
-    const original = el.textContent!;
-    el.style.display = "inline-block";
-    el.style.width = `${el.offsetWidth}px`;
-    el.style.height = `${el.offsetHeight}px`;
-    el.style.overflow = "hidden";
-    let frame: number;
-    let iteration = 0;
+    document.querySelectorAll<HTMLElement>("[data-scramble]").forEach((el) => {
+      const original = el.textContent!;
+      el.style.display = "inline-block";
+      el.style.width = `${el.offsetWidth}px`;
+      el.style.height = `${el.offsetHeight}px`;
+      el.style.overflow = "hidden";
+      let frame: number;
+      let iteration = 0;
 
-    el.addEventListener("mouseenter", () => {
-      iteration = 0;
-      cancelAnimationFrame(frame);
+      el.addEventListener("mouseenter", () => {
+        iteration = 0;
+        cancelAnimationFrame(frame);
 
-      const scramble = () => {
-        el.textContent = original
-          .split("")
-          .map((char, i) => {
-            if (char === " ") return " ";
-            if (i < iteration) return original[i];
-            return CHARS[Math.floor(Math.random() * CHARS.length)];
-          })
-          .join("");
+        const scramble = () => {
+          el.textContent = original
+            .split("")
+            .map((char, i) => {
+              if (char === " ") return " ";
+              if (i < iteration) return original[i];
+              return CHARS[Math.floor(Math.random() * CHARS.length)];
+            })
+            .join("");
 
-        if (iteration < original.length) {
-          iteration += 1 / 5;
-          frame = requestAnimationFrame(scramble);
-        }
-      };
+          if (iteration < original.length) {
+            iteration += 1 / 5;
+            frame = requestAnimationFrame(scramble);
+          }
+        };
 
-      scramble();
+        scramble();
+      });
+
+      el.addEventListener("mouseleave", () => {
+        cancelAnimationFrame(frame);
+        el.textContent = original;
+      });
     });
-
-    el.addEventListener("mouseleave", () => {
-      cancelAnimationFrame(frame);
-      el.textContent = original;
-    });
-  });
+  }
 </script>
