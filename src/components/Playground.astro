@@ -1,0 +1,85 @@
+---
+import claudeMemory from "../assets/media/claude-memory.png";
+import photographyPortfolio from "../assets/media/photography-portfolio.png";
+import sleepApp from "../assets/media/sleep-app.png";
+import appInstallationUi from "../assets/media/app-installation-ui.png";
+import newTaxApplication from "../assets/media/new-tax-application.png";
+import resolveAccountsList from "../assets/media/resolve-accounts-list.png";
+import resolveBot from "../assets/media/resolve-bot.png";
+import ticketingApp from "../assets/media/ticketing-app.png";
+
+const images = [
+  { src: claudeMemory, alt: "Claude Memory" },
+  { src: photographyPortfolio, alt: "Photography Portfolio" },
+  { src: sleepApp, alt: "Sleep App" },
+  { src: appInstallationUi, alt: "App Installation UI" },
+  { src: newTaxApplication, alt: "New Tax Application" },
+  { src: resolveAccountsList, alt: "Resolve Accounts List" },
+  { src: resolveBot, alt: "Resolve Bot" },
+  { src: ticketingApp, alt: "Ticketing App" },
+];
+---
+
+<section class="relative z-10 flex flex-col px-6 py-30">
+  <div class="mx-auto w-full max-w-[1464px] flex flex-col gap-30">
+    <div class="grid grid-cols-6 gap-6 md:grid-cols-12">
+      <div class="col-span-6 flex flex-col gap-4 md:col-span-5">
+        <p class="font-mono text-xs uppercase text-ink-secondary">Playground</p>
+        <h2 class="text-[64px] font-bold leading-[1.05] tracking-tight">
+          Experiments in form and function
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-hidden mt-30">
+    <div class="flex gap-6 animate-marquee will-change-transform">
+      {
+        [...images, ...images].map(({ src, alt }) => (
+          <img
+            src={src.src}
+            alt={alt}
+            class="w-[calc((100vw-5*1.5rem)/3)] md:w-[calc((min(1464px,100vw-3rem)-11*1.5rem)/12*4+3*1.5rem)] aspect-video object-cover shrink-0"
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="mx-auto w-full max-w-[1464px] mt-30">
+    <div class="grid grid-cols-6 gap-6 md:grid-cols-12">
+      <p
+        class="col-span-6 md:col-span-4 md:col-start-5 text-xl text-ink-secondary text-pretty"
+      >
+        A space for exploring ideas before they become products. New
+        interactions, visual systems, and small tools take shape here. It is
+        where direction is tested and boundaries are pushed.
+      </p>
+      <p
+        class="col-span-6 md:col-span-4 md:col-start-9 text-xl text-ink-secondary text-pretty"
+      >
+        Some ideas move forward. Some stay as studies. Each one sharpens the
+        thinking behind the work and informs what gets built next.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+</style>
