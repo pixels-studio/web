@@ -1,8 +1,12 @@
 ---
 import { routes } from "../lib/routes";
+import GridLines from "./GridLines.astro";
 ---
 
-<header class="sticky h-18 top-0 inset-x-0 px-6 py-6 z-10 font-mono">
+<header
+  class="sticky bg-surface-primary h-18 top-0 inset-x-0 px-6 py-6 z-50 font-mono"
+>
+  <GridLines dark />
   <nav
     class="mx-auto h-full w-full flex max-w-[1464px] items-center justify-between"
   >

@@ -1,0 +1,137 @@
+---
+import rajaAvatar from "../assets/media/raja-sandhu.png";
+import karthikAvatar from "../assets/media/karthik-iyenger.png";
+
+import Samespace from "../assets/logos/samespace.svg";
+import Origon from "../assets/logos/origon.svg";
+import Tlkn from "../assets/logos/tlkn.svg";
+import Pulse from "../assets/logos/pulse.svg";
+import TaxGermany from "../assets/logos/taxgermany.svg";
+import Wbp from "../assets/logos/wbp.svg";
+
+const logos = [
+  { Icon: Samespace, class: "h-6 w-auto" },
+  { Icon: Origon, class: "h-8 w-auto" },
+  { Icon: Tlkn, class: "h-6 w-auto" },
+  { Icon: Pulse, class: "h-5 w-auto" },
+  { Icon: TaxGermany, class: "w-auto h-6" },
+  { Icon: Wbp, class: "h-7 w-12" },
+];
+
+const testimonials = [
+  {
+    quote:
+      "I had a memorable time working with Abhishek; his grasp on UI and UX design theory was evident. He was a notable asset to the tlkn app with relentless motivation towards creating a perfect product.",
+    name: "Raja Sandhu",
+    role: "Co-Founder, tlkn Inc.",
+    avatar: rajaAvatar,
+    variant: "light" as const,
+    span: "col-span-6 md:col-span-8",
+  },
+  {
+    quote:
+      "Abhishek is a versatile designer with great work ethic and strong problem solving skills.",
+    name: "Karthik Iyenger",
+    role: "Co-Founder, wbp",
+    avatar: karthikAvatar,
+    variant: "dark" as const,
+    span: "col-span-6 md:col-span-4",
+  },
+];
+---
+
+<section class="relative z-10 flex min-h-dvh flex-col px-6 py-24">
+  <div class="mx-auto flex w-full max-w-[1464px] flex-col">
+    <h2
+      class="mb-24 text-pretty text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.05] tracking-tight md:max-w-[83%]"
+    >
+      Good work starts with the right partner.
+    </h2>
+
+    <div class="grid grid-cols-6 gap-6 mb-12 md:grid-cols-12">
+      {
+        testimonials.map(({ quote, name, role, avatar, variant, span }) => (
+          <div
+            class:list={[
+              span,
+              "flex flex-col justify-start gap-24 p-12",
+              variant === "light"
+                ? "bg-[#C4967C] text-surface-primary"
+                : "bg-surface-secondary text-ink-primary",
+            ]}
+          >
+            <p class="text-3xl font-medium leading-snug text-pretty">{quote}</p>
+
+            <div class="flex items-center gap-3 mt-auto">
+              <img src={avatar.src} alt={name} class="size-10 object-cover" />
+              <div>
+                <p class="font-medium">{name}</p>
+                <p
+                  class:list={[
+                    variant === "light"
+                      ? "text-surface-primary/60"
+                      : "text-ink-secondary",
+                  ]}
+                >
+                  {role}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="flex flex-col gap-40">
+      <div class="grid grid-cols-6 gap-6 md:grid-cols-12">
+        {
+          logos.map(({ Icon, class: className }) => (
+            <div class="col-span-3 flex min-h-20 items-center justify-center md:col-span-2">
+              <Icon class:list={[className, "opacity-40"]} />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="grid grid-cols-6 items-end gap-6 md:grid-cols-12">
+      <div class="col-span-6 flex flex-col gap-4">
+        <p class="font-mono text-xs uppercase text-ink-secondary">
+          Reach out to connect or collaborate
+        </p>
+        <a
+          href="mailto:hello@pixels.studio"
+          class="text-[64px] font-semibold leading-tight tracking-tight"
+        >
+          hello@pixels.studio
+        </a>
+      </div>
+
+      <div
+        class="col-span-3 col-start-4 flex flex-col gap-4 md:col-span-3 md:col-start-10"
+      >
+        <p class="font-mono text-xs uppercase text-ink-secondary">Social</p>
+        <div class="grid grid-cols-3 gap-x-6 gap-y-2">
+          <a href="#" class="text-xl hover:text-ink-secondary transition-colors"
+            >Twitter</a
+          >
+          <a href="#" class="text-xl hover:text-ink-secondary transition-colors"
+            >LinkedIn</a
+          >
+          <a href="#" class="text-xl hover:text-ink-secondary transition-colors"
+            >Resume</a
+          >
+          <a href="#" class="text-xl hover:text-ink-secondary transition-colors"
+            >Instagram</a
+          >
+          <a href="#" class="text-xl hover:text-ink-secondary transition-colors"
+            >Savee</a
+          >
+          <a href="#" class="text-xl hover:text-ink-secondary transition-colors"
+            >Telegram</a
+          >
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
