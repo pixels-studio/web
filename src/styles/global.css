@@ -22,3 +22,11 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+[data-reveal],
+[data-reveal-stagger] > *,
+[data-split-text],
+[data-fade],
+[data-hero-step] {
+  opacity: 0;
+}

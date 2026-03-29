@@ -4,17 +4,18 @@ import samespace01 from "../assets/media/samespace-01.png";
 import samespace02 from "../assets/media/samespace-02.png";
 ---
 
-<section class="relative z-10 flex min-h-dvh flex-col px-6 py-30">
-  <div class="mx-auto w-full max-w-[1464px] flex flex-1 flex-col">
+<section class="relative z-10 flex min-h-dvh flex-col px-6 py-40">
+  <div class="mx-auto w-full max-w-[1464px] flex flex-1 flex-col gap-15">
     <div class="grid grid-cols-6 gap-6 md:grid-cols-12 md:items-end">
       <div class="col-span-6 flex flex-col gap-6">
-        <p class="font-mono text-xs uppercase text-ink-secondary">Samespace</p>
-        <h2 class="text-6xl font-semibold leading-[1.05] tracking-tight">
+        <p class="font-mono text-xs uppercase text-ink-secondary" data-reveal>Samespace</p>
+        <h2 data-split-text class="text-6xl font-semibold leading-[1.05] tracking-tight">
           The full-stack CX platform
         </h2>
       </div>
 
       <p
+        data-reveal
         class="col-span-6 md:col-span-4 md:col-start-9 md:self-end text-xl leading-relaxed text-ink-secondary text-pretty"
       >
         Intelligent automation meets human expertise. A unified platform for
@@ -24,11 +25,13 @@ import samespace02 from "../assets/media/samespace-02.png";
     </div>
 
     <div class="mt-auto grid grid-cols-6 gap-6 md:grid-cols-12">
-      <Image
-        src={samespace01}
-        alt="Samespace preview 1"
-        class="col-span-6 md:col-span-7 aspect-video object-cover"
-      />
+      <div class="col-span-6 md:col-span-7">
+        <Image
+          src={samespace01}
+          alt="Samespace preview 1"
+          class="w-full aspect-video object-cover"
+        />
+      </div>
       <div
         class="bg-surface-secondary w-full col-span-6 md:col-span-5 grid place-items-center"
       >

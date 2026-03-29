@@ -10,15 +10,19 @@ import GridLines from "./GridLines.astro";
   <nav
     class="mx-auto h-full w-full flex max-w-[1464px] items-center justify-between"
   >
-    <a href="/" class="group flex items-center gap-3 text-sm uppercase tracking-wide">
-      <span class="inline-block size-3 bg-ink-primary group-hover:animate-blink"></span>
+    <a
+      href="/"
+      class="group flex items-center gap-3 text-sm uppercase tracking-wide"
+    >
+      <span class="inline-block size-3 bg-ink-primary group-hover:animate-blink"
+      ></span>
       Pixels Studio
     </a>
 
     <ul class="flex items-center gap-8">
       {
         routes.map(({ label, href }) => (
-          <li>
+          <li class="flex items-center justify-center">
             <a
               href={href}
               class="text-sm uppercase tracking-wide text-ink-secondary hover:text-ink-primary transition-colors"

@@ -21,12 +21,12 @@ const images = [
 ];
 ---
 
-<section id="playground" class="relative z-10 flex flex-col px-6 py-30">
+<section id="playground" class="relative z-10 flex flex-col px-6 py-40">
   <div class="mx-auto w-full max-w-[1464px] flex flex-col gap-30">
     <div class="grid grid-cols-6 gap-6 md:grid-cols-12">
       <div class="col-span-6 flex flex-col gap-4 md:col-span-5">
-        <p class="font-mono text-xs uppercase text-ink-secondary">Playground</p>
-        <h2 class="text-[64px] font-bold leading-[1.05] tracking-tight">
+        <p class="font-mono text-xs uppercase text-ink-secondary" data-reveal>Playground</p>
+        <h2 data-split-text class="text-[64px] font-bold leading-[1.05] tracking-tight">
           Experiments in form and function
         </h2>
       </div>
@@ -50,6 +50,7 @@ const images = [
   <div class="mx-auto w-full max-w-[1464px] mt-30">
     <div class="grid grid-cols-6 gap-6 md:grid-cols-12">
       <p
+        data-reveal
         class="col-span-6 md:col-span-4 md:col-start-5 text-xl leading-relaxed text-ink-secondary text-pretty"
       >
         A space for exploring ideas before they become products. New
@@ -57,6 +58,7 @@ const images = [
         where direction is tested and boundaries are pushed.
       </p>
       <p
+        data-reveal
         class="col-span-6 md:col-span-4 md:col-start-9 text-xl leading-relaxed text-ink-secondary text-pretty"
       >
         Some ideas move forward. Some stay as studies. Each one sharpens the

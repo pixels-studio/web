@@ -3,6 +3,7 @@ import { Font } from "astro:assets";
 import "../styles/global.css";
 import GridLines from "../components/GridLines.astro";
 import Header from "../components/Header.astro";
+import ScrollAnimations from "../components/ScrollAnimations.astro";
 ---
 
 <!doctype html>
@@ -10,10 +11,28 @@ import Header from "../components/Header.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <title>Pixels Studio — Design & Engineering for Startups</title>
+    <meta name="description" content="Independent design and frontend engineering practice with over a decade of experience building products from zero to scale. Clarity, structure, and execution." />
+    <meta name="author" content="Abhishek Kambli" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://pixels.studio" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>Pixels Studio</title>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pixels.studio" />
+    <meta property="og:title" content="Pixels Studio — Design & Engineering for Startups" />
+    <meta property="og:description" content="Independent design and frontend engineering practice with over a decade of experience building products from zero to scale." />
+    <meta property="og:image" content="https://media.pixels.studio/og-v2.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pixels Studio — Design & Engineering for Startups" />
+    <meta name="twitter:description" content="Independent design and frontend engineering practice with over a decade of experience building products from zero to scale." />
+    <meta name="twitter:image" content="https://media.pixels.studio/og-v2.png" />
     <Font cssVariable="--font-inter" preload />
     <Font cssVariable="--font-fragment-mono" preload />
   </head>
@@ -26,15 +45,24 @@ import Header from "../components/Header.astro";
 
     <script>
       import Lenis from "lenis";
+      import gsap from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
 
       const lenis = new Lenis();
 
-      function raf(time: number) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+      lenis.on("scroll", ScrollTrigger.update);
 
-      requestAnimationFrame(raf);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      gsap.ticker.lagSmoothing(0);
+
+      (window as any).lenis = lenis;
     </script>
+
+    <ScrollAnimations />
   </body>
 </html>

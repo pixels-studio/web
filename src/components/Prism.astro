@@ -1,18 +1,18 @@
 ---
 import { Image } from "astro:assets";
-import origonDashboard from "../assets/media/origon-dashboard.png";
+import prism from "../assets/media/prism.png";
 ---
 
-<section id="work" class="relative z-10 flex min-h-dvh flex-col px-6 py-40">
+<section class="relative z-10 flex min-h-dvh flex-col px-6 py-40">
   <div class="mx-auto w-full max-w-[1464px] flex flex-1 flex-col gap-15">
     <div class="grid grid-cols-6 gap-6 md:grid-cols-12 md:items-end">
-      <div class="col-span-6 flex flex-col gap-6">
-        <p class="font-mono text-xs uppercase text-ink-secondary" data-reveal>Origon</p>
+      <div class="col-span-6 md:col-span-5 flex flex-col gap-6">
+        <p class="font-mono text-xs uppercase text-ink-secondary" data-reveal>Prism</p>
         <h2
           data-split-text
           class="text-6xl font-semibold leading-none tracking-tight text-pretty"
         >
-          Operating AI systems at scale
+          Graphic styles at the speed of thought
         </h2>
       </div>
 
@@ -20,16 +20,17 @@ import origonDashboard from "../assets/media/origon-dashboard.png";
         data-reveal
         class="col-span-6 md:col-span-4 md:col-start-9 md:self-end text-xl leading-relaxed text-ink-secondary text-pretty"
       >
-        Leading design and frontend for an AI platform used to build and run
-        multi-agent systems in real-world operations.
+        A browser-based graphic style studio for applying artistic effects to
+        images in real time. Duotone, halftone, ASCII art, glitch, and more —
+        powered by WebGL.
       </p>
     </div>
 
     <div class="mt-auto grid grid-cols-6 gap-6 md:grid-cols-12">
       <div class="col-span-6 md:col-span-12 overflow-hidden">
         <Image
-          src={origonDashboard}
-          alt="Origon dashboard preview"
+          src={prism}
+          alt="Prism graphic style studio preview"
           data-scale-in
           class="w-full object-cover"
         />
