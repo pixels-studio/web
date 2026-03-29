@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --default-font-feature-settings: "ss07" 1, "cv06" 1, "cv12" 1, "cv13" 1;
+
+  --color-surface-primary: #141414;
+  --color-surface-secondary: #1C1C1C;
+  --color-ink-primary: #dddddd;
+  --color-ink-secondary: color-mix(in srgb, white 60%, transparent);
+
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-fragment-mono), monospace;
+
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.5rem;
+}

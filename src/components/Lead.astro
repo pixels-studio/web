@@ -1,0 +1,73 @@
+---
+import HexPattern from "./HexPattern.astro";
+import Bolt from "../assets/icons/bolt.svg";
+import GridDots from "../assets/icons/grid-dots.svg";
+
+const features = [
+  {
+    Icon: Bolt,
+    title: "Faster delivery",
+    description: "Fewer revisions keep the work moving forward faster.",
+  },
+  {
+    Icon: GridDots,
+    title: "Clear experience",
+    description:
+      "Intuitive user interfaces reduce confusion, support requests.",
+  },
+];
+---
+
+<section class="relative z-10 flex min-h-dvh flex-col px-6 py-24">
+  <div
+    class="absolute mask-radial-[farthest-side] mask-radial-at-bottom-right mask-radial-from-30% opacity-30 inset-x-0 top-0 h-full max-h-140 pointer-events-none select-none"
+    aria-hidden="true"
+  >
+    <HexPattern />
+  </div>
+  <div class="relative mx-auto flex w-full max-w-[1464px] flex-1 flex-col">
+    <h1
+      class="text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.05] tracking-tight"
+    >
+      Design partner for startups that don't cut corners.
+    </h1>
+
+    <div class="mt-auto grid items-end grid-cols-6 gap-6 md:grid-cols-12">
+      <div
+        class="col-span-6 flex flex-col gap-6 text-xl text-pretty md:col-span-5 md:col-start-1"
+      >
+        <p class="text-ink-secondary">
+          Pixels Studio is an independent design and engineering practice with
+          over a decade of experience building products from zero to scale. The
+          work focuses on clarity, structure, and execution.
+        </p>
+        <p class="text-ink-secondary">
+          From defining problems to delivering production-ready interfaces,
+          design and code live under one roof. No handoffs. No shortcuts. No
+          loose ends.
+        </p>
+      </div>
+
+      <div class="col-span-6 flex flex-col gap-12 md:col-span-4 md:col-start-9">
+        <div class="grid grid-cols-2 gap-6">
+          {
+            features.map(({ Icon, title, description }) => (
+              <div class="flex flex-col">
+                <Icon class="size-6" />
+                <h3 class="mt-6 font-medium">{title}</h3>
+                <p class="mt-1 text-sm text-ink-secondary">{description}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <a
+          href="/contact"
+          class="flex h-12 w-full items-center justify-center border border-ink-primary bg-white font-mono text-sm uppercase tracking-wide text-surface-primary transition-colors hover:bg-ink-primary"
+        >
+          Start a project
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
