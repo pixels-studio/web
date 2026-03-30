@@ -3,7 +3,7 @@ interface Props {
   dark?: boolean;
 }
 const { dark = false } = Astro.props;
-const outline = dark ? "outline-white/4" : "outline-black/4";
+const border = dark ? "border-white/4" : "border-black/4";
 ---
 
 <div
@@ -11,17 +11,14 @@ const outline = dark ? "outline-white/4" : "outline-black/4";
   aria-hidden="true"
 >
   <div
-    class:list={[
-      "mx-auto grid h-full w-full max-w-[1360px] grid-cols-6 gap-6 md:grid-cols-12",
-      outline,
-    ]}
+    class="mx-auto grid h-full w-full max-w-[1360px] grid-cols-6 gap-6 md:grid-cols-12"
   >
     {
       Array.from({ length: 12 }).map((_, i) => (
         <div
           class:list={[
-            "outline-dashed outline-1",
-            outline,
+            "border-x border-dashed",
+            border,
             i >= 6 && "hidden md:block",
           ]}
         />
