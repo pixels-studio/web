@@ -4,8 +4,21 @@ import GridLines from "./GridLines.astro";
 ---
 
 <header
-  class="sticky bg-surface-primary h-18 top-0 inset-x-0 px-6 py-6 z-50 font-mono"
+  data-header
+  class="sticky h-18 top-0 inset-x-0 px-6 py-6 z-50 font-mono transition-colors duration-300"
 >
+<script>
+  const header = document.querySelector("[data-header]") as HTMLElement;
+  function updateHeader() {
+    if (window.scrollY > 96) {
+      header.classList.add("bg-surface-primary");
+    } else {
+      header.classList.remove("bg-surface-primary");
+    }
+  }
+  updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
+</script>
   <GridLines dark />
   <nav
     class="mx-auto h-full w-full flex max-w-[1360px] items-center justify-between"
