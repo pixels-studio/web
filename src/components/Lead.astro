@@ -8,7 +8,7 @@ const features = [
   {
     Icon: Bolt,
     title: "Full stack",
-    description: "Design and code under one roof. No handoffs, no loose ends.",
+    description: "Design code under one roof. No handoffs, no loose ends.",
   },
   {
     Icon: GridDots,
@@ -64,13 +64,13 @@ const features = [
         </p>
       </div>
 
-      <div class="col-span-6 flex flex-col gap-12 md:col-span-4 md:col-start-9">
+      <div class="col-span-6 flex flex-col gap-6 md:col-span-4 md:col-start-9">
         <div class="grid grid-cols-2 gap-6" data-hero-step="3">
           {
             features.map(({ Icon, title, description }) => (
               <div class="flex flex-col">
                 <Icon class="size-6" />
-                <h3 class="mt-6 font-medium">{title}</h3>
+                <h3 class="mt-4 font-medium">{title}</h3>
                 <p class="mt-1 text-sm text-ink-secondary">{description}</p>
               </div>
             ))
