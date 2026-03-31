@@ -4,7 +4,7 @@
 @theme {
   --default-font-feature-settings: "ss07" 1, "cv06" 1, "cv12" 1, "cv13" 1;
 
-  --color-surface-primary: #141414;
+  --color-surface-primary: #0d0d0d;
   --color-surface-secondary: #1C1C1C;
   --color-ink-primary: #dddddd;
   --color-ink-secondary: color-mix(in srgb, white 60%, transparent);
