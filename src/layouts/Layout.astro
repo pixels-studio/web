@@ -80,6 +80,14 @@ import Analytics from "@vercel/analytics/astro";
       }
     </script>
 
+    <!-- Progressive blur bar at bottom of viewport -->
+    <div class="pointer-events-none fixed bottom-0 left-0 z-40 h-[64px] w-full" aria-hidden="true">
+      <div class="absolute inset-0 backdrop-blur-[1px]" style="mask-image: linear-gradient(to bottom, transparent, transparent 0%, black 25%)"></div>
+      <div class="absolute inset-0 backdrop-blur-[2px]" style="mask-image: linear-gradient(to bottom, transparent, transparent 25%, black 50%)"></div>
+      <div class="absolute inset-0 backdrop-blur-[4px]" style="mask-image: linear-gradient(to bottom, transparent, transparent 50%, black 75%)"></div>
+      <div class="absolute inset-0 backdrop-blur-[8px]" style="mask-image: linear-gradient(to bottom, transparent, transparent 75%, black 100%)"></div>
+    </div>
+
     <ScrollAnimations />
     <Analytics />
     <SpeedInsights />
