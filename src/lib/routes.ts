@@ -11,4 +11,5 @@ export const socials = [
   { label: "Resume", href: "https://media.pixels.studio/abhishek-kambli-resume.pdf" },
   { label: "Instagram", href: "https://www.instagram.com/pixels.studio.design/" },
   { label: "Savee", href: "https://savee.com/abhi/" },
+  { label: "Cosmos", href: "https://www.cosmos.so/pixelstudio" },
 ] as const;
