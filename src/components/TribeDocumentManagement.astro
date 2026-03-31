@@ -24,14 +24,11 @@ import tribeDocumentManagement from "../assets/media/tribe-document-management.p
       </p>
     </div>
 
-    <div class="mt-auto grid grid-cols-6 gap-6 md:grid-cols-12">
-      <div class="col-span-6 md:col-span-12 overflow-hidden">
-        <Image
-          src={tribeDocumentManagement}
-          alt="Tribe Document Management preview"
-          class="w-full aspect-video object-cover"
-        />
-      </div>
-    </div>
+    <Image
+      src={tribeDocumentManagement}
+      alt="Tribe Document Management preview"
+      class="w-full col-span-full border border-ink-primary/8 rounded-lg"
+      style="mask-image: linear-gradient(to bottom, black 70%, transparent 95%); -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 95%);"
+    />
   </div>
 </section>
