@@ -9,17 +9,22 @@ import GridLines from "./GridLines.astro";
 >
 <script>
   const header = document.querySelector("[data-header]") as HTMLElement;
+  const headerGrid = document.querySelector("[data-header-grid]") as HTMLElement;
   function updateHeader() {
     if (window.scrollY > 96) {
       header.classList.add("bg-surface-primary");
+      headerGrid.style.opacity = "1";
     } else {
       header.classList.remove("bg-surface-primary");
+      headerGrid.style.opacity = "0";
     }
   }
   updateHeader();
   window.addEventListener("scroll", updateHeader, { passive: true });
 </script>
-  <GridLines dark />
+  <div data-header-grid class="transition-opacity duration-300">
+    <GridLines dark />
+  </div>
   <nav
     class="mx-auto h-full w-full flex max-w-[1360px] items-center justify-between"
   >
