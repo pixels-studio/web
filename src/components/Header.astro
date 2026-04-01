@@ -26,28 +26,36 @@ import GridLines from "./GridLines.astro";
     <GridLines dark />
   </div>
   <nav
-    class="mx-auto h-full w-full flex max-w-[1360px] items-center justify-between"
+    class="mx-auto h-full w-full grid max-w-[1360px] grid-cols-6 gap-6 items-center md:grid-cols-12"
   >
     <a
       href="/"
-      class="group flex items-center gap-3 text-sm uppercase tracking-wide"
+      class="group col-span-2 flex items-center gap-3 text-sm uppercase tracking-wide"
     >
       <span class="inline-block size-3 bg-ink-primary group-hover:animate-blink"
       ></span>
       Pixels Studio
     </a>
 
-    <ul class="hidden md:flex items-center gap-8">
-      {
-        routes.map(({ label, href }) => (
-          <a
-            href={href}
-            class="text-sm uppercase tracking-wide text-ink-secondary hover:text-ink-primary transition-colors"
-          >
-            {label}
-          </a>
-        ))
-      }
-    </ul>
+    <div class="hidden md:col-start-9 md:col-span-4 md:flex items-center justify-between">
+      <div class="flex items-center gap-10">
+        {
+          routes.slice(0, 3).map(({ label, href }) => (
+            <a
+              href={href}
+              class="text-sm uppercase tracking-wide text-ink-secondary hover:text-ink-primary transition-colors"
+            >
+              {label}
+            </a>
+          ))
+        }
+      </div>
+      <a
+        href={routes[3].href}
+        class="text-sm uppercase tracking-wide text-ink-secondary hover:text-ink-primary transition-colors"
+      >
+        {routes[3].label}
+      </a>
+    </div>
   </nav>
 </header>
