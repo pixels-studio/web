@@ -2,7 +2,9 @@
 ---
 
 <div data-fade class="relative z-10 w-full overflow-hidden px-6 pt-6">
-  <canvas id="footer-logo-canvas" class="w-full" style="aspect-ratio: 1200/200;" aria-hidden="true"></canvas>
+  <div class="mx-auto w-full max-w-[1360px]">
+    <canvas id="footer-logo-canvas" class="w-full" style="aspect-ratio: 1200/200;" aria-hidden="true"></canvas>
+  </div>
 </div>
 
 <script>
@@ -86,7 +88,7 @@
     let fontSize = canvas.height * 0.7;
     offCtx.font = `800 ${fontSize}px Inter, sans-serif`;
     let measured = offCtx.measureText("PIXELS STUDIO").width;
-    const targetWidth = canvas.width * 0.95;
+    const targetWidth = canvas.width;
     fontSize = fontSize * (targetWidth / measured);
     offCtx.font = `800 ${fontSize}px Inter, sans-serif`;
 
