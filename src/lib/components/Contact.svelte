@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { z } from 'zod';
+  import type { contactSchema } from '$lib/schemas/home';
   import { socials } from '$lib/routes';
 
   import samespace from '$lib/assets/logos/samespace.svg?raw';
@@ -8,6 +10,8 @@
   import taxgermany from '$lib/assets/logos/taxgermany.svg?raw';
   import wbp from '$lib/assets/logos/wbp.svg?raw';
 
+  let { content }: { content: z.infer<typeof contactSchema> } = $props();
+
   const logos = [
     { svg: samespace, class: "h-6 w-auto" },
     { svg: origon, class: "h-8 w-auto" },
@@ -15,27 +19,6 @@
     { svg: pulse, class: "h-5 w-auto" },
     { svg: taxgermany, class: "w-auto h-6" },
     { svg: wbp, class: "h-7 w-12" },
-  ];
-
-  const testimonials = [
-    {
-      quote:
-        "I had a memorable time working with Abhishek; his grasp on UI and UX design theory was evident. He was a notable asset to the tlkn app with relentless motivation towards creating a perfect product.",
-      name: "Raja Sandhu",
-      role: "Co-Founder, tlkn Inc.",
-
-      variant: "light" as const,
-      span: "col-span-6 md:col-span-8",
-    },
-    {
-      quote:
-        "Abhishek is a versatile designer with great work ethic and strong problem solving skills.",
-      name: "Karthik Iyenger",
-      role: "Co-Founder, wbp",
-
-      variant: "dark" as const,
-      span: "col-span-6 md:col-span-4",
-    },
   ];
 </script>
 
@@ -45,7 +28,7 @@
       data-split-text
       class="mb-16 md:mb-30 text-pretty text-balance text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.05] tracking-tight md:max-w-[80%]"
     >
-      Let's build something that ships.
+      {content.heading}
     </h2>
 
     <div
@@ -54,24 +37,24 @@
     >
       <!-- Testimonial 1: Raja Sandhu -->
       <div class="col-span-6 md:col-span-8 flex flex-col justify-start gap-16 md:gap-30 p-6 md:p-12 bg-[#A3A3A3] text-surface-primary">
-        <p class="text-lg md:text-3xl font-medium leading-snug text-pretty">{testimonials[0].quote}</p>
+        <p class="text-lg md:text-3xl font-medium leading-snug text-pretty">{content.testimonials[0].quote}</p>
         <div class="flex items-center gap-3 mt-auto">
           <enhanced:img src="$lib/assets/media/raja-sandhu.png" alt="Raja Sandhu" class="size-10 object-cover" />
           <div>
-            <p class="font-medium">{testimonials[0].name}</p>
-            <p class="text-surface-primary/60">{testimonials[0].role}</p>
+            <p class="font-medium">{content.testimonials[0].name}</p>
+            <p class="text-surface-primary/60">{content.testimonials[0].role}</p>
           </div>
         </div>
       </div>
 
       <!-- Testimonial 2: Karthik Iyenger -->
       <div class="col-span-6 md:col-span-4 flex flex-col justify-start gap-16 md:gap-30 p-6 md:p-12 bg-surface-secondary text-ink-primary">
-        <p class="text-lg md:text-3xl font-medium leading-snug text-pretty">{testimonials[1].quote}</p>
+        <p class="text-lg md:text-3xl font-medium leading-snug text-pretty">{content.testimonials[1].quote}</p>
         <div class="flex items-center gap-3 mt-auto">
           <enhanced:img src="$lib/assets/media/karthik-iyenger.png" alt="Karthik Iyenger" class="size-10 object-cover" />
           <div>
-            <p class="font-medium">{testimonials[1].name}</p>
-            <p class="text-ink-secondary">{testimonials[1].role}</p>
+            <p class="font-medium">{content.testimonials[1].name}</p>
+            <p class="text-ink-secondary">{content.testimonials[1].role}</p>
           </div>
         </div>
       </div>
@@ -89,13 +72,13 @@
       <div class="grid grid-cols-6 items-end gap-16 md:gap-6 md:grid-cols-12">
         <div class="col-span-6 flex flex-col gap-4" data-reveal>
           <p class="font-mono text-xs uppercase text-ink-secondary">
-            Available for new opportunities
+            {content.status}
           </p>
           <a
-            href="mailto:hello@pixels.studio"
+            href="mailto:{content.email}"
             class="text-3xl md:text-6xl font-semibold leading-tight tracking-tight break-all md:break-normal"
           >
-            hello@pixels.studio
+            {content.email}
           </a>
         </div>
 

@@ -1,17 +1,10 @@
 <script lang="ts">
+  import type { z } from 'zod';
+  import type { leadSchema } from '$lib/schemas/home';
   import HexPattern from './HexPattern.svelte';
   import openBadge from '$lib/assets/icons/open-badge.svg?raw';
 
-  const features = [
-    {
-      title: "Full stack",
-      description: "Design code under one roof. No handoffs, no loose ends.",
-    },
-    {
-      title: "Built to scale",
-      description: "Interfaces that reduce decision fatigue and increase adoption.",
-    },
-  ];
+  let { content }: { content: z.infer<typeof leadSchema> } = $props();
 </script>
 
 <section
@@ -39,7 +32,7 @@
         data-split-text
         class="text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.05] tracking-tight"
       >
-        Design partner who ships, concept to code.
+        {content.heading}
       </h1>
     </div>
 
@@ -48,20 +41,16 @@
         class="col-span-6 flex flex-col gap-6 text-lg text-pretty md:col-span-5 md:col-start-1"
         data-hero-step="2"
       >
-        <p class="text-ink-secondary">
-          Independent design and engineering practice with over a decade of
-          experience shipping products from zero to scale. Focused on clarity,
-          structure, and execution.
-        </p>
-        <p class="text-ink-secondary">
-          Design and code live under one roof. No handoffs. No shortcuts.
-          No loose ends.
-        </p>
+        {#each content.paragraphs as paragraph}
+          <p class="text-ink-secondary">
+            {paragraph}
+          </p>
+        {/each}
       </div>
 
       <div class="col-span-6 flex flex-col gap-10 md:col-span-4 md:col-start-9">
         <div class="grid grid-cols-2 gap-6" data-hero-step="3">
-          {#each features as { title, description }}
+          {#each content.features as { title, description }}
             <div class="flex flex-col">
               <h3 class="font-medium">{title}</h3>
               <p class="mt-1 text-sm text-ink-secondary">{description}</p>
@@ -70,11 +59,11 @@
         </div>
 
         <a
-          href="mailto:hello@pixels.studio"
+          href={content.cta.href}
           class="flex h-12 w-full items-center justify-center border border-ink-primary bg-white font-mono text-sm uppercase tracking-wide text-surface-primary transition-colors hover:bg-ink-primary"
           data-hero-step="3"
         >
-          Start a project
+          {content.cta.label}
         </a>
       </div>
     </div>

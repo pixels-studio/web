@@ -12,46 +12,66 @@
 
   let { children } = $props();
 
-  onMount(async () => {
-    // Vercel analytics
+  onMount(() => {
     inject({ mode: dev ? 'development' : 'production' });
     injectSpeedInsights();
 
-    const gsap = (await import('gsap')).default;
-    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-    gsap.registerPlugin(ScrollTrigger);
+    let isUnmounted = false;
+    let cleanup: () => void = () => {};
 
-    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    void (async () => {
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ]);
+      gsap.registerPlugin(ScrollTrigger);
 
-    let lenis: InstanceType<typeof import('lenis').default> | null = null;
-    let tickerFn: ((time: number) => void) | null = null;
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      const cleanupFns: Array<() => void> = [];
 
-    if (isDesktop) {
-      const Lenis = (await import('lenis')).default;
-      lenis = new Lenis();
+      let lenis: InstanceType<typeof import('lenis').default> | null = null;
+      let tickerFn: ((time: number) => void) | null = null;
 
-      lenis.on("scroll", ScrollTrigger.update);
+      if (isDesktop) {
+        const Lenis = (await import('lenis')).default;
+        lenis = new Lenis();
 
-      tickerFn = (time: number) => lenis!.raf(time * 1000);
-      gsap.ticker.add(tickerFn);
-      gsap.ticker.lagSmoothing(0);
+        lenis.on("scroll", ScrollTrigger.update);
 
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", (e) => {
-          const href = anchor.getAttribute("href");
-          if (!href || href === "#") return;
-          const target = document.querySelector(href);
-          if (target) {
-            e.preventDefault();
-            lenis!.scrollTo(target);
-          }
+        tickerFn = (time: number) => lenis?.raf(time * 1000);
+        gsap.ticker.add(tickerFn);
+        gsap.ticker.lagSmoothing(0);
+
+        document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+          const onClick = (e: MouseEvent) => {
+            const href = anchor.getAttribute("href");
+            if (!href || href === "#") return;
+            const target = document.querySelector(href);
+            if (target instanceof HTMLElement) {
+              e.preventDefault();
+              lenis?.scrollTo(target);
+            }
+          };
+
+          anchor.addEventListener("click", onClick);
+          cleanupFns.push(() => anchor.removeEventListener("click", onClick));
         });
-      });
-    }
+      }
+
+      cleanup = () => {
+        cleanupFns.forEach((fn) => fn());
+        lenis?.destroy();
+        if (tickerFn) gsap.ticker.remove(tickerFn);
+      };
+
+      if (isUnmounted) cleanup();
+    })().catch((error) => {
+      console.error("Failed to initialize layout animations", error);
+    });
 
     return () => {
-      lenis?.destroy();
-      if (tickerFn) gsap.ticker.remove(tickerFn);
+      isUnmounted = true;
+      cleanup();
     };
   });
 </script>
@@ -64,7 +84,7 @@
 {@render children()}
 
 <!-- Progressive blur bar at bottom of viewport -->
-<div class="pointer-events-none fixed bottom-0 left-0 z-40 h-[64px] w-full" aria-hidden="true">
+<div class="pointer-events-none fixed bottom-0 left-0 z-40 hidden h-[64px] w-full md:block" aria-hidden="true">
   <div class="absolute inset-0 backdrop-blur-[1px]" style="mask-image: linear-gradient(to bottom, transparent, transparent 0%, black 25%)"></div>
   <div class="absolute inset-0 backdrop-blur-[2px]" style="mask-image: linear-gradient(to bottom, transparent, transparent 25%, black 50%)"></div>
   <div class="absolute inset-0 backdrop-blur-[4px]" style="mask-image: linear-gradient(to bottom, transparent, transparent 50%, black 75%)"></div>

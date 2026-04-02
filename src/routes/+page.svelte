@@ -13,30 +13,32 @@
   import About from '$lib/components/About.svelte';
   import Contact from '$lib/components/Contact.svelte';
   import FooterLogo from '$lib/components/FooterLogo.svelte';
+
+  let { data } = $props();
 </script>
 
-<Lead />
+<Lead content={data.lead} />
 <Divider />
-<Prism />
+<Prism content={data.prism} />
 <Divider />
-<Origon />
+<Origon content={data.origon} />
 <Divider />
-<Rhythm />
+<Rhythm content={data.rhythm} />
 <Divider />
-<TribeCommunicationApp />
+<TribeCommunicationApp content={data.tribeCommunication} />
 <Divider />
-<TribeDocumentManagement />
+<TribeDocumentManagement content={data.tribeDocuments} />
 <Divider />
-<Samespace />
+<Samespace content={data.samespace} />
 <Divider />
-<TaxGermany />
+<TaxGermany content={data.taxGermany} />
 <Divider />
-<Tlkn />
+<Tlkn content={data.tlkn} />
 <Divider />
-<Playground />
+<Playground content={data.playground} />
 <Divider />
-<About />
+<About content={data.about} />
 <Divider />
-<Contact />
+<Contact content={data.contact} />
 <Divider />
 <FooterLogo />

@@ -1,38 +1,35 @@
+<script lang="ts">
+  import type { z } from 'zod';
+  import type { aboutSchema } from '$lib/schemas/home';
+
+  let { content }: { content: z.infer<typeof aboutSchema> } = $props();
+</script>
+
 <section id="about" class="relative z-10 flex flex-col px-6 py-20 md:py-40">
   <div class="mx-auto w-full max-w-[1360px]">
     <div class="grid grid-cols-6 gap-6 md:grid-cols-12">
       <div class="col-span-6 flex flex-col md:col-span-5">
-        <p class="font-mono text-xs uppercase text-ink-secondary" data-reveal>About</p>
+        <p class="font-mono text-xs uppercase text-ink-secondary" data-reveal>{content.label}</p>
         <h2
           data-reveal
           class="mt-4 text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight"
         >
-          How I work
+          {content.heading}
         </h2>
 
         <div class="mt-6 md:mt-auto flex flex-col gap-5" data-reveal>
-          <p class="text-lg leading-relaxed text-ink-secondary text-pretty">
-            I'm a designer and frontend developer building products for AI
-            and SaaS companies — over a decade of shipping from zero to scale.
-            My focus has always been the same: clarity, structure, and execution.
-          </p>
-          <p class="text-lg leading-relaxed text-ink-secondary text-pretty">
-            I work across product design, design systems, and frontend
-            engineering. From early problem definition through to production
-            code, I handle every layer myself.
-          </p>
-          <p class="text-lg leading-relaxed text-ink-secondary text-pretty">
-            Pixels Studio is how I take on independent work. A small number of
-            projects where decisions are direct, standards are high, and outcomes
-            matter.
-          </p>
+          {#each content.paragraphs as paragraph}
+            <p class="text-lg leading-relaxed text-ink-secondary text-pretty">
+              {paragraph}
+            </p>
+          {/each}
         </div>
       </div>
 
       <div class="col-span-6 md:col-span-4 md:col-start-9" data-reveal>
         <enhanced:img
           src="$lib/assets/media/me.png"
-          alt="Abhishek"
+          alt={content.image.alt}
           class="w-full aspect-4/5 object-cover"
         />
       </div>

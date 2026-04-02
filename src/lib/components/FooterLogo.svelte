@@ -305,7 +305,7 @@
   });
 </script>
 
-<div data-fade class="relative z-10 w-full overflow-hidden px-6 pt-6">
+<div data-fade class="relative z-10 hidden w-full overflow-hidden px-6 pt-6 pb-24 md:block">
   <div class="mx-auto w-full max-w-[1360px]">
     <canvas bind:this={canvasEl} class="w-full" style="aspect-ratio: 1200/200;" aria-hidden="true"></canvas>
   </div>

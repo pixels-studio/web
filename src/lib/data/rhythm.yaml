@@ -1,0 +1,8 @@
+label: "Rhythm"
+heading: "Abstract patterns for design and web"
+description: "Designed and built a real-time generator for abstract patterns using lines, dots, ASCII, and Chladni figures. Used by designers for backgrounds, textures, and generative artwork."
+link:
+  label: "Open Project"
+  href: "https://rhythm.pixels.studio"
+image:
+  alt: "Rhythm generative pattern toolkit preview"

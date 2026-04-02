@@ -1,0 +1,9 @@
+label: "Samespace"
+heading: "The full-stack CX platform"
+description: "Designed the complete experience across web and desktop for call center agents. Also contributed to frontend development."
+link:
+  label: "Learn More"
+  href: "https://samespace.com"
+images:
+  - alt: "Samespace preview 1"
+  - alt: "Samespace preview 2"

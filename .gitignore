@@ -1,4 +1,5 @@
 .svelte-kit/
+.astro/
 build/
 node_modules/
 .env
