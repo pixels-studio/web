@@ -23,16 +23,17 @@
 
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
 
+    let lenis: InstanceType<typeof import('lenis').default> | null = null;
+    let tickerFn: ((time: number) => void) | null = null;
+
     if (isDesktop) {
       const Lenis = (await import('lenis')).default;
-      const lenis = new Lenis();
+      lenis = new Lenis();
 
       lenis.on("scroll", ScrollTrigger.update);
 
-      gsap.ticker.add((time: number) => {
-        lenis.raf(time * 1000);
-      });
-
+      tickerFn = (time: number) => lenis!.raf(time * 1000);
+      gsap.ticker.add(tickerFn);
       gsap.ticker.lagSmoothing(0);
 
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -42,11 +43,16 @@
           const target = document.querySelector(href);
           if (target) {
             e.preventDefault();
-            lenis.scrollTo(target);
+            lenis!.scrollTo(target);
           }
         });
       });
     }
+
+    return () => {
+      lenis?.destroy();
+      if (tickerFn) gsap.ticker.remove(tickerFn);
+    };
   });
 </script>
 

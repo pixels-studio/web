@@ -530,15 +530,21 @@
         ctx.fillText(g.char, g.x, g.y);
       }
 
-      requestAnimationFrame(animate);
+      animId = requestAnimationFrame(animate);
     }
 
+    let animId: number;
     init();
     window.addEventListener("resize", init);
-    requestAnimationFrame(animate);
+    animId = requestAnimationFrame(animate);
 
     return () => {
+      cancelAnimationFrame(animId);
       window.removeEventListener("resize", init);
+      if (heroSection) {
+        heroSection.removeEventListener("mousemove", handleMouseMove as EventListener);
+        heroSection.removeEventListener("mouseleave", handleMouseLeave as EventListener);
+      }
     };
   });
 </script>

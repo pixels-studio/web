@@ -17,7 +17,7 @@
         "I had a memorable time working with Abhishek; his grasp on UI and UX design theory was evident. He was a notable asset to the tlkn app with relentless motivation towards creating a perfect product.",
       name: "Raja Sandhu",
       role: "Co-Founder, tlkn Inc.",
-      avatarSrc: "$lib/assets/media/raja-sandhu.png",
+
       variant: "light" as const,
       span: "col-span-6 md:col-span-8",
     },
@@ -26,7 +26,7 @@
         "Abhishek is a versatile designer with great work ethic and strong problem solving skills.",
       name: "Karthik Iyenger",
       role: "Co-Founder, wbp",
-      avatarSrc: "$lib/assets/media/karthik-iyenger.png",
+
       variant: "dark" as const,
       span: "col-span-6 md:col-span-4",
     },
