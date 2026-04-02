@@ -29,12 +29,13 @@
         </div>
       </div>
 
-      <enhanced:img
-        src="$lib/assets/media/me.png"
-        alt="Abhishek"
-        data-reveal
-        class="col-span-6 md:col-span-4 md:col-start-9 aspect-4/5 object-cover"
-      />
+      <div class="col-span-6 md:col-span-4 md:col-start-9" data-reveal>
+        <enhanced:img
+          src="$lib/assets/media/me.png"
+          alt="Abhishek"
+          class="w-full aspect-4/5 object-cover"
+        />
+      </div>
     </div>
   </div>
 </section>

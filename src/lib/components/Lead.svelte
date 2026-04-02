@@ -1,6 +1,6 @@
 <script lang="ts">
   import HexPattern from './HexPattern.svelte';
-  import Icon from './Icon.svelte';
+  import openBadge from '$lib/assets/icons/open-badge.svg?raw';
 
   const features = [
     {
@@ -30,11 +30,10 @@
     class="relative mx-auto flex w-full max-w-[1360px] flex-1 flex-col gap-15"
   >
     <div class="flex flex-col gap-6">
-      <Icon
-        name="open-badge"
-        class="h-6 text-ink-secondary w-auto self-start"
+      <span
+        class="h-6 text-ink-secondary w-auto self-start [&>svg]:h-full [&>svg]:w-auto"
         data-hero-step="1"
-      />
+      >{@html openBadge}</span>
       <h1
         data-hero-step="1"
         data-split-text

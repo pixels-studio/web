@@ -1,14 +1,20 @@
 <script lang="ts">
   import { socials } from '$lib/routes';
-  import Icon from './Icon.svelte';
+
+  import samespace from '$lib/assets/logos/samespace.svg?raw';
+  import origon from '$lib/assets/logos/origon.svg?raw';
+  import tlkn from '$lib/assets/logos/tlkn.svg?raw';
+  import pulse from '$lib/assets/logos/pulse.svg?raw';
+  import taxgermany from '$lib/assets/logos/taxgermany.svg?raw';
+  import wbp from '$lib/assets/logos/wbp.svg?raw';
 
   const logos = [
-    { name: "logo-samespace", class: "h-6 w-auto" },
-    { name: "logo-origon", class: "h-8 w-auto" },
-    { name: "logo-tlkn", class: "h-6 w-auto" },
-    { name: "logo-pulse", class: "h-5 w-auto" },
-    { name: "logo-taxgermany", class: "w-auto h-6" },
-    { name: "logo-wbp", class: "h-7 w-12" },
+    { svg: samespace, class: "h-6 w-auto" },
+    { svg: origon, class: "h-8 w-auto" },
+    { svg: tlkn, class: "h-6 w-auto" },
+    { svg: pulse, class: "h-5 w-auto" },
+    { svg: taxgermany, class: "w-auto h-6" },
+    { svg: wbp, class: "h-7 w-12" },
   ];
 
   const testimonials = [
@@ -73,9 +79,9 @@
 
     <div class="flex flex-col gap-16 md:gap-30">
       <div class="hidden md:grid grid-cols-6 gap-6 md:grid-cols-12" data-reveal-stagger>
-        {#each logos as { name, class: className }}
+        {#each logos as { svg, class: className }}
           <div class="col-span-3 flex min-h-20 items-center justify-center md:col-span-2">
-            <Icon {name} class="{className} opacity-40" />
+            <span class="{className} opacity-40 [&>svg]:h-full [&>svg]:w-auto">{@html svg}</span>
           </div>
         {/each}
       </div>
