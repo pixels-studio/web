@@ -1,6 +1,5 @@
 <script lang="ts">
   let { dark = false }: { dark?: boolean } = $props();
-  const border = dark ? "border-white/4" : "border-black/4";
 </script>
 
 <div
@@ -12,7 +11,7 @@
   >
     {#each Array(12) as _, i}
       <div
-        class="border-x border-dashed {border} {i >= 6 ? 'hidden md:block' : ''}"
+        class="border-x border-dashed {dark ? 'border-white/4' : 'border-black/4'} {i >= 6 ? 'hidden md:block' : ''}"
       ></div>
     {/each}
   </div>

@@ -17,16 +17,14 @@
     inject({ mode: dev ? 'development' : 'production' });
     injectSpeedInsights();
 
-    const gsapModule = await import('gsap');
-    const gsap = gsapModule.default;
+    const gsap = (await import('gsap')).default;
     const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-
     gsap.registerPlugin(ScrollTrigger);
 
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
 
     if (isDesktop) {
-      const { default: Lenis } = await import('lenis');
+      const Lenis = (await import('lenis')).default;
       const lenis = new Lenis();
 
       lenis.on("scroll", ScrollTrigger.update);
