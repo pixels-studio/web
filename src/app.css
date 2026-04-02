@@ -1,0 +1,40 @@
+@import "lenis/dist/lenis.css";
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("$lib/assets/fonts/InterVariable.woff2") format("woff2");
+}
+
+@theme {
+  --default-font-feature-settings: "ss07" 1, "cv06" 1, "cv12" 1, "cv13" 1;
+
+  --color-surface-primary: #0d0d0d;
+  --color-surface-secondary: #1C1C1C;
+  --color-ink-primary: #dddddd;
+  --color-ink-secondary: color-mix(in srgb, white 60%, transparent);
+
+  --font-sans: "Inter Variable", sans-serif;
+  --font-mono: "Fragment Mono", monospace;
+
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.5rem;
+
+  --animate-blink: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+[data-reveal],
+[data-reveal-stagger] > *,
+[data-split-text],
+[data-fade],
+[data-hero-step] {
+  opacity: 0;
+}

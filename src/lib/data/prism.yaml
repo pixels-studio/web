@@ -1,0 +1,8 @@
+label: "Prism"
+heading: "Photo effects, right in the browser"
+description: "Designed and built the entire app. Upload a photo, apply filters, and export. Duotone, halftone, ASCII, glitch, and more, running in real time with WebGL. Fully client-side, zero backend."
+link:
+  label: "Open Project"
+  href: "https://prism.pixels.studio"
+image:
+  alt: "Prism graphic style studio preview"
