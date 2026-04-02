@@ -1,0 +1,546 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+
+  let canvasEl: HTMLCanvasElement;
+
+  onMount(() => {
+    const canvas = canvasEl;
+    const ctx = canvas.getContext("2d")!;
+
+    const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-=/:;.,<>!?#^*|'\"\\(){}[]".split("");
+
+    function mulberry32(seed: number) {
+      return () => {
+        seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    const rand = mulberry32(42);
+
+    const CHAR_W = 14;
+    const CHAR_H = 18;
+
+    // Glow & trail config
+    const INNER_RADIUS = 65;
+    const OUTER_RADIUS = 155;
+    const TRAIL_LENGTH = 80;
+    const TRAIL_DECAY = 0.96;
+    const GLOW_SPREAD = 2.5; // how much larger glow is vs character radius
+
+    // Ellipse stretch — slight oval, not circular
+    const ELLIPSE_RATIO = 1.6; // how much longer than wide
+
+    // Character lifecycle config
+    const SWAP_INTERVAL = 850;
+    const FADE_DURATION = 2000;
+
+    interface Glyph {
+      col: number;
+      row: number;
+      x: number;
+      y: number;
+      char: string;
+      fade: number;
+      state: "visible" | "fading-out" | "fading-in";
+      transitionStart: number;
+    }
+
+    interface TrailPoint {
+      x: number;
+      y: number;
+      age: number;
+      hue: number;
+      angle: number; // movement direction at this point
+    }
+
+    let glyphs: Glyph[] = [];
+    let cols = 0;
+    let rows = 0;
+    let w = 0;
+    let h = 0;
+    let dpr = 1;
+    let lastSwap = 0;
+
+    // Breathing config
+    const IDLE_THRESHOLD = 300; // ms before breathing starts
+    const BREATHE_SPEED = 0.0015; // cycle speed
+    const BREATHE_AMOUNT = 0.15; // ±15% scale
+
+    // Mouse tracking
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let smoothX = -9999;
+    let smoothY = -9999;
+    let prevSmoothX = -9999;
+    let prevSmoothY = -9999;
+    let moveAngle = 0; // current movement direction
+    let mouseActive = false;
+    let trail: TrailPoint[] = [];
+    let hueOffset = 0;
+    let lastTrailTime = 0;
+    let lastMoveTime = 0; // when cursor last moved significantly
+    let breathePhase = 0; // continuous phase for breathing
+
+    // Auto-pulse config (glow appears, fades out, reappears elsewhere)
+    const AUTO_PAUSE_MIN = 5000;   // min ms pause between pulses
+    const AUTO_PAUSE_MAX = 7000;   // max ms pause between pulses
+    const AUTO_FADE_IN_MS = 1500;  // ms to fade glow in
+    const AUTO_VISIBLE_MS = 2500;  // ms glow stays fully visible
+    const AUTO_FADE_OUT_MS = 2000; // ms to fade glow out
+    const AUTO_MOUSE_FADE_IN = 2000;  // ms to enable auto after mouse leaves
+    const AUTO_MOUSE_FADE_OUT = 600;  // ms to disable auto when mouse enters
+
+    // Auto-pulse state
+    type AutoPhase = "waiting" | "fading-in" | "visible" | "fading-out";
+    let autoPhase: AutoPhase = "waiting";
+    let autoX = 0;
+    let autoY = 0;
+    let autoAngle = 0;
+    let autoPhaseStart = 0;  // when current phase started
+    let autoPulseOpacity = 0; // opacity of the current pulse (0-1)
+    let autoMouseGate = 0;   // 0-1 gate to suppress auto when mouse is active
+    let autoMouseLeftTime = 0;
+    let autoInitialized = false;
+
+    // Offscreen canvas for glow layer
+    let glowCanvas: HTMLCanvasElement;
+    let glowCtx: CanvasRenderingContext2D;
+
+    function init() {
+      dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+
+      glowCanvas = document.createElement("canvas");
+      glowCanvas.width = w * dpr;
+      glowCanvas.height = h * dpr;
+      glowCtx = glowCanvas.getContext("2d")!;
+      glowCtx.scale(dpr, dpr);
+
+      cols = Math.floor(w / CHAR_W);
+      rows = Math.floor(h / CHAR_H);
+
+      glyphs = [];
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          if (rand() > 0.5) continue;
+          glyphs.push({
+            col,
+            row,
+            x: col * CHAR_W,
+            y: row * CHAR_H,
+            char: CHARS[Math.floor(rand() * CHARS.length)],
+            fade: 1,
+            state: "visible",
+            transitionStart: 0,
+          });
+        }
+      }
+
+      lastSwap = performance.now();
+      trail = [];
+    }
+
+    function pickRandomSlot(): { col: number; row: number } {
+      const occupied = new Set(glyphs.map((g) => `${g.col},${g.row}`));
+      let col: number, row: number;
+      do {
+        col = Math.floor(Math.random() * cols);
+        row = Math.floor(Math.random() * rows);
+      } while (occupied.has(`${col},${row}`));
+      return { col, row };
+    }
+
+    function handleMouseMove(e: MouseEvent) {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+      if (!mouseActive) {
+        smoothX = mouseX;
+        smoothY = mouseY;
+        prevSmoothX = mouseX;
+        prevSmoothY = mouseY;
+        mouseActive = true;
+      }
+    }
+
+    function handleMouseLeave() {
+      mouseActive = false;
+      autoMouseLeftTime = performance.now();
+    }
+
+    const heroSection = canvasEl.closest("[data-hero]");
+    if (heroSection) {
+      heroSection.addEventListener("mousemove", handleMouseMove as EventListener);
+      heroSection.addEventListener("mouseleave", handleMouseLeave as EventListener);
+    }
+
+    function pickAutoPosition() {
+      const padX = w * 0.15;
+      const padY = h * 0.15;
+      autoX = padX + Math.random() * (w - padX * 2);
+      autoY = padY + Math.random() * (h - padY * 2);
+      autoAngle = Math.random() * Math.PI * 2;
+    }
+
+    function startAutoWait(now: number) {
+      autoPhase = "waiting";
+      autoPhaseStart = now;
+      autoPulseOpacity = 0;
+    }
+
+    function initAutoPilot(now: number) {
+      pickAutoPosition();
+      autoPhase = "waiting";
+      autoPhaseStart = now - AUTO_PAUSE_MIN; // trigger first pulse soon
+      autoMouseLeftTime = now;
+      autoInitialized = true;
+    }
+
+    // Remap warm/green hues into a cooler cyan/blue band
+    function remapHue(h: number): number {
+      h = ((h % 360) + 360) % 360;
+      if (h >= 45 && h <= 170) {
+        const t = (h - 45) / (170 - 45);
+        return 188 + t * 52;
+      }
+      return h;
+    }
+
+    function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+      h = remapHue(h) / 360;
+      const a = s * Math.min(l, 1 - l);
+      const f = (n: number) => {
+        const k = (n + h * 12) % 12;
+        return l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      };
+      return [Math.round(f(0) * 255), Math.round(f(8) * 255), Math.round(f(4) * 255)];
+    }
+
+    // Elliptical distance — stretched along a given direction angle
+    function ellipseDistance(
+      px: number, py: number,
+      cx: number, cy: number,
+      angle: number, radius: number, ratio: number
+    ): number {
+      const dx = px - cx;
+      const dy = py - cy;
+      const cos = Math.cos(-angle);
+      const sin = Math.sin(-angle);
+      // Rotate point into ellipse-aligned space
+      const rx = dx * cos - dy * sin;
+      const ry = dx * sin + dy * cos;
+      // Scale the long axis down so a circle check becomes an ellipse check
+      return Math.sqrt((rx / ratio) ** 2 + ry ** 2);
+    }
+
+    function drawEllipseGlow(
+      cx: number, cy: number,
+      radius: number, angle: number, ratio: number,
+      hue: number, alpha: number
+    ) {
+      const spread = radius * GLOW_SPREAD;
+      glowCtx.save();
+      glowCtx.translate(cx, cy);
+      glowCtx.rotate(angle);
+      glowCtx.scale(ratio, 1);
+
+      const grad = glowCtx.createRadialGradient(0, 0, 0, 0, 0, spread);
+      const [r, g, b] = hslToRgb(hue, 0.68, 0.42);
+      grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha * 0.35})`);
+      grad.addColorStop(0.15, `rgba(${r}, ${g}, ${b}, ${alpha * 0.22})`);
+      grad.addColorStop(0.35, `rgba(${r}, ${g}, ${b}, ${alpha * 0.09})`);
+      grad.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${alpha * 0.025})`);
+      grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+      glowCtx.fillStyle = grad;
+      glowCtx.fillRect(-spread * ratio, -spread, spread * ratio * 2, spread * 2);
+
+      glowCtx.restore();
+    }
+
+    function animate(now: number) {
+      // --- Character fade in/out lifecycle ---
+      if (now - lastSwap > SWAP_INTERVAL && glyphs.length > 0) {
+        lastSwap = now;
+        const count = 1 + Math.floor(Math.random() * 2);
+        const candidates = glyphs.filter((g) => g.state === "visible");
+        for (let i = 0; i < count && candidates.length > 0; i++) {
+          const idx = Math.floor(Math.random() * candidates.length);
+          const g = candidates[idx];
+          g.state = "fading-out";
+          g.transitionStart = now;
+          candidates.splice(idx, 1);
+        }
+      }
+
+      for (const g of glyphs) {
+        if (g.state === "fading-out") {
+          const t = (now - g.transitionStart) / FADE_DURATION;
+          g.fade = Math.max(0, 1 - t);
+          if (t >= 1) {
+            const slot = pickRandomSlot();
+            g.col = slot.col;
+            g.row = slot.row;
+            g.x = slot.col * CHAR_W;
+            g.y = slot.row * CHAR_H;
+            g.char = CHARS[Math.floor(Math.random() * CHARS.length)];
+            g.state = "fading-in";
+            g.transitionStart = now;
+            g.fade = 0;
+          }
+        } else if (g.state === "fading-in") {
+          const t = (now - g.transitionStart) / FADE_DURATION;
+          g.fade = Math.min(1, t);
+          if (t >= 1) {
+            g.state = "visible";
+            g.fade = 1;
+          }
+        }
+      }
+
+      // --- Mouse trail logic ---
+      if (!mouseActive) {
+        for (const tp of trail) {
+          tp.age *= 0.92;
+        }
+        trail = trail.filter(tp => tp.age > 0.005);
+      }
+
+      // --- Auto-pulse logic ---
+      if (!autoInitialized) {
+        initAutoPilot(now);
+      }
+
+      // Mouse gate: suppress auto glow when mouse is active
+      if (mouseActive) {
+        autoMouseGate = Math.max(0, autoMouseGate - (1 / (AUTO_MOUSE_FADE_OUT / 16)));
+      } else {
+        const timeSinceLeft = now - autoMouseLeftTime;
+        autoMouseGate = Math.min(1, timeSinceLeft / AUTO_MOUSE_FADE_IN);
+      }
+
+      // Phase state machine
+      const elapsed = now - autoPhaseStart;
+      if (autoPhase === "waiting") {
+        const waitDuration = AUTO_PAUSE_MIN + Math.random() * (AUTO_PAUSE_MAX - AUTO_PAUSE_MIN);
+        if (elapsed > waitDuration) {
+          pickAutoPosition();
+          autoPhase = "fading-in";
+          autoPhaseStart = now;
+        }
+        autoPulseOpacity = 0;
+      } else if (autoPhase === "fading-in") {
+        autoPulseOpacity = Math.min(1, elapsed / AUTO_FADE_IN_MS);
+        if (elapsed >= AUTO_FADE_IN_MS) {
+          autoPhase = "visible";
+          autoPhaseStart = now;
+          autoPulseOpacity = 1;
+        }
+      } else if (autoPhase === "visible") {
+        autoPulseOpacity = 1;
+        if (elapsed >= AUTO_VISIBLE_MS) {
+          autoPhase = "fading-out";
+          autoPhaseStart = now;
+        }
+      } else if (autoPhase === "fading-out") {
+        autoPulseOpacity = Math.max(0, 1 - elapsed / AUTO_FADE_OUT_MS);
+        if (elapsed >= AUTO_FADE_OUT_MS) {
+          startAutoWait(now);
+        }
+      }
+
+      if (mouseActive) {
+        prevSmoothX = smoothX;
+        prevSmoothY = smoothY;
+        smoothX += (mouseX - smoothX) * 0.15;
+        smoothY += (mouseY - smoothY) * 0.15;
+
+        // Track movement direction
+        const mdx = smoothX - prevSmoothX;
+        const mdy = smoothY - prevSmoothY;
+        const speed = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (speed > 0.5) {
+          const target = Math.atan2(mdy, mdx);
+          let diff = target - moveAngle;
+          while (diff > Math.PI) diff -= Math.PI * 2;
+          while (diff < -Math.PI) diff += Math.PI * 2;
+          moveAngle += diff * 0.15;
+          lastMoveTime = now;
+        }
+      }
+
+      // Breathing — ramp in when idle, ramp out when moving
+      const idleTime = now - lastMoveTime;
+      const breatheStrength = Math.min(1, Math.max(0, (idleTime - IDLE_THRESHOLD) / 800));
+      breathePhase += BREATHE_SPEED;
+      const breatheScale = 1 + Math.sin(breathePhase) * BREATHE_AMOUNT * breatheStrength;
+
+      hueOffset = (now * 0.06) % 360;
+
+      if (mouseActive && now - lastTrailTime > 16) {
+        trail.push({ x: smoothX, y: smoothY, age: 1, hue: hueOffset, angle: moveAngle });
+        lastTrailTime = now;
+        if (trail.length > TRAIL_LENGTH) trail.shift();
+      }
+
+      for (const tp of trail) {
+        tp.age *= TRAIL_DECAY;
+      }
+      trail = trail.filter(tp => tp.age > 0.005);
+
+      // --- Draw glow layer (elliptical) ---
+      glowCtx.clearRect(0, 0, w, h);
+
+      // Shared spotlight glow — same look for mouse and auto-pulse
+      function drawSpotlight(cx: number, cy: number, angle: number, radius: number, alpha: number) {
+        drawEllipseGlow(cx, cy, radius * 1.3, angle, ELLIPSE_RATIO, hueOffset, alpha * 0.55);
+        const perp = angle + Math.PI / 2;
+        drawEllipseGlow(
+          cx + Math.cos(perp) * 25, cy + Math.sin(perp) * 25,
+          radius * 0.9, angle, ELLIPSE_RATIO * 0.8,
+          (hueOffset + 70) % 360, alpha * 0.28
+        );
+        drawEllipseGlow(
+          cx - Math.cos(perp) * 20, cy - Math.sin(perp) * 20,
+          radius * 0.9, angle, ELLIPSE_RATIO * 0.8,
+          (hueOffset + 200) % 360, alpha * 0.24
+        );
+        drawEllipseGlow(
+          cx - Math.cos(angle) * 30, cy - Math.sin(angle) * 30,
+          radius * 0.7, angle, ELLIPSE_RATIO * 0.6,
+          (hueOffset + 300) % 360, alpha * 0.18
+        );
+      }
+
+      if (mouseActive) {
+        drawSpotlight(smoothX, smoothY, moveAngle, OUTER_RADIUS * breatheScale, 1);
+      }
+
+      // Auto-pulse glow — same spotlight, scaled by pulse opacity
+      const autoEffective = autoPulseOpacity * autoMouseGate;
+      if (autoEffective > 0.01) {
+        const aBreatheScale = 1 + Math.sin(breathePhase * 0.7) * BREATHE_AMOUNT * 0.8;
+        drawSpotlight(autoX, autoY, autoAngle, OUTER_RADIUS * aBreatheScale, autoEffective);
+      }
+
+      // Trail glow
+      for (const tp of trail) {
+        if (tp.age < 0.02) continue;
+        const trailR = OUTER_RADIUS * 0.7 * tp.age;
+        const trailRatio = 1.2 + (ELLIPSE_RATIO - 1.2) * tp.age;
+        drawEllipseGlow(tp.x, tp.y, trailR, tp.angle, trailRatio, tp.hue, tp.age * 0.32);
+        // Chromatic split on trail
+        const tPerp = tp.angle + Math.PI / 2;
+        drawEllipseGlow(
+          tp.x + Math.cos(tPerp) * 10 * tp.age,
+          tp.y + Math.sin(tPerp) * 10 * tp.age,
+          trailR * 0.6, tp.angle, trailRatio * 0.8,
+          (tp.hue + 90) % 360, tp.age * 0.14
+        );
+      }
+
+      // --- Draw to main canvas ---
+      ctx.clearRect(0, 0, w, h);
+
+      // Composite glow (no filter — softness baked into gradient spread)
+      ctx.drawImage(glowCanvas, 0, 0, w * dpr, h * dpr, 0, 0, w, h);
+
+      // Draw ASCII characters on top
+      ctx.font = "13px 'Fragment Mono', monospace";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "left";
+
+      for (const g of glyphs) {
+        if (g.fade <= 0) continue;
+
+        const gx = g.x + CHAR_W * 0.5;
+        const gy = g.y + CHAR_H * 0.5;
+
+        let bestIntensity = 0;
+        let bestHue = 0;
+
+        // Current spotlight — elliptical with breathing
+        if (mouseActive) {
+          const bInner = INNER_RADIUS * breatheScale;
+          const bOuter = OUTER_RADIUS * breatheScale;
+          const d = ellipseDistance(gx, gy, smoothX, smoothY, moveAngle, bOuter, ELLIPSE_RATIO);
+          if (d < bOuter) {
+            const intensity = d < bInner
+              ? 1 - (d / bInner) * 0.15
+              : Math.max(0, 1 - (d - bInner) / (bOuter - bInner));
+            if (intensity > bestIntensity) {
+              bestIntensity = intensity;
+              const angle = Math.atan2(gy - smoothY, gx - smoothX);
+              bestHue = (hueOffset + (angle * 180) / Math.PI + 360) % 360;
+            }
+          }
+        }
+
+        // Auto-pulse spotlight — same intensity as mouse
+        if (autoEffective > 0.01) {
+          const d = ellipseDistance(gx, gy, autoX, autoY, autoAngle, OUTER_RADIUS, ELLIPSE_RATIO);
+          if (d < OUTER_RADIUS) {
+            const raw = d < INNER_RADIUS
+              ? 1 - (d / INNER_RADIUS) * 0.15
+              : Math.max(0, 1 - (d - INNER_RADIUS) / (OUTER_RADIUS - INNER_RADIUS));
+            const intensity = raw * autoEffective;
+            if (intensity > bestIntensity) {
+              bestIntensity = intensity;
+              const angle = Math.atan2(gy - autoY, gx - autoX);
+              bestHue = (hueOffset + (angle * 180) / Math.PI + 360) % 360;
+            }
+          }
+        }
+
+        // Trail illumination — elliptical
+        for (let i = trail.length - 1; i >= 0; i--) {
+          const tp = trail[i];
+          if (tp.age < 0.02) continue;
+          const trailR = OUTER_RADIUS * 0.5;
+          const trailRatio = 1.2 + (ELLIPSE_RATIO - 1.2) * tp.age;
+          const d = ellipseDistance(gx, gy, tp.x, tp.y, tp.angle, trailR, trailRatio);
+          if (d < trailR) {
+            const falloff = 1 - d / trailR;
+            const intensity = falloff * tp.age * 0.7;
+            if (intensity > bestIntensity) {
+              bestIntensity = intensity;
+              const angle = Math.atan2(gy - tp.y, gx - tp.x);
+              bestHue = (tp.hue + (angle * 180) / Math.PI + 360) % 360;
+            }
+          }
+        }
+
+        if (bestIntensity <= 0.01) continue;
+
+        bestIntensity = Math.min(1, bestIntensity) * g.fade;
+
+        const saturation = 0.58 + bestIntensity * 0.08;
+        const lightness = 0.34 + bestIntensity * 0.18;
+        const [r, gCol, b] = hslToRgb(bestHue, saturation, lightness);
+        const alpha = bestIntensity * 0.82;
+
+        ctx.fillStyle = `rgba(${r}, ${gCol}, ${b}, ${alpha})`;
+        ctx.fillText(g.char, g.x, g.y);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    window.addEventListener("resize", init);
+    requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("resize", init);
+    };
+  });
+</script>
+
+<canvas bind:this={canvasEl} class="size-full" aria-hidden="true"></canvas>
