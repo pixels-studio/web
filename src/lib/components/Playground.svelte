@@ -27,15 +27,15 @@
   <div class="hidden md:block overflow-hidden mt-30">
     <div class="marquee-track flex gap-6 will-change-transform">
       {#each Array(2) as _}
-        <enhanced:img src="$lib/assets/media/claude-memory.png" alt="Claude Memory" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/photography-portfolio.png" alt="Photography Portfolio" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/sleep-app.png" alt="Sleep App" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/app-installation-ui.png" alt="App Installation UI" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/new-tax-application.png" alt="New Tax Application" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/resolve-accounts-list.png" alt="Resolve Accounts List" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/resolve-bot.png" alt="Resolve Bot" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/ticketing-app.png" alt="Ticketing App" class="marquee-img aspect-video object-cover shrink-0" />
-        <enhanced:img src="$lib/assets/media/origon-welcome.png" alt="Origon Welcome" class="marquee-img aspect-video object-cover shrink-0" />
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/claude-memory.png" alt="Claude Memory" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/photography-portfolio.png" alt="Photography Portfolio" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/sleep-app.png" alt="Sleep App" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/app-installation-ui.png" alt="App Installation UI" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/new-tax-application.png" alt="New Tax Application" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/resolve-accounts-list.png" alt="Resolve Accounts List" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/resolve-bot.png" alt="Resolve Bot" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/ticketing-app.png" alt="Ticketing App" class="w-full aspect-video object-cover" /></div>
+        <div class="marquee-item shrink-0"><enhanced:img src="$lib/assets/media/origon-welcome.png" alt="Origon Welcome" class="w-full aspect-video object-cover" /></div>
       {/each}
     </div>
   </div>
@@ -66,7 +66,7 @@
   .marquee-track:hover {
     animation-play-state: paused;
   }
-  .marquee-img {
+  .marquee-item {
     width: calc((min(1464px, 100vw - 3rem) - 11 * 1.5rem) / 12 * 4 + 3 * 1.5rem);
   }
 </style>
