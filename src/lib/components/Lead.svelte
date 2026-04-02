@@ -1,0 +1,83 @@
+<script lang="ts">
+  import HexPattern from './HexPattern.svelte';
+  import Icon from './Icon.svelte';
+
+  const features = [
+    {
+      title: "Full stack",
+      description: "Design code under one roof. No handoffs, no loose ends.",
+    },
+    {
+      title: "Built to scale",
+      description: "Interfaces that reduce decision fatigue and increase adoption.",
+    },
+  ];
+</script>
+
+<section
+  data-hero
+  class="relative z-10 flex md:min-h-dvh flex-col px-6 py-16 md:pt-20 md:pb-30 overflow-visible"
+>
+  <div
+    data-hero-pattern
+    class="absolute -top-18 inset-x-0 bottom-0 pointer-events-none select-none"
+    style="opacity: 0"
+    aria-hidden="true"
+  >
+    <HexPattern />
+  </div>
+  <div
+    class="relative mx-auto flex w-full max-w-[1360px] flex-1 flex-col gap-15"
+  >
+    <div class="flex flex-col gap-6">
+      <Icon
+        name="open-badge"
+        class="h-6 text-ink-secondary w-auto self-start"
+        data-hero-step="1"
+      />
+      <h1
+        data-hero-step="1"
+        data-split-text
+        class="text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.05] tracking-tight"
+      >
+        Design partner who ships, concept to code.
+      </h1>
+    </div>
+
+    <div class="mt-auto grid items-end grid-cols-6 gap-15 md:gap-6 md:grid-cols-12">
+      <div
+        class="col-span-6 flex flex-col gap-6 text-lg text-pretty md:col-span-5 md:col-start-1"
+        data-hero-step="2"
+      >
+        <p class="text-ink-secondary">
+          Independent design and engineering practice with over a decade of
+          experience shipping products from zero to scale. Focused on clarity,
+          structure, and execution.
+        </p>
+        <p class="text-ink-secondary">
+          Design and code live under one roof. No handoffs. No shortcuts.
+          No loose ends.
+        </p>
+      </div>
+
+      <div class="col-span-6 flex flex-col gap-10 md:col-span-4 md:col-start-9">
+        <div class="grid grid-cols-2 gap-6" data-hero-step="3">
+          {#each features as { title, description }}
+            <div class="flex flex-col">
+              <h3 class="font-medium">{title}</h3>
+              <p class="mt-1 text-sm text-ink-secondary">{description}</p>
+            </div>
+          {/each}
+        </div>
+
+        <a
+          href="mailto:hello@pixels.studio"
+          class="flex h-12 w-full items-center justify-center border border-ink-primary bg-white font-mono text-sm uppercase tracking-wide text-surface-primary transition-colors hover:bg-ink-primary"
+          data-hero-step="3"
+        >
+          Start a project
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
