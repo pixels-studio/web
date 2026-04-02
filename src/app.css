@@ -1,6 +1,14 @@
 @import "lenis/dist/lenis.css";
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("$lib/assets/fonts/InterVariable.woff2") format("woff2");
+}
+
 @theme {
   --default-font-feature-settings: "ss07" 1, "cv06" 1, "cv12" 1, "cv13" 1;
 
@@ -9,8 +17,8 @@
   --color-ink-primary: #dddddd;
   --color-ink-secondary: color-mix(in srgb, white 60%, transparent);
 
-  --font-sans: var(--font-inter), sans-serif;
-  --font-mono: var(--font-fragment-mono), monospace;
+  --font-sans: "Inter Variable", sans-serif;
+  --font-mono: "Fragment Mono", monospace;
 
   --text-base: 0.9375rem;
   --text-base--line-height: 1.5rem;
