@@ -6,6 +6,7 @@
   import '../app.css';
   import Icons from '$lib/components/Icons.svelte';
   import GridLines from '$lib/components/GridLines.svelte';
+  import GridOverlay from '$lib/components/GridOverlay.svelte';
   import Ruler from '$lib/components/Ruler.svelte';
   import Header from '$lib/components/Header.svelte';
   import ScrollAnimations from '$lib/components/ScrollAnimations.svelte';
@@ -78,6 +79,7 @@
 
 <Icons />
 <GridLines dark />
+<GridOverlay />
 <Ruler />
 <Header />
 
