@@ -5,8 +5,16 @@
   font-family: "Inter Variable";
   font-style: normal;
   font-weight: 100 900;
-  font-display: swap;
-  src: url("$lib/assets/fonts/InterVariable.woff2") format("woff2");
+  font-display: optional;
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fragment Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/FragmentMono-Regular.woff2") format("woff2");
 }
 
 @theme {
