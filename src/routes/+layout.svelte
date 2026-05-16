@@ -7,5 +7,9 @@
 </script>
 
 <GridLines dark />
-<Header />
-{@render children()}
+<div data-hero class="relative min-h-screen bg-surface-primary text-ink-primary">
+  <div class="relative z-10">
+    <Header />
+    {@render children()}
+  </div>
+</div>
