@@ -8,6 +8,7 @@
   import { onMount } from 'svelte';
   import type { Picture } from 'vite-imagetools';
   import { parse } from 'yaml';
+  import Button from './button.svelte';
   import ArrowRightIcon from './icons/arrow-right.svelte';
 
   type Project = {
@@ -43,27 +44,24 @@
 
   let activeProjectIndex = $state(0);
   let isProjectsInView = $state(false);
-  let sectionElement: HTMLElement;
   let projectElements: HTMLElement[] = [];
 
   function updateActiveProject() {
-    const sectionRect = sectionElement?.getBoundingClientRect();
-    isProjectsInView = Boolean(
-      sectionRect && sectionRect.bottom > 0 && sectionRect.top < window.innerHeight
-    );
-
     const viewportAnchor = window.innerHeight / 2;
     let closestIndex = activeProjectIndex;
     let closestDistance = Number.POSITIVE_INFINITY;
+    let anyVisible = false;
 
     projectElements.forEach((element, index) => {
       if (!element) return;
 
       const rect = element.getBoundingClientRect();
-      const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+      const center = rect.top + rect.height / 2;
+      const isVisible = center > 0 && center < window.innerHeight;
 
       if (!isVisible) return;
 
+      anyVisible = true;
       const distance = Math.abs(rect.top + rect.height / 2 - viewportAnchor);
 
       if (distance < closestDistance) {
@@ -72,6 +70,7 @@
       }
     });
 
+    isProjectsInView = anyVisible;
     activeProjectIndex = closestIndex;
   }
 
@@ -95,7 +94,7 @@
   });
 </script>
 
-<section id="work" class="relative px-6 pb-40" bind:this={sectionElement}>
+<section id="work" class="relative px-6 pb-40">
   <nav
     class={[
       'fixed bottom-6 left-6 z-20 flex w-fit flex-col gap-2.5 transition-opacity duration-200',
@@ -145,17 +144,18 @@
             </div>
 
             {#if project.link}
-              <a
+              <Button
                 href={project.link.href}
                 target="_blank"
                 rel="noreferrer"
-                class="col-span-1 ml-auto flex h-10 w-full max-w-40 min-w-24 items-center justify-between rounded-full bg-ink-primary pr-4 pl-5 text-xs font-semibold tracking-wide text-surface-primary uppercase transition-opacity duration-200 hover:opacity-80 md:col-span-4"
+                variant="secondary"
+                class="col-span-1 ml-auto w-full max-w-40 min-w-24 md:col-span-4"
               >
                 <span>{project.link.label}</span>
                 <span class="flex size-6 items-center justify-center">
                   <ArrowRightIcon />
                 </span>
-              </a>
+              </Button>
             {/if}
           </div>
         </article>

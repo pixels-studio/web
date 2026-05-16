@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Button from './button.svelte';
   import CheckIcon from './icons/check.svelte';
   import CopyIcon from './icons/copy.svelte';
 
@@ -18,10 +19,11 @@
   }
 </script>
 
-<button
+<Button
   type="button"
+  variant="secondary"
+  class="w-40"
   onclick={copyEmail}
-  class="flex h-10 w-40 items-center justify-between rounded-full ring-2 ring-primary ring-inset pr-3 pl-5 text-xs font-semibold tracking-wide uppercase transition-colors duration-200 hover:bg-ink-primary hover:text-surface-primary"
   aria-label={`Copy ${email}`}
 >
   <span>{copied ? 'Copied' : label}</span>
@@ -32,4 +34,4 @@
       <CopyIcon />
     {/if}
   </span>
-</button>
+</Button>

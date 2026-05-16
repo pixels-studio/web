@@ -24,6 +24,7 @@
   --color-surface-secondary: #1C1C1C;
   --color-ink-primary: #ffffff;
   --color-ink-secondary: color-mix(in srgb, white 60%, transparent);
+  --color-accent: #ef5a12;
 
   --font-sans: "Inter Variable", sans-serif;
   --font-mono: "Fragment Mono", monospace;
