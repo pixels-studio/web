@@ -5,14 +5,7 @@
   aria-hidden="true"
 >
   <path
-    d="M14 5.75L20.25 12L14 18.25"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M19.5 12H3.75"
+    d="M6.75 13.0625L9.9 16.25L17.25 7.75"
     stroke="currentColor"
     stroke-width="1.5"
     stroke-linecap="round"

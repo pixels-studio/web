@@ -1,12 +1,7 @@
-heading: "Design partner who ships, concept to code."
-paragraphs:
-  - "Independent design and engineering practice with over a decade of experience shipping products from zero to scale. Focused on clarity, structure, and execution."
-  - "Design and code live under one roof. No handoffs. No shortcuts. No loose ends."
-features:
-  - title: "Full stack"
-    description: "Design code under one roof. No handoffs, no loose ends."
-  - title: "Built to scale"
-    description: "Interfaces that reduce decision fatigue and increase adoption."
+badge:
+  label: "Open for new opportunities"
+heading: "Design partner who ships, Concept to Code."
 cta:
-  label: "Start a project"
+  label: "Let's talk"
   href: "mailto:hello@pixels.studio"
+email: "hello@pixels.studio"
