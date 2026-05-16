@@ -1,0 +1,47 @@
+projects:
+  - slug: "prism"
+    title: "Prism"
+    subtitle: "Photo effects, right in the browser"
+    image:
+      src: "prism.png"
+      alt: "Prism graphic style studio preview"
+    link:
+      label: "View"
+      href: "https://prism.pixels.studio"
+
+  - slug: "rhythm"
+    title: "Rhythm"
+    subtitle: "Abstract patterns for design and web"
+    image:
+      src: "rhythm.png"
+      alt: "Rhythm generative pattern toolkit preview"
+    link:
+      label: "View"
+      href: "https://rhythm.pixels.studio"
+
+  - slug: "origon"
+    title: "Origon"
+    subtitle: "An enterprise platform for AI agents"
+    image:
+      src: "origon-dashboard.png"
+      alt: "Origon dashboard preview"
+    link:
+      label: "View"
+      href: "https://origon.ai"
+
+  - slug: "tribe-documents"
+    title: "Tribe Document Management"
+    subtitle: "Team docs, without the chaos"
+    image:
+      src: "tribe-document-management.png"
+      alt: "Tribe Document Management preview"
+
+  - slug: "tax-germany"
+    title: "Tax Germany"
+    subtitle: "Tax filing, simplified for Germany"
+    image:
+      src: "tax-germany.png"
+      alt: "Tax Germany application preview"
+    link:
+      label: "View"
+      href: "https://taxgermany.de"
