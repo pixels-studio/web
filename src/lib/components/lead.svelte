@@ -2,6 +2,7 @@
   import OpenBadge from '$lib/assets/icons/open-badge.svg?raw';
   import leadYaml from '$lib/data/lead.yaml?raw';
   import { parse } from 'yaml';
+  import Button from './button.svelte';
   import CopyEmailButton from './copy-email-button.svelte';
   import HexPattern from './hex-pattern.svelte';
   import ArrowRightIcon from './icons/arrow-right.svelte';
@@ -41,15 +42,12 @@
       </h1>
 
       <div class="flex flex-wrap items-center gap-6">
-        <a
-          href={lead.cta.href}
-          class="flex h-10 min-w-40 items-center justify-between rounded-full bg-ink-primary pr-3 pl-5 text-xs font-semibold tracking-wide text-surface-primary uppercase transition-colors duration-200"
-        >
+        <Button href={lead.cta.href} variant="accent" class="min-w-40">
           <span>{lead.cta.label}</span>
           <span class="flex size-6 items-center justify-center">
             <ArrowRightIcon />
           </span>
-        </a>
+        </Button>
 
         <CopyEmailButton email={lead.email} />
       </div>
