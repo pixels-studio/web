@@ -24,11 +24,12 @@
     const CHAR_H = 18;
 
     // Glow & trail config
-    const INNER_RADIUS = 65;
-    const OUTER_RADIUS = 155;
+    const INNER_RADIUS = 48;
+    const OUTER_RADIUS = 110;
     const TRAIL_LENGTH = 80;
     const TRAIL_DECAY = 0.96;
     const GLOW_SPREAD = 2.5; // how much larger glow is vs character radius
+    const GLOW_INTENSITY = 0.5;
 
     // Ellipse stretch — slight oval, not circular
     const ELLIPSE_RATIO = 1.6; // how much longer than wide
@@ -53,7 +54,7 @@
       y: number;
       age: number;
       hue: number;
-      angle: number; // movement direction at this point
+      angle: number;
     }
 
     let glyphs: Glyph[] = [];
@@ -64,24 +65,22 @@
     let dpr = 1;
     let lastSwap = 0;
 
-    // Breathing config
     const IDLE_THRESHOLD = 300; // ms before breathing starts
     const BREATHE_SPEED = 0.0015; // cycle speed
     const BREATHE_AMOUNT = 0.15; // ±15% scale
 
-    // Mouse tracking
     let mouseX = -9999;
     let mouseY = -9999;
     let smoothX = -9999;
     let smoothY = -9999;
     let prevSmoothX = -9999;
     let prevSmoothY = -9999;
-    let moveAngle = 0; // current movement direction
+    let moveAngle = 0;
     let mouseActive = false;
     let trail: TrailPoint[] = [];
     let hueOffset = 0;
     let lastTrailTime = 0;
-    let lastMoveTime = 0; // when cursor last moved significantly
+    let lastMoveTime = 0;
     let breathePhase = 0; // continuous phase for breathing
 
     // Auto-pulse config (glow appears, fades out, reappears elsewhere)
@@ -101,7 +100,8 @@
     let autoAngle = 0;
     let autoPhaseStart = 0;  // when current phase started
     let autoPulseOpacity = 0; // opacity of the current pulse (0-1)
-    let autoMouseGate = 0;   // 0-1 gate to suppress auto when mouse is active
+    let autoWaitDuration = 0;
+    let autoMouseGate = 1;
     let autoMouseLeftTime = 0;
     let autoInitialized = false;
 
@@ -158,6 +158,27 @@
       return { col, row };
     }
 
+    function pickAutoPosition() {
+      const rect = canvas.getBoundingClientRect();
+      const visibleLeft = Math.max(0, -rect.left);
+      const visibleTop = Math.max(0, -rect.top);
+      const visibleRight = Math.min(w, window.innerWidth - rect.left);
+      const visibleBottom = Math.min(h, window.innerHeight - rect.top);
+
+      const visibleWidth = Math.max(0, visibleRight - visibleLeft);
+      const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+      const padX = Math.min(OUTER_RADIUS * 0.6, visibleWidth * 0.25);
+      const padY = Math.min(OUTER_RADIUS * 0.6, visibleHeight * 0.25);
+      const minX = visibleLeft + padX;
+      const maxX = visibleRight - padX;
+      const minY = visibleTop + padY;
+      const maxY = visibleBottom - padY;
+
+      autoX = minX <= maxX ? minX + Math.random() * (maxX - minX) : w * 0.5;
+      autoY = minY <= maxY ? minY + Math.random() * (maxY - minY) : h * 0.5;
+      autoAngle = Math.random() * Math.PI * 2;
+    }
+
     function handleMouseMove(e: MouseEvent) {
       const rect = canvas.getBoundingClientRect();
       mouseX = e.clientX - rect.left;
@@ -168,6 +189,7 @@
         prevSmoothX = mouseX;
         prevSmoothY = mouseY;
         mouseActive = true;
+        lastMoveTime = performance.now();
       }
     }
 
@@ -176,30 +198,22 @@
       autoMouseLeftTime = performance.now();
     }
 
-    const heroSection = canvasEl.closest("[data-hero]");
-    if (heroSection) {
-      heroSection.addEventListener("mousemove", handleMouseMove as EventListener);
-      heroSection.addEventListener("mouseleave", handleMouseLeave as EventListener);
-    }
-
-    function pickAutoPosition() {
-      const padX = w * 0.15;
-      const padY = h * 0.15;
-      autoX = padX + Math.random() * (w - padX * 2);
-      autoY = padY + Math.random() * (h - padY * 2);
-      autoAngle = Math.random() * Math.PI * 2;
+    const patternArea = canvas.closest("[data-hex-pattern-area]");
+    if (patternArea) {
+      patternArea.addEventListener("mousemove", handleMouseMove as EventListener);
+      patternArea.addEventListener("mouseleave", handleMouseLeave as EventListener);
     }
 
     function startAutoWait(now: number) {
       autoPhase = "waiting";
       autoPhaseStart = now;
       autoPulseOpacity = 0;
+      autoWaitDuration = AUTO_PAUSE_MIN + Math.random() * (AUTO_PAUSE_MAX - AUTO_PAUSE_MIN);
     }
 
     function initAutoPilot(now: number) {
       pickAutoPosition();
-      autoPhase = "waiting";
-      autoPhaseStart = now - AUTO_PAUSE_MIN; // trigger first pulse soon
+      startAutoWait(now - AUTO_PAUSE_MIN); // trigger first pulse soon
       autoMouseLeftTime = now;
       autoInitialized = true;
     }
@@ -254,10 +268,11 @@
 
       const grad = glowCtx.createRadialGradient(0, 0, 0, 0, 0, spread);
       const [r, g, b] = hslToRgb(hue, 0.68, 0.42);
-      grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha * 0.35})`);
-      grad.addColorStop(0.15, `rgba(${r}, ${g}, ${b}, ${alpha * 0.22})`);
-      grad.addColorStop(0.35, `rgba(${r}, ${g}, ${b}, ${alpha * 0.09})`);
-      grad.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${alpha * 0.025})`);
+      const glowAlpha = alpha * GLOW_INTENSITY;
+      grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${glowAlpha * 0.35})`);
+      grad.addColorStop(0.15, `rgba(${r}, ${g}, ${b}, ${glowAlpha * 0.22})`);
+      grad.addColorStop(0.35, `rgba(${r}, ${g}, ${b}, ${glowAlpha * 0.09})`);
+      grad.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${glowAlpha * 0.025})`);
       grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
       glowCtx.fillStyle = grad;
       glowCtx.fillRect(-spread * ratio, -spread, spread * ratio * 2, spread * 2);
@@ -310,7 +325,7 @@
         for (const tp of trail) {
           tp.age *= 0.92;
         }
-        trail = trail.filter(tp => tp.age > 0.005);
+        trail = trail.filter((tp) => tp.age > 0.005);
       }
 
       // --- Auto-pulse logic ---
@@ -318,7 +333,7 @@
         initAutoPilot(now);
       }
 
-      // Mouse gate: suppress auto glow when mouse is active
+      // Fade automatic pulses down while the mouse spotlight is active.
       if (mouseActive) {
         autoMouseGate = Math.max(0, autoMouseGate - (1 / (AUTO_MOUSE_FADE_OUT / 16)));
       } else {
@@ -329,8 +344,7 @@
       // Phase state machine
       const elapsed = now - autoPhaseStart;
       if (autoPhase === "waiting") {
-        const waitDuration = AUTO_PAUSE_MIN + Math.random() * (AUTO_PAUSE_MAX - AUTO_PAUSE_MIN);
-        if (elapsed > waitDuration) {
+        if (elapsed > autoWaitDuration) {
           pickAutoPosition();
           autoPhase = "fading-in";
           autoPhaseStart = now;
@@ -362,7 +376,6 @@
         smoothX += (mouseX - smoothX) * 0.15;
         smoothY += (mouseY - smoothY) * 0.15;
 
-        // Track movement direction
         const mdx = smoothX - prevSmoothX;
         const mdy = smoothY - prevSmoothY;
         const speed = Math.sqrt(mdx * mdx + mdy * mdy);
@@ -376,7 +389,6 @@
         }
       }
 
-      // Breathing — ramp in when idle, ramp out when moving
       const idleTime = now - lastMoveTime;
       const breatheStrength = Math.min(1, Math.max(0, (idleTime - IDLE_THRESHOLD) / 800));
       breathePhase += BREATHE_SPEED;
@@ -393,12 +405,12 @@
       for (const tp of trail) {
         tp.age *= TRAIL_DECAY;
       }
-      trail = trail.filter(tp => tp.age > 0.005);
+      trail = trail.filter((tp) => tp.age > 0.005);
 
       // --- Draw glow layer (elliptical) ---
       glowCtx.clearRect(0, 0, w, h);
 
-      // Shared spotlight glow — same look for mouse and auto-pulse
+      // Shared spotlight glow used by each automatic pulse.
       function drawSpotlight(cx: number, cy: number, angle: number, radius: number, alpha: number) {
         drawEllipseGlow(cx, cy, radius * 1.3, angle, ELLIPSE_RATIO, hueOffset, alpha * 0.55);
         const perp = angle + Math.PI / 2;
@@ -436,7 +448,6 @@
         const trailR = OUTER_RADIUS * 0.7 * tp.age;
         const trailRatio = 1.2 + (ELLIPSE_RATIO - 1.2) * tp.age;
         drawEllipseGlow(tp.x, tp.y, trailR, tp.angle, trailRatio, tp.hue, tp.age * 0.32);
-        // Chromatic split on trail
         const tPerp = tp.angle + Math.PI / 2;
         drawEllipseGlow(
           tp.x + Math.cos(tPerp) * 10 * tp.age,
@@ -453,7 +464,7 @@
       ctx.drawImage(glowCanvas, 0, 0, w * dpr, h * dpr, 0, 0, w, h);
 
       // Draw ASCII characters on top
-      ctx.font = "13px 'Fragment Mono', monospace";
+      ctx.font = "11px 'Fragment Mono', monospace";
       ctx.textBaseline = "middle";
       ctx.textAlign = "left";
 
@@ -466,7 +477,7 @@
         let bestIntensity = 0;
         let bestHue = 0;
 
-        // Current spotlight — elliptical with breathing
+        // Mouse spotlight.
         if (mouseActive) {
           const bInner = INNER_RADIUS * breatheScale;
           const bOuter = OUTER_RADIUS * breatheScale;
@@ -483,7 +494,7 @@
           }
         }
 
-        // Auto-pulse spotlight — same intensity as mouse
+        // Auto-pulse spotlight.
         if (autoEffective > 0.01) {
           const d = ellipseDistance(gx, gy, autoX, autoY, autoAngle, OUTER_RADIUS, ELLIPSE_RATIO);
           if (d < OUTER_RADIUS) {
@@ -499,7 +510,7 @@
           }
         }
 
-        // Trail illumination — elliptical
+        // Trail illumination.
         for (let i = trail.length - 1; i >= 0; i--) {
           const tp = trail[i];
           if (tp.age < 0.02) continue;
@@ -541,9 +552,9 @@
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", init);
-      if (heroSection) {
-        heroSection.removeEventListener("mousemove", handleMouseMove as EventListener);
-        heroSection.removeEventListener("mouseleave", handleMouseLeave as EventListener);
+      if (patternArea) {
+        patternArea.removeEventListener("mousemove", handleMouseMove as EventListener);
+        patternArea.removeEventListener("mouseleave", handleMouseLeave as EventListener);
       }
     };
   });

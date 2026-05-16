@@ -3,6 +3,7 @@
   import leadYaml from '$lib/data/lead.yaml?raw';
   import { parse } from 'yaml';
   import CopyEmailButton from './copy-email-button.svelte';
+  import HexPattern from './hex-pattern.svelte';
   import ArrowRightIcon from './icons/arrow-right.svelte';
 
   type LeadData = {
@@ -20,8 +21,12 @@
   const lead = parse(leadYaml) as LeadData;
 </script>
 
-<section class="px-6 py-40">
-  <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
+<section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-40">
+  <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+    <HexPattern />
+  </div>
+
+  <div class="relative z-10 mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-10 md:col-start-4 md:col-end-12">
       <span
         class="block w-56 text-ink-primary"
