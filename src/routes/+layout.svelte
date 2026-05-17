@@ -1,5 +1,6 @@
 <script lang="ts">
   import '../app.css';
+  import BottomStatus from '$lib/components/bottom-status.svelte';
   import GridLines from '$lib/components/grid-lines.svelte';
   import Header from '$lib/components/header.svelte';
 
@@ -13,3 +14,4 @@
     {@render children()}
   </div>
 </div>
+<BottomStatus />

@@ -1,17 +1,44 @@
 <script lang="ts">
   import appInstallationUiImage from '$lib/assets/media/app-installation-ui.png?enhanced';
   import claudeMemoryImage from '$lib/assets/media/claude-memory.png?enhanced';
+  import groupCallUiImage from '$lib/assets/media/group-call-ui.jpg?enhanced';
+  import hubAccountProductsImage from '$lib/assets/media/hub-account-products.png?enhanced';
+  import hubAccountsImage from '$lib/assets/media/hub-accounts.png?enhanced';
+  import hubBillingImage from '$lib/assets/media/hub-billing.png?enhanced';
+  import hubDashboardImage from '$lib/assets/media/hub-dashboard.png?enhanced';
+  import hubInfrastructureImage from '$lib/assets/media/hub-infrastructure.png?enhanced';
+  import hubNewAccountImage from '$lib/assets/media/hub-new-account.png?enhanced';
+  import hubProductsImage from '$lib/assets/media/hub-products.png?enhanced';
+  import hubSearchImage from '$lib/assets/media/hub-search.png?enhanced';
+  import origonAccountsImage from '$lib/assets/media/origon-accounts.png?enhanced';
   import origonDashboardImage from '$lib/assets/media/origon-dashboard.png?enhanced';
+  import origonHelpdeskImage from '$lib/assets/media/origon-helpdesk.png?enhanced';
+  import origonSigninImage from '$lib/assets/media/origon-signin.png?enhanced';
   import photographyPortfolioImage from '$lib/assets/media/photography-portfolio.png?enhanced';
   import prismImage from '$lib/assets/media/prism.png?enhanced';
+  import resolve1Image from '$lib/assets/media/resolve-1.png?enhanced';
+  import resolve2Image from '$lib/assets/media/resolve-2.png?enhanced';
+  import resolve3Image from '$lib/assets/media/resolve-3.png?enhanced';
+  import resolve4Image from '$lib/assets/media/resolve-4.png?enhanced';
+  import resolve5Image from '$lib/assets/media/resolve-5.png?enhanced';
   import rhythmImage from '$lib/assets/media/rhythm.png?enhanced';
+  import samespace1Image from '$lib/assets/media/samespace-1.png?enhanced';
+  import samespace2Image from '$lib/assets/media/samespace-2.png?enhanced';
+  import samespace3Image from '$lib/assets/media/samespace-3.png?enhanced';
+  import samespace4Image from '$lib/assets/media/samespace-4.png?enhanced';
   import sleepAppImage from '$lib/assets/media/sleep-app.png?enhanced';
+  import taxCheck1Image from '$lib/assets/media/tax-check-1.png?enhanced';
+  import taxCheck2Image from '$lib/assets/media/tax-check-2.png?enhanced';
+  import taxCheck3Image from '$lib/assets/media/tax-check-3.png?enhanced';
   import taxGermanyBookkeepingImage from '$lib/assets/media/tax-germany-bookkeeping.png?enhanced';
   import taxGermanyImage from '$lib/assets/media/tax-germany.png?enhanced';
+  import tlknImage from '$lib/assets/media/tlkn.png?enhanced';
+  import tribe1Image from '$lib/assets/media/tribe-1.png?enhanced';
+  import tribe2Image from '$lib/assets/media/tribe-2.png?enhanced';
+  import tribe3Image from '$lib/assets/media/tribe-3.png?enhanced';
+  import tribe4Image from '$lib/assets/media/tribe-4.png?enhanced';
   import tribeDocumentManagementImage from '$lib/assets/media/tribe-document-management.png?enhanced';
   import projectsYaml from '$lib/data/projects.yaml?raw';
-  import { onMount } from 'svelte';
-  import { cubicOut } from 'svelte/easing';
   import type { Picture } from 'vite-imagetools';
   import { parse } from 'yaml';
 
@@ -20,16 +47,18 @@
     alt: string;
   };
 
+  type ProjectLink = {
+    label: string;
+    href: string;
+  };
+
   type Project = {
     slug: string;
     title: string;
     subtitle: string;
     image?: ProjectImage;
     images?: ProjectImage[];
-    link?: {
-      label: string;
-      href: string;
-    };
+    link?: ProjectLink;
   };
 
   type ProjectsData = {
@@ -40,13 +69,42 @@
   const media: Record<string, Picture> = {
     'app-installation-ui.png': appInstallationUiImage,
     'claude-memory.png': claudeMemoryImage,
+    'group-call-ui.jpg': groupCallUiImage,
+    'hub-dashboard.png': hubDashboardImage,
+    'hub-accounts.png': hubAccountsImage,
+    'hub-account-products.png': hubAccountProductsImage,
+    'hub-products.png': hubProductsImage,
+    'hub-billing.png': hubBillingImage,
+    'hub-infrastructure.png': hubInfrastructureImage,
+    'hub-search.png': hubSearchImage,
+    'hub-new-account.png': hubNewAccountImage,
+    'origon-accounts.png': origonAccountsImage,
     'origon-dashboard.png': origonDashboardImage,
+    'origon-helpdesk.png': origonHelpdeskImage,
+    'origon-signin.png': origonSigninImage,
     'photography-portfolio.png': photographyPortfolioImage,
     'prism.png': prismImage,
+    'resolve-1.png': resolve1Image,
+    'resolve-2.png': resolve2Image,
+    'resolve-3.png': resolve3Image,
+    'resolve-4.png': resolve4Image,
+    'resolve-5.png': resolve5Image,
     'rhythm.png': rhythmImage,
+    'samespace-1.png': samespace1Image,
+    'samespace-2.png': samespace2Image,
+    'samespace-3.png': samespace3Image,
+    'samespace-4.png': samespace4Image,
     'sleep-app.png': sleepAppImage,
+    'tax-check-1.png': taxCheck1Image,
+    'tax-check-2.png': taxCheck2Image,
+    'tax-check-3.png': taxCheck3Image,
     'tax-germany.png': taxGermanyImage,
     'tax-germany-bookkeeping.png': taxGermanyBookkeepingImage,
+    'tlkn.png': tlknImage,
+    'tribe-1.png': tribe1Image,
+    'tribe-2.png': tribe2Image,
+    'tribe-3.png': tribe3Image,
+    'tribe-4.png': tribe4Image,
     'tribe-document-management.png': tribeDocumentManagementImage
   };
 
@@ -59,126 +117,20 @@
     if (project.image) return [project.image];
     return [];
   }
-
-  let activeProjectIndex = $state(0);
-  let isProjectsInView = $state(false);
-  let projectElements: HTMLElement[] = [];
-  let measureEl: HTMLElement | undefined = $state();
-  let panelHeight = $state(0);
-
-  const activeProject = $derived(data.projects[activeProjectIndex]);
-
-  $effect(() => {
-    activeProject;
-    requestAnimationFrame(() => {
-      if (measureEl) panelHeight = measureEl.offsetHeight;
-    });
-  });
-
-  function updateActiveProject() {
-    const viewportBottom = window.innerHeight;
-    let nextIndex = 0;
-    let anyVisible = false;
-
-    projectElements.forEach((element, index) => {
-      if (!element) return;
-
-      const anchorEl = (element.firstElementChild as HTMLElement) ?? element;
-      const anchorRect = anchorEl.getBoundingClientRect();
-      const articleRect = element.getBoundingClientRect();
-
-      const isVisible = articleRect.bottom > 0 && articleRect.top < viewportBottom;
-      if (isVisible) anyVisible = true;
-
-      if (anchorRect.top < viewportBottom) {
-        nextIndex = index;
-      }
-    });
-
-    const nextSection = document.getElementById('services');
-    if (nextSection && nextSection.getBoundingClientRect().top < window.innerHeight) {
-      anyVisible = false;
-    }
-
-    isProjectsInView = anyVisible;
-    activeProjectIndex = nextIndex;
-  }
-
-  onMount(() => {
-    updateActiveProject();
-
-    window.addEventListener('scroll', updateActiveProject, { passive: true });
-    window.addEventListener('resize', updateActiveProject);
-
-    return () => {
-      window.removeEventListener('scroll', updateActiveProject);
-      window.removeEventListener('resize', updateActiveProject);
-    };
-  });
-
-  function fadeBlur(_node: HTMLElement, { duration = 500, delay = 0 } = {}) {
-    return {
-      duration,
-      delay,
-      easing: cubicOut,
-      css: (t: number) => `
-        opacity: ${t};
-        filter: blur(${(1 - t) * 8}px);
-        transform: translateY(${(1 - t) * 10}px);
-      `
-    };
-  }
 </script>
 
 <section id="work" class="relative px-6 pb-40">
-  <div
-    class={[
-      'pointer-events-none fixed inset-x-0 bottom-6 z-20 px-6 transition-opacity duration-200',
-      isProjectsInView ? 'opacity-100' : 'opacity-0'
-    ]}
-    aria-live="polite"
-  >
-    <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
-      <div class="relative col-span-3 md:col-span-2">
-        <div
-          class="grid transition-[height] duration-500 ease-out"
-          style:height="{panelHeight}px"
-        >
-          {#key activeProjectIndex}
-            <div
-              class="col-start-1 row-start-1 self-end"
-              in:fadeBlur={{ duration: 500, delay: 200 }}
-              out:fadeBlur={{ duration: 200 }}
-            >
-              <h2 class="text-sm leading-snug font-medium text-ink-primary mb-1">
-                {activeProject.title}
-              </h2>
-              <p class="text-sm leading-snug text-pretty text-ink-secondary">
-                {activeProject.subtitle}
-              </p>
-            </div>
-          {/key}
-        </div>
-        <div
-          bind:this={measureEl}
-          class="pointer-events-none invisible absolute inset-x-0 bottom-0"
-          aria-hidden="true"
-        >
-          <h2 class="text-sm leading-snug font-medium mb-1">
-            {activeProject.title}
-          </h2>
-          <p class="text-sm leading-snug text-pretty">
-            {activeProject.subtitle}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-40 md:col-start-4 md:col-end-12">
-      {#each data.projects as project, index (project.slug)}
-        <article bind:this={projectElements[index]} class="flex flex-col gap-6">
+      {#each data.projects as project (project.slug)}
+        <article
+          class="flex flex-col gap-6"
+          data-project={project.slug}
+          data-project-title={project.title}
+          data-project-subtitle={project.subtitle}
+          data-project-link-label={project.link?.label ?? ''}
+          data-project-link-href={project.link?.href ?? ''}
+        >
           {#each imagesFor(project) as image (image.src)}
             <enhanced:img
               class="w-full rounded-lg border border-white/10"

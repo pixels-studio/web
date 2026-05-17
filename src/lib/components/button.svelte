@@ -2,7 +2,7 @@
   import type { Snippet } from 'svelte';
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 
-  type Variant = 'primary' | 'accent' | 'secondary' | 'outline';
+  type Variant = 'primary' | 'accent' | 'secondary' | 'outline' | 'link';
   type Size = 'sm' | 'md' | 'lg';
 
   type CommonProps = {
@@ -30,8 +30,11 @@
     ...rest
   }: Props = $props();
 
-  const base =
-    'inline-flex cursor-pointer items-center justify-between rounded-full text-xs font-semibold tracking-wide uppercase transition-colors duration-200';
+  const isLink = variant === 'link';
+
+  const base = isLink
+    ? 'inline-flex cursor-pointer items-center text-ink-primary underline underline-offset-8 decoration-ink-primary/30 transition-colors duration-200 hover:decoration-ink-primary/60'
+    : 'inline-flex cursor-pointer items-center justify-between rounded-full text-xs font-semibold tracking-wide uppercase transition-colors duration-200';
 
   const sizes: Record<Size, string> = {
     sm: 'h-8 pr-2 pl-4',
@@ -44,10 +47,11 @@
     accent: 'bg-accent text-ink-primary hover:brightness-110',
     secondary: 'bg-ink-primary/8 text-ink-primary hover:bg-ink-primary/15',
     outline:
-      'ring-2 ring-ink-primary ring-inset text-ink-primary hover:bg-ink-primary hover:text-surface-primary'
+      'ring-2 ring-ink-primary ring-inset text-ink-primary hover:bg-ink-primary hover:text-surface-primary',
+    link: ''
   };
 
-  const classes = [base, sizes[size], variants[variant], className];
+  const classes = [base, isLink ? '' : sizes[size], variants[variant], className];
 </script>
 
 {#if href}
