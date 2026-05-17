@@ -4,13 +4,13 @@ export type NavLink = {
 };
 
 export const primaryLinks: NavLink[] = [
-  { label: 'Work', href: '/' },
+  { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
   { label: 'Information', href: '#information' },
   { label: 'Contact', href: '#contact' }
 ];
 
 export const secondaryLinks: NavLink[] = [
-  { label: 'Twitter', href: 'http://x.com/_abhiii' },
+  { label: 'Twitter', href: 'https://x.com/_abhiii' },
   { label: 'Email', href: 'mailto:abhi@pixels.studio' }
 ];

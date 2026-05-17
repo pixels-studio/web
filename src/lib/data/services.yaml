@@ -18,7 +18,7 @@ plans:
       - icon: "chart"
         label: "Pitch deck to win the round"
     cta:
-      label: "Let's Talk"
+      label: "Let's talk"
       href: "mailto:abhi@pixels.studio"
 
   - id: "retainer"
@@ -36,5 +36,5 @@ plans:
       - icon: "monitor"
         label: "Weekly strategy calls + Slack integration"
     cta:
-      label: "Let's Talk"
+      label: "Let's talk"
       href: "mailto:abhi@pixels.studio"
