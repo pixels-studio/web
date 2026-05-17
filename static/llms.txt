@@ -1,0 +1,26 @@
+# Pixels Studio
+
+> Pixels Studio is the independent practice of Abhishek Kambli — a designer and frontend developer building products for AI and SaaS companies, with over a decade of shipping from zero to scale. Work spans product design, design systems, and frontend engineering.
+
+## Services
+
+- [2-week design sprint](https://pixels.studio/#services): One focused build — a landing page, dashboard, brand starter, or up to 8 mobile screens. $2,500 one-time.
+- [Ongoing retainer](https://pixels.studio/#services): Dedicated design partnership with unlimited requests, 48-hour turnarounds, and weekly strategy calls. $5,000/month.
+
+## Selected projects
+
+- [Prism](https://prism.pixels.studio): Photo effects, right in the browser.
+- [Rhythm](https://rhythm.pixels.studio): Abstract patterns for design and web.
+- [Origon](https://origon.ai): An enterprise platform for AI agents.
+- [Hub](https://pixels.studio/#projects): Customer management platform for SaaS teams.
+
+## Contact
+
+- Email: abhi@pixels.studio
+- Twitter: https://x.com/_abhiii
+- LinkedIn: https://www.linkedin.com/in/abhishekkambli/
+- Resume: https://media.pixels.studio/abhishek-kambli-resume.pdf
+
+## Other
+
+- [Sitemap](https://pixels.studio/sitemap.xml)
