@@ -47,10 +47,18 @@ section[id] {
   scroll-margin-top: 6rem;
 }
 
-[data-reveal],
-[data-reveal-stagger] > *,
-[data-split-text],
-[data-fade],
-[data-hero-step] {
+[data-reveal] {
   opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 40px), 0);
+  filter: blur(var(--reveal-blur, 12px));
+  will-change: opacity, transform, filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    will-change: auto;
+  }
 }

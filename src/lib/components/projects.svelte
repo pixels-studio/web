@@ -38,6 +38,7 @@
   import tribe4Image from '$lib/assets/media/tribe-4.png?enhanced';
   import tribeDocumentManagementImage from '$lib/assets/media/tribe-document-management.png?enhanced';
   import projectsYaml from '$lib/data/projects.yaml?raw';
+  import { reveal } from '$lib/actions/reveal';
   import type { Picture } from 'vite-imagetools';
   import { parse } from 'yaml';
 
@@ -129,7 +130,7 @@
           data-project-link-label={project.link?.label ?? ''}
           data-project-link-href={project.link?.href ?? ''}
         >
-          <div class="md:hidden">
+          <div class="md:hidden" data-reveal use:reveal>
             <h2 class="text-base leading-snug font-medium text-ink-primary mb-1">
               {project.title}
             </h2>
@@ -143,6 +144,8 @@
               src={imageFor(image.src)}
               alt={image.alt}
               loading="lazy"
+              data-reveal
+              use:reveal
             />
           {/each}
         </article>
