@@ -39,9 +39,24 @@ projects:
   - slug: "tax-germany"
     title: "Tax Germany"
     subtitle: "Tax filing, simplified for Germany"
-    image:
-      src: "tax-germany.png"
-      alt: "Tax Germany application preview"
+    images:
+      - src: "tax-germany.png"
+        alt: "Tax Germany application preview"
+      - src: "tax-germany-bookkeeping.png"
+        alt: "Tax Germany bookkeeping step"
     link:
       label: "View"
       href: "https://taxgermany.de"
+
+  - slug: "playground"
+    title: "Playground"
+    subtitle: "Side experiments and product explorations"
+    images:
+      - src: "app-installation-ui.png"
+        alt: "App installation UI exploration"
+      - src: "claude-memory.png"
+        alt: "Claude memory interface exploration"
+      - src: "photography-portfolio.png"
+        alt: "Photography portfolio concept"
+      - src: "sleep-app.png"
+        alt: "Sleep tracking app concept"
