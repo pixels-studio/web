@@ -99,7 +99,7 @@
                   >
                     {@html featureIcons[feature.icon]}
                   </span>
-                  <span>{feature.label}</span>
+                  <span class="text-pretty">{feature.label}</span>
                 </li>
               {/each}
             </ul>

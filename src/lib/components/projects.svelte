@@ -25,7 +25,6 @@
   import samespace1Image from '$lib/assets/media/samespace-1.png?enhanced';
   import samespace2Image from '$lib/assets/media/samespace-2.png?enhanced';
   import samespace3Image from '$lib/assets/media/samespace-3.png?enhanced';
-  import samespace4Image from '$lib/assets/media/samespace-4.png?enhanced';
   import sleepAppImage from '$lib/assets/media/sleep-app.png?enhanced';
   import taxCheck1Image from '$lib/assets/media/tax-check-1.png?enhanced';
   import taxCheck2Image from '$lib/assets/media/tax-check-2.png?enhanced';
@@ -93,7 +92,6 @@
     'samespace-1.png': samespace1Image,
     'samespace-2.png': samespace2Image,
     'samespace-3.png': samespace3Image,
-    'samespace-4.png': samespace4Image,
     'sleep-app.png': sleepAppImage,
     'tax-check-1.png': taxCheck1Image,
     'tax-check-2.png': taxCheck2Image,
@@ -131,6 +129,14 @@
           data-project-link-label={project.link?.label ?? ''}
           data-project-link-href={project.link?.href ?? ''}
         >
+          <div class="md:hidden">
+            <h2 class="text-sm leading-snug font-medium text-ink-primary mb-1">
+              {project.title}
+            </h2>
+            <p class="text-sm leading-snug text-pretty text-ink-secondary">
+              {project.subtitle}
+            </p>
+          </div>
           {#each imagesFor(project) as image (image.src)}
             <enhanced:img
               class="w-full rounded-lg border border-white/10"

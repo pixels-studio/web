@@ -27,7 +27,7 @@
           </h2>
         </header>
 
-        <div class="mt-auto flex flex-col gap-6">
+        <div class="mt-auto flex flex-col gap-3 md:gap-6">
           {#each data.paragraphs as paragraph}
             <p class="text-base leading-7 text-pretty text-ink-secondary md:text-lg">
               {paragraph}

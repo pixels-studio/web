@@ -3,6 +3,8 @@
   import { cubicOut } from 'svelte/easing';
   import Button from './button.svelte';
 
+  const copyright = `© ${new Date().getFullYear()} Pixels Studio`;
+
   type ActiveProject = {
     slug: string;
     title: string;
@@ -38,8 +40,7 @@
     for (const el of articles) {
       const rect = el.getBoundingClientRect();
       if (rect.bottom > 0 && rect.top < viewportBottom) anyVisible = true;
-      const anchor = (el.firstElementChild as HTMLElement) ?? el;
-      if (anchor.getBoundingClientRect().top < viewportBottom) candidate = el;
+      if (rect.top < viewportBottom) candidate = el;
     }
 
     const nextSection = articles[articles.length - 1]?.closest('section')
@@ -89,11 +90,9 @@
 </script>
 
 <div
-  class="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-48 bg-gradient-to-t from-surface-primary via-surface-primary/80 to-transparent md:hidden"
-  aria-hidden="true"
-></div>
-
-<div class="pointer-events-none fixed inset-x-0 bottom-6 z-20 px-6" aria-live="polite">
+  class="pointer-events-none fixed inset-x-0 bottom-6 z-20 hidden px-6 md:block"
+  aria-live="polite"
+>
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="relative col-span-3 md:col-span-2">
       <div
@@ -136,7 +135,7 @@
             in:fadeBlur={{ duration: 500, delay: 200 }}
             out:fadeBlur={{ duration: 200 }}
           >
-            © 2026 Pixels Studio
+            {copyright}
           </div>
         {/if}
       </div>
@@ -152,7 +151,7 @@
             <div class="mt-3 text-sm leading-snug">{active.linkLabel}</div>
           {/if}
         {:else}
-          <div class="text-xs leading-snug font-semibold tracking-wide uppercase">© 2026 Pixels Studio</div>
+          <div class="text-xs leading-snug font-semibold tracking-wide uppercase">{copyright}</div>
         {/if}
       </div>
     </div>

@@ -39,7 +39,7 @@
           class="flex flex-col gap-6 border-y border-dashed border-ink-primary/16 py-6 md:py-12"
         >
           <blockquote
-            class="text-pretty text-2xl leading-9 font-normal text-ink-secondary md:text-3xl md:leading-10"
+            class="text-pretty text-xl leading-8 font-normal text-ink-secondary md:text-3xl md:leading-10"
           >
             <span aria-hidden="true" class="text-ink-secondary">“</span>{testimonial.quote}<span
               aria-hidden="true"
