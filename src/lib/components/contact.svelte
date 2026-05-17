@@ -50,7 +50,7 @@
       {data.title}
     </h2>
     <p
-      class="col-span-6 self-end text-pretty text-lg leading-snug text-ink-secondary md:col-start-8 md:col-end-12"
+      class="col-span-6 self-end text-pretty text-lg leading-relaxed text-ink-secondary md:col-start-8 md:col-end-12"
     >
       {data.description}
     </p>
