@@ -1,7 +1,12 @@
 <script lang="ts">
+  import appInstallationUiImage from '$lib/assets/media/app-installation-ui.png?enhanced';
+  import claudeMemoryImage from '$lib/assets/media/claude-memory.png?enhanced';
   import origonDashboardImage from '$lib/assets/media/origon-dashboard.png?enhanced';
+  import photographyPortfolioImage from '$lib/assets/media/photography-portfolio.png?enhanced';
   import prismImage from '$lib/assets/media/prism.png?enhanced';
   import rhythmImage from '$lib/assets/media/rhythm.png?enhanced';
+  import sleepAppImage from '$lib/assets/media/sleep-app.png?enhanced';
+  import taxGermanyBookkeepingImage from '$lib/assets/media/tax-germany-bookkeeping.png?enhanced';
   import taxGermanyImage from '$lib/assets/media/tax-germany.png?enhanced';
   import tribeDocumentManagementImage from '$lib/assets/media/tribe-document-management.png?enhanced';
   import projectsYaml from '$lib/data/projects.yaml?raw';
@@ -10,14 +15,17 @@
   import type { Picture } from 'vite-imagetools';
   import { parse } from 'yaml';
 
+  type ProjectImage = {
+    src: string;
+    alt: string;
+  };
+
   type Project = {
     slug: string;
     title: string;
     subtitle: string;
-    image: {
-      src: string;
-      alt: string;
-    };
+    image?: ProjectImage;
+    images?: ProjectImage[];
     link?: {
       label: string;
       href: string;
@@ -30,15 +38,26 @@
 
   const data = parse(projectsYaml) as ProjectsData;
   const media: Record<string, Picture> = {
+    'app-installation-ui.png': appInstallationUiImage,
+    'claude-memory.png': claudeMemoryImage,
     'origon-dashboard.png': origonDashboardImage,
+    'photography-portfolio.png': photographyPortfolioImage,
     'prism.png': prismImage,
     'rhythm.png': rhythmImage,
+    'sleep-app.png': sleepAppImage,
     'tax-germany.png': taxGermanyImage,
+    'tax-germany-bookkeeping.png': taxGermanyBookkeepingImage,
     'tribe-document-management.png': tribeDocumentManagementImage
   };
 
   function imageFor(src: string) {
     return media[src];
+  }
+
+  function imagesFor(project: Project): ProjectImage[] {
+    if (project.images && project.images.length > 0) return project.images;
+    if (project.image) return [project.image];
+    return [];
   }
 
   let activeProjectIndex = $state(0);
@@ -57,26 +76,22 @@
   });
 
   function updateActiveProject() {
-    const viewportAnchor = window.innerHeight / 2;
-    let closestIndex = activeProjectIndex;
-    let closestDistance = Number.POSITIVE_INFINITY;
+    const viewportBottom = window.innerHeight;
+    let nextIndex = 0;
     let anyVisible = false;
 
     projectElements.forEach((element, index) => {
       if (!element) return;
 
-      const rect = element.getBoundingClientRect();
-      const center = rect.top + rect.height / 2;
-      const isVisible = center > 0 && center < window.innerHeight;
+      const anchorEl = (element.firstElementChild as HTMLElement) ?? element;
+      const anchorRect = anchorEl.getBoundingClientRect();
+      const articleRect = element.getBoundingClientRect();
 
-      if (!isVisible) return;
+      const isVisible = articleRect.bottom > 0 && articleRect.top < viewportBottom;
+      if (isVisible) anyVisible = true;
 
-      anyVisible = true;
-      const distance = Math.abs(rect.top + rect.height / 2 - viewportAnchor);
-
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = index;
+      if (anchorRect.top < viewportBottom) {
+        nextIndex = index;
       }
     });
 
@@ -86,7 +101,7 @@
     }
 
     isProjectsInView = anyVisible;
-    activeProjectIndex = closestIndex;
+    activeProjectIndex = nextIndex;
   }
 
   onMount(() => {
@@ -135,7 +150,7 @@
               in:fadeBlur={{ duration: 500, delay: 200 }}
               out:fadeBlur={{ duration: 200 }}
             >
-              <h2 class="text-sm leading-snug font-medium text-ink-primary">
+              <h2 class="text-sm leading-snug font-medium text-ink-primary mb-1">
                 {activeProject.title}
               </h2>
               <p class="text-sm leading-snug text-pretty text-ink-secondary">
@@ -149,7 +164,7 @@
           class="pointer-events-none invisible absolute inset-x-0 bottom-0"
           aria-hidden="true"
         >
-          <h2 class="text-sm leading-snug font-medium">
+          <h2 class="text-sm leading-snug font-medium mb-1">
             {activeProject.title}
           </h2>
           <p class="text-sm leading-snug text-pretty">
@@ -163,13 +178,15 @@
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-40 md:col-start-4 md:col-end-12">
       {#each data.projects as project, index (project.slug)}
-        <article bind:this={projectElements[index]}>
-          <enhanced:img
-            class="w-full rounded-lg border border-white/10"
-            src={imageFor(project.image.src)}
-            alt={project.image.alt}
-            loading="lazy"
-          />
+        <article bind:this={projectElements[index]} class="flex flex-col gap-6">
+          {#each imagesFor(project) as image (image.src)}
+            <enhanced:img
+              class="w-full rounded-lg border border-white/10"
+              src={imageFor(image.src)}
+              alt={image.alt}
+              loading="lazy"
+            />
+          {/each}
         </article>
       {/each}
     </div>

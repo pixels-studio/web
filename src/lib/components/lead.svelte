@@ -3,9 +3,10 @@
   import leadYaml from '$lib/data/lead.yaml?raw';
   import { parse } from 'yaml';
   import Button from './button.svelte';
-  import CopyEmailButton from './copy-email-button.svelte';
   import HexPattern from './hex-pattern.svelte';
   import ArrowRightIcon from './icons/arrow-right.svelte';
+  import CheckIcon from './icons/check.svelte';
+  import CopyIcon from './icons/copy.svelte';
 
   type LeadData = {
     badge: {
@@ -20,6 +21,19 @@
   };
 
   const lead = parse(leadYaml) as LeadData;
+
+  let copied = $state(false);
+  let resetTimer: ReturnType<typeof setTimeout> | undefined;
+
+  async function copyEmail() {
+    await navigator.clipboard.writeText(lead.email);
+
+    copied = true;
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      copied = false;
+    }, 1800);
+  }
 </script>
 
 <section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-40">
@@ -44,12 +58,27 @@
       <div class="flex flex-wrap items-center gap-6">
         <Button href={lead.cta.href} variant="primary" class="min-w-40">
           <span>{lead.cta.label}</span>
-          <span class="flex size-6 items-center justify-center">
+          <span class="flex size-5 items-center justify-center">
             <ArrowRightIcon />
           </span>
         </Button>
 
-        <CopyEmailButton email={lead.email} />
+        <Button
+          type="button"
+          variant="secondary"
+          class="w-40"
+          onclick={copyEmail}
+          aria-label={`Copy ${lead.email}`}
+        >
+          <span>{copied ? 'Copied' : 'Copy email'}</span>
+          <span class="flex size-5 items-center justify-center">
+            {#if copied}
+              <CheckIcon />
+            {:else}
+              <CopyIcon />
+            {/if}
+          </span>
+        </Button>
       </div>
     </div>
   </div>
