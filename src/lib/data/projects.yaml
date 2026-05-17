@@ -6,7 +6,7 @@ projects:
       src: "prism.png"
       alt: "Prism graphic style studio preview"
     link:
-      label: "View"
+      label: "View project"
       href: "https://prism.pixels.studio"
 
   - slug: "rhythm"
@@ -16,25 +16,108 @@ projects:
       src: "rhythm.png"
       alt: "Rhythm generative pattern toolkit preview"
     link:
-      label: "View"
+      label: "View project"
       href: "https://rhythm.pixels.studio"
 
   - slug: "origon"
     title: "Origon"
     subtitle: "An enterprise platform for AI agents"
-    image:
-      src: "origon-dashboard.png"
-      alt: "Origon dashboard preview"
+    images:
+      - src: "origon-signin.png"
+        alt: "Origon sign-in screen with passkey, Google, and SAML options"
+      - src: "origon-accounts.png"
+        alt: "Origon account picker listing workspaces across organizations"
+      - src: "origon-helpdesk.png"
+        alt: "Origon helpdesk triaging a customer report with linked context and details"
+      - src: "origon-dashboard.png"
+        alt: "Origon dashboard preview"
     link:
-      label: "View"
+      label: "View project"
       href: "https://origon.ai"
+
+  - slug: "hub"
+    title: "Hub"
+    subtitle: "Customer management platform for SaaS teams"
+    images:
+      - src: "hub-dashboard.png"
+        alt: "Hub dashboard with revenue, active accounts, and quick-access prompts"
+      - src: "hub-accounts.png"
+        alt: "Hub accounts list with products, MRR, status, and clusters"
+      - src: "hub-account-products.png"
+        alt: "Hub account detail showing subscribed products, plans, and renewal dates"
+      - src: "hub-products.png"
+        alt: "Hub products view with plans grouped by product"
+      - src: "hub-billing.png"
+        alt: "Hub billing overview with outstanding, overdue, and invoice list"
+      - src: "hub-infrastructure.png"
+        alt: "Hub infrastructure view showing cluster health and regional load"
+      - src: "hub-search.png"
+        alt: "Hub global account search with recent results"
+      - src: "hub-new-account.png"
+        alt: "Hub new account onboarding flow"
+    link:
+      label: "Let's talk"
+      href: "#contact"
+
+  - slug: "resolve"
+    title: "Resolve"
+    subtitle: "Helpdesk designed for the Agentic AI era"
+    images:
+      - src: "resolve-1.png"
+        alt: "Resolve ticket view with the assistant handing off a low-confidence reply to a human agent"
+      - src: "resolve-2.png"
+        alt: "Resolve assistant surfacing overdue tickets and drafting a reply"
+      - src: "resolve-3.png"
+        alt: "Resolve ticket detail with AI-generated summary and key insights"
+      - src: "resolve-4.png"
+        alt: "Resolve conversation view with low-confidence handoff to a human agent"
+      - src: "resolve-5.png"
+        alt: "Resolve knowledge base editor for training the assistant"
+    link:
+      label: "Let's talk"
+      href: "#contact"
+
+  - slug: "samespace"
+    title: "Samespace"
+    subtitle: "The Full-Stack CX Platform"
+    images:
+      - src: "samespace-1.png"
+        alt: "Samespace softphone with live call, chat, and agent status menu"
+      - src: "samespace-2.png"
+        alt: "Samespace sign-in, real-time agent stats, and call history"
+      - src: "samespace-3.png"
+        alt: "Samespace reports dashboard with session metrics and people breakdown"
+    link:
+      label: "View project"
+      href: "https://samespace.com/"
+
+  - slug: "tlkn"
+    title: "Tlkn"
+    subtitle: "Privacy-first HD voice calling"
+    image:
+      src: "tlkn.png"
+      alt: "Tlkn preview"
+    link:
+      label: "Let's talk"
+      href: "#contact"
 
   - slug: "tribe-documents"
     title: "Tribe"
-    subtitle: "Team docs, without the chaos"
-    image:
-      src: "tribe-document-management.png"
-      alt: "Tribe Document Management preview"
+    subtitle: "Chat, calls, and docs in one place for modern teams"
+    images:
+      - src: "tribe-document-management.png"
+        alt: "Tribe Document Management preview"
+      - src: "tribe-1.png"
+        alt: "Tribe inbox and engineering channel on iPhone"
+      - src: "tribe-2.png"
+        alt: "Tribe AI assistant generating Svelte code and the conversations list"
+      - src: "tribe-3.png"
+        alt: "Tribe channel feed, photo picker, and AI summary of a chat thread"
+      - src: "tribe-4.png"
+        alt: "Tribe status menu and group video call with screen share"
+    link:
+      label: "Let's talk"
+      href: "#contact"
 
   - slug: "tax-germany"
     title: "Tax Germany"
@@ -45,13 +128,29 @@ projects:
       - src: "tax-germany-bookkeeping.png"
         alt: "Tax Germany bookkeeping step"
     link:
-      label: "View"
+      label: "View project"
       href: "https://taxgermany.de"
+
+  - slug: "tax-check"
+    title: "Tax Check"
+    subtitle: "Spot risky clients before they cost you"
+    images:
+      - src: "tax-check-1.png"
+        alt: "Tax Check insights dashboard with revenue protected, hours saved, and risk patterns across clients"
+      - src: "tax-check-2.png"
+        alt: "Tax Check cases view listing clients by risk score, unpaid amounts, and behaviour pattern"
+      - src: "tax-check-3.png"
+        alt: "Tax Check client risk profile with AI recommendation, score breakdown, and community notes from other advisors"
+    link:
+      label: "Let's talk"
+      href: "#contact"
 
   - slug: "playground"
     title: "Playground"
     subtitle: "Side experiments and product explorations"
     images:
+      - src: "group-call-ui.jpg"
+        alt: "Group video call UI concept with floating participant avatars"
       - src: "app-installation-ui.png"
         alt: "App installation UI exploration"
       - src: "claude-memory.png"
@@ -60,3 +159,6 @@ projects:
         alt: "Photography portfolio concept"
       - src: "sleep-app.png"
         alt: "Sleep tracking app concept"
+    link:
+      label: "Let's talk"
+      href: "#contact"

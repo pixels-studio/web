@@ -6,10 +6,12 @@
   import Lead from '$lib/components/lead.svelte';
   import Projects from '$lib/components/projects.svelte';
   import Services from '$lib/components/services.svelte';
+  import Testimonials from '$lib/components/testimonials.svelte';
 </script>
 
 <Lead />
 <Projects />
+<Testimonials />
 <Services />
 <About />
 <Faqs />
