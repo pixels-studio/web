@@ -1,0 +1,14 @@
+heading: "FAQs"
+title: "Questions, answered."
+
+faqs:
+  - question: "How fast can we start?"
+    answer: "Most engagements kick off within a week. Sprints get a fixed start date; retainers begin the Monday after onboarding."
+  - question: "What does a typical retainer week look like?"
+    answer: "Async by default — requests come in via a shared board, designs ship in 48 hours, and we hold one strategy call a week. Slack is open for anything in between."
+  - question: "Who owns the work?"
+    answer: "You do. Source files, code, and rights transfer on delivery. No lock-in to proprietary tooling."
+  - question: "Can a sprint roll into a retainer?"
+    answer: "Yes. The sprint price credits toward your first month if you continue within 30 days."
+  - question: "What if a sprint needs more than two weeks?"
+    answer: "We scope tightly up front so it usually doesn't. If scope grows, we'll quote a second sprint rather than stretch the first."

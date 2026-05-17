@@ -1,0 +1,8 @@
+heading: "Testimonials"
+title: "Kind words."
+
+testimonials:
+  - quote: "I had a memorable time working with Abhishek; his grasp on UI and UX design theory was evident. He was a notable asset to the tlkn app with relentless motivation towards creating a perfect product."
+    name: "Raja Sandhu"
+    role: "Co-Founder, tlkn Inc."
+    image: "raja"

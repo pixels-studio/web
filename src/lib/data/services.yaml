@@ -1,0 +1,40 @@
+heading: "Services"
+title: "A sprint to ship one thing well, or a retainer for everything after."
+description: "Every pixel pushed, every line of code shipped is held to the same standard: it has to be the best it can be. Pick the engagement that fits — a focused sprint to ship one thing well, or a partnership for teams who need design as an always-on function."
+
+plans:
+  - id: "sprint"
+    eyebrow: "2-week design sprint"
+    summary: "One focused build. A landing page, dashboard, brand starter, or up to 8 mobile screens."
+    price: "$2,500"
+    priceSuffix: "One-time price"
+    features:
+      - icon: "browser"
+        label: "Landing page that converts"
+      - icon: "tablet"
+        label: "Dashboard built for daily use"
+      - icon: "phone"
+        label: "Mobile app, up to 8 screens"
+      - icon: "chart"
+        label: "Pitch deck to win the round"
+    cta:
+      label: "Let's talk"
+      href: "mailto:abhi@pixels.studio"
+
+  - id: "retainer"
+    eyebrow: "Ongoing partnership"
+    summary: "A dedicated design team. Unlimited output. Design, strategy, and no-code delivery — on retainer."
+    price: "$5,000"
+    priceSuffix: "/month"
+    features:
+      - icon: "founder"
+        label: "Work directly with the founder, no handoffs"
+      - icon: "infinity"
+        label: "Unlimited design requests & revisions"
+      - icon: "clock"
+        label: "48-hour turnarounds, weekdays"
+      - icon: "monitor"
+        label: "Weekly strategy calls + Slack integration"
+    cta:
+      label: "Let's talk"
+      href: "mailto:abhi@pixels.studio"

@@ -5,8 +5,16 @@
   font-family: "Inter Variable";
   font-style: normal;
   font-weight: 100 900;
-  font-display: swap;
-  src: url("$lib/assets/fonts/InterVariable.woff2") format("woff2");
+  font-display: optional;
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fragment Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/FragmentMono-Regular.woff2") format("woff2");
 }
 
 @theme {
@@ -14,14 +22,14 @@
 
   --color-surface-primary: #0d0d0d;
   --color-surface-secondary: #1C1C1C;
-  --color-ink-primary: #dddddd;
+  --color-ink-primary: #f7f8f8;
   --color-ink-secondary: color-mix(in srgb, white 60%, transparent);
+  --color-accent: #ef5a12;
 
   --font-sans: "Inter Variable", sans-serif;
   --font-mono: "Fragment Mono", monospace;
 
-  --text-base: 0.9375rem;
-  --text-base--line-height: 1.5rem;
+  --text-6xl: 56px;
 
   --animate-blink: blink 1s step-end infinite;
 }
@@ -29,6 +37,14 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 6rem;
 }
 
 [data-reveal],
