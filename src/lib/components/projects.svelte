@@ -130,10 +130,10 @@
           data-project-link-href={project.link?.href ?? ''}
         >
           <div class="md:hidden">
-            <h2 class="text-sm leading-snug font-medium text-ink-primary mb-1">
+            <h2 class="text-base leading-snug font-medium text-ink-primary mb-1">
               {project.title}
             </h2>
-            <p class="text-sm leading-snug text-pretty text-ink-secondary">
+            <p class="text-base leading-snug text-pretty text-ink-secondary">
               {project.subtitle}
             </p>
           </div>
