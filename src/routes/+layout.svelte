@@ -3,6 +3,7 @@
   import BottomStatus from '$lib/components/bottom-status.svelte';
   import GridLines from '$lib/components/grid-lines.svelte';
   import Header from '$lib/components/header.svelte';
+  import Ruler from '$lib/components/ruler.svelte';
 
   let { children } = $props();
 </script>
@@ -15,3 +16,4 @@
   </div>
 </div>
 <BottomStatus />
+<Ruler />
