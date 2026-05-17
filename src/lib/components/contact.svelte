@@ -45,12 +45,12 @@
       <Badge>{data.heading}</Badge>
     </header>
     <h2
-      class="col-span-6 text-pretty text-5xl leading-none font-semibold text-ink-primary md:col-start-4 md:col-end-9 md:text-6xl"
+      class="col-span-6 text-pretty text-5xl leading-none font-semibold text-ink-primary md:col-start-4 md:col-end-8 md:text-6xl"
     >
       {data.title}
     </h2>
     <p
-      class="col-span-6 self-end text-pretty text-lg leading-snug text-ink-secondary md:col-start-9 md:col-end-12"
+      class="col-span-6 self-end text-pretty text-lg leading-snug text-ink-secondary md:col-start-8 md:col-end-12"
     >
       {data.description}
     </p>

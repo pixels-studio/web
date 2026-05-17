@@ -80,6 +80,11 @@
       }
     });
 
+    const nextSection = document.getElementById('services');
+    if (nextSection && nextSection.getBoundingClientRect().top < window.innerHeight) {
+      anyVisible = false;
+    }
+
     isProjectsInView = anyVisible;
     activeProjectIndex = closestIndex;
   }

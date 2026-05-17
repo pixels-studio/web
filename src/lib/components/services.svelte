@@ -57,10 +57,10 @@
         </h2>
       </header>
 
-      <div class="flex flex-col">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         {#each data.plans as plan (plan.id)}
           <article
-            class="relative grid grid-cols-1 gap-x-16 gap-y-16 border border-dashed border-ink-primary/16 p-8 text-ink-primary not-first:border-t-0 md:grid-cols-2 md:p-10"
+            class="relative flex flex-col gap-12 border border-dashed border-ink-primary/16 p-8 text-ink-primary md:p-10"
           >
             <span
               class="absolute top-0 left-0 size-1.5 -translate-x-1/2 -translate-y-1/2 bg-ink-primary ring-1 ring-surface-primary"
@@ -85,6 +85,11 @@
               </p>
             </div>
 
+            <div class="flex items-baseline gap-2">
+              <span class="text-6xl font-medium tracking-tight">{plan.price}</span>
+              <span class="text-sm text-ink-secondary">{plan.priceSuffix}</span>
+            </div>
+
             <ul class="flex flex-col gap-3">
               {#each plan.features as feature}
                 <li class="flex items-center gap-3 text-ink-secondary">
@@ -99,12 +104,7 @@
               {/each}
             </ul>
 
-            <div class="flex items-baseline gap-2 self-end">
-              <span class="text-6xl font-medium tracking-tight">{plan.price}</span>
-              <span class="text-sm text-ink-secondary">{plan.priceSuffix}</span>
-            </div>
-
-            <Button href={plan.cta.href} variant="primary" class="min-w-40 self-end justify-self-start">
+            <Button href={plan.cta.href} variant="primary" class="mt-auto w-full justify-between">
               <span>{plan.cta.label}</span>
               <span class="flex size-5 items-center justify-center">
                 <ChevronRightIcon />

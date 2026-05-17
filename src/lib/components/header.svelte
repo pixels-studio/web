@@ -20,26 +20,32 @@
 
     if (sections.length === 0) return;
 
-    const visible = new Set<string>();
+    function recompute() {
+      const anchor = window.innerHeight / 2;
+      let bestId: string | null = null;
+      let bestDistance = Number.POSITIVE_INFINITY;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) visible.add(entry.target.id);
-          else visible.delete(entry.target.id);
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.bottom <= 0 || rect.top >= window.innerHeight) continue;
+        const distance = Math.abs(rect.top + rect.height / 2 - anchor);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestId = section.id;
         }
-        if (visible.size === 0) {
-          activeId = '/';
-        } else {
-          const first = sectionIds.find((id) => visible.has(id));
-          activeId = first ?? '/';
-        }
-      },
-      { rootMargin: '-40% 0px -40% 0px' }
-    );
+      }
 
-    for (const section of sections) observer.observe(section);
-    return () => observer.disconnect();
+      activeId = bestId ?? '/';
+    }
+
+    recompute();
+    window.addEventListener('scroll', recompute, { passive: true });
+    window.addEventListener('resize', recompute);
+
+    return () => {
+      window.removeEventListener('scroll', recompute);
+      window.removeEventListener('resize', recompute);
+    };
   });
 </script>
 
