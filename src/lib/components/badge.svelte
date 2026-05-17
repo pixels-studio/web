@@ -9,7 +9,7 @@
 </script>
 
 <span
-  class="relative block w-fit border border-dashed border-ink-primary/20 px-3 py-2 text-xs font-bold tracking-wide text-ink-primary uppercase"
+  class="relative block w-fit border border-dashed border-ink-primary/16 px-3 py-2 text-xs font-bold tracking-wide text-ink-primary uppercase"
 >
   {@render children()}
   <span
