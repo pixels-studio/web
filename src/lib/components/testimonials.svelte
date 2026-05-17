@@ -24,19 +24,19 @@
   };
 </script>
 
-<section id="testimonials" class="relative px-6 pb-40">
+<section id="testimonials" class="relative px-6 pb-24 md:pb-40">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
-    <div class="col-span-6 flex flex-col gap-16 md:col-start-4 md:col-end-12">
+    <div class="col-span-6 flex flex-col gap-8 md:col-start-4 md:col-end-12 md:gap-16">
       <header class="flex flex-col gap-10">
         <Badge>{data.heading}</Badge>
-        <h2 class="text-pretty text-5xl leading-none font-semibold text-ink-primary md:text-6xl">
+        <h2 class="text-pretty text-4xl leading-none font-semibold text-ink-primary md:text-6xl">
           {data.title}
         </h2>
       </header>
 
       {#each data.testimonials as testimonial}
         <figure
-          class="flex flex-col gap-6 border-y border-dashed border-ink-primary/16 py-10 md:py-12"
+          class="flex flex-col gap-6 border-y border-dashed border-ink-primary/16 py-6 md:py-12"
         >
           <blockquote
             class="text-pretty text-2xl leading-9 font-normal text-ink-secondary md:text-3xl md:leading-10"
