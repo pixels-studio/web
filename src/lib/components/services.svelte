@@ -12,7 +12,6 @@
   import Button from './button.svelte';
   import Badge from './badge.svelte';
   import ChevronRightIcon from './icons/chevron-right.svelte';
-  import PlusIcon from './icons/plus.svelte';
 
   const featureIcons: Record<string, string> = {
     founder: FounderIcon,
@@ -38,45 +37,30 @@
     };
   };
 
-  type Faq = {
-    question: string;
-    answer: string;
-  };
-
   type ServicesData = {
     heading: string;
     title: string;
     description: string;
     plans: Plan[];
-    faqs: Faq[];
   };
 
   const data = parse(servicesYaml) as ServicesData;
-
-  let openFaq = $state<number | null>(null);
-
-  function toggleFaq(index: number) {
-    openFaq = openFaq === index ? null : index;
-  }
 </script>
 
 <section id="services" class="relative px-6 pb-40">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-16 md:col-start-4 md:col-end-12">
-      <header class="flex flex-col gap-5">
+      <header class="flex flex-col gap-10">
         <Badge>{data.heading}</Badge>
         <h2 class="text-pretty text-5xl leading-none font-semibold text-ink-primary md:text-6xl">
           {data.title}
         </h2>
-        <p class="max-w-2xl text-pretty text-lg leading-8 text-ink-secondary">
-          {data.description}
-        </p>
       </header>
 
       <div class="flex flex-col">
         {#each data.plans as plan (plan.id)}
           <article
-            class="relative grid grid-cols-1 gap-x-16 gap-y-16 border border-dashed border-ink-primary/20 p-8 text-ink-primary not-first:border-t-0 md:grid-cols-2 md:p-10"
+            class="relative grid grid-cols-1 gap-x-16 gap-y-16 border border-dashed border-ink-primary/16 p-8 text-ink-primary not-first:border-t-0 md:grid-cols-2 md:p-10"
           >
             <span
               class="absolute top-0 left-0 size-1.5 -translate-x-1/2 -translate-y-1/2 bg-ink-primary ring-1 ring-surface-primary"
@@ -130,51 +114,6 @@
         {/each}
       </div>
 
-      {#if data.faqs.length}
-        <div class="flex flex-col gap-10">
-          <ul class="flex flex-col border-t border-dashed border-white/20">
-            {#each data.faqs as faq, index}
-              {@const isOpen = openFaq === index}
-              <li class="border-b border-dashed border-white/20">
-                <button
-                  type="button"
-                  class="flex w-full items-center justify-between gap-6 py-6 text-left"
-                  aria-expanded={isOpen}
-                  onclick={() => toggleFaq(index)}
-                >
-                  <span class="text-base font-medium text-ink-primary md:text-lg">
-                    {faq.question}
-                  </span>
-                  <span
-                    class={[
-                      'flex size-6 shrink-0 items-center justify-center text-ink-secondary transition-transform duration-200',
-                      isOpen && 'rotate-45'
-                    ]}
-                  >
-                    <PlusIcon />
-                  </span>
-                </button>
-                <div class="faq-answer overflow-hidden" data-open={isOpen}>
-                  <p class="max-w-2xl pb-6 text-base leading-7 text-ink-secondary">
-                    {faq.answer}
-                  </p>
-                </div>
-              </li>
-            {/each}
-          </ul>
-        </div>
-      {/if}
     </div>
   </div>
 </section>
-
-<style>
-  .faq-answer {
-    interpolate-size: allow-keywords;
-    height: 0;
-    transition: height 200ms ease;
-  }
-  .faq-answer[data-open='true'] {
-    height: auto;
-  }
-</style>

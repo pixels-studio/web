@@ -6,10 +6,9 @@
   import tribeDocumentManagementImage from '$lib/assets/media/tribe-document-management.png?enhanced';
   import projectsYaml from '$lib/data/projects.yaml?raw';
   import { onMount } from 'svelte';
+  import { cubicOut } from 'svelte/easing';
   import type { Picture } from 'vite-imagetools';
   import { parse } from 'yaml';
-  import Button from './button.svelte';
-  import PlusIcon from './icons/plus.svelte';
 
   type Project = {
     slug: string;
@@ -45,6 +44,17 @@
   let activeProjectIndex = $state(0);
   let isProjectsInView = $state(false);
   let projectElements: HTMLElement[] = [];
+  let measureEl: HTMLElement | undefined = $state();
+  let panelHeight = $state(0);
+
+  const activeProject = $derived(data.projects[activeProjectIndex]);
+
+  $effect(() => {
+    activeProject;
+    requestAnimationFrame(() => {
+      if (measureEl) panelHeight = measureEl.offsetHeight;
+    });
+  });
 
   function updateActiveProject() {
     const viewportAnchor = window.innerHeight / 2;
@@ -74,13 +84,6 @@
     activeProjectIndex = closestIndex;
   }
 
-  function scrollToProject(index: number) {
-    projectElements[index]?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
-  }
-
   onMount(() => {
     updateActiveProject();
 
@@ -92,72 +95,76 @@
       window.removeEventListener('resize', updateActiveProject);
     };
   });
+
+  function fadeBlur(_node: HTMLElement, { duration = 500, delay = 0 } = {}) {
+    return {
+      duration,
+      delay,
+      easing: cubicOut,
+      css: (t: number) => `
+        opacity: ${t};
+        filter: blur(${(1 - t) * 8}px);
+        transform: translateY(${(1 - t) * 10}px);
+      `
+    };
+  }
 </script>
 
 <section id="work" class="relative px-6 pb-40">
-  <nav
+  <div
     class={[
-      'fixed bottom-6 left-6 z-20 flex w-fit flex-col gap-2.5 transition-opacity duration-200',
-      isProjectsInView ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+      'pointer-events-none fixed inset-x-0 bottom-6 z-20 px-6 transition-opacity duration-200',
+      isProjectsInView ? 'opacity-100' : 'opacity-0'
     ]}
-    aria-label="Project timeline"
+    aria-live="polite"
   >
-    {#each data.projects as project, index (project.slug)}
-      <button
-        type="button"
-        aria-label={`Scroll to ${project.title}`}
-        onclick={() => scrollToProject(index)}
-        class={[
-          "group relative block h-px cursor-pointer appearance-none border-0 bg-transparent p-0 after:absolute after:top-1/2 after:left-0 after:h-6 after:w-12 after:-translate-y-1/2 after:content-['']",
-          activeProjectIndex === index ? 'w-8' : 'w-4'
-        ]}
-      >
-        <span
-          class={[
-            'block h-px bg-ink-primary transition-[width,opacity] duration-300',
-            activeProjectIndex === index ? 'w-8 opacity-100 group-hover:w-10' : 'w-4 opacity-30 group-hover:w-6'
-          ]}
-        ></span>
-      </button>
-    {/each}
-  </nav>
+    <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
+      <div class="relative col-span-3 md:col-span-2">
+        <div
+          class="grid transition-[height] duration-500 ease-out"
+          style:height="{panelHeight}px"
+        >
+          {#key activeProjectIndex}
+            <div
+              class="col-start-1 row-start-1 self-end"
+              in:fadeBlur={{ duration: 500, delay: 200 }}
+              out:fadeBlur={{ duration: 200 }}
+            >
+              <h2 class="text-sm leading-snug font-medium text-ink-primary">
+                {activeProject.title}
+              </h2>
+              <p class="text-sm leading-snug text-pretty text-ink-secondary">
+                {activeProject.subtitle}
+              </p>
+            </div>
+          {/key}
+        </div>
+        <div
+          bind:this={measureEl}
+          class="pointer-events-none invisible absolute inset-x-0 bottom-0"
+          aria-hidden="true"
+        >
+          <h2 class="text-sm leading-snug font-medium">
+            {activeProject.title}
+          </h2>
+          <p class="text-sm leading-snug text-pretty">
+            {activeProject.subtitle}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-40 md:col-start-4 md:col-end-12">
       {#each data.projects as project, index (project.slug)}
-        <article class="group" bind:this={projectElements[index]}>
+        <article bind:this={projectElements[index]}>
           <enhanced:img
             class="w-full rounded-lg border border-white/10"
             src={imageFor(project.image.src)}
             alt={project.image.alt}
             loading="lazy"
           />
-
-          <div class="mt-6 grid grid-cols-6 items-start gap-6 md:grid-cols-12">
-            <div class="col-span-5 md:col-span-8">
-              <h2 class="text-base leading-6 font-medium text-ink-primary">
-                {project.title}
-              </h2>
-              <p class="text-base leading-6 text-ink-secondary">
-                {project.subtitle}
-              </p>
-            </div>
-
-            {#if project.link}
-              <Button
-                href={project.link.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={project.link.label}
-                variant="secondary"
-                class="col-span-1 ml-auto !size-10 !justify-center !p-0 md:col-span-4"
-              >
-                <span class="flex size-6 items-center justify-center">
-                  <PlusIcon />
-                </span>
-              </Button>
-            {/if}
-          </div>
         </article>
       {/each}
     </div>

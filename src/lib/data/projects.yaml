@@ -30,7 +30,7 @@ projects:
       href: "https://origon.ai"
 
   - slug: "tribe-documents"
-    title: "Tribe Document Management"
+    title: "Tribe"
     subtitle: "Team docs, without the chaos"
     image:
       src: "tribe-document-management.png"
