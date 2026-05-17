@@ -3,24 +3,6 @@ title: "A sprint to ship one thing well, or a retainer for everything after."
 description: "Every pixel pushed, every line of code shipped is held to the same standard: it has to be the best it can be. Pick the engagement that fits — a focused sprint to ship one thing well, or a partnership for teams who need design as an always-on function."
 
 plans:
-  - id: "retainer"
-    eyebrow: "Ongoing partnership"
-    summary: "A dedicated design team. Unlimited output. Design, strategy, and no-code delivery — on retainer."
-    price: "$5,000"
-    priceSuffix: "/month"
-    features:
-      - icon: "founder"
-        label: "Work directly with the founder, no handoffs"
-      - icon: "infinity"
-        label: "Unlimited design requests & revisions"
-      - icon: "clock"
-        label: "48-hour turnarounds, weekdays"
-      - icon: "monitor"
-        label: "Weekly strategy calls + Slack integration"
-    cta:
-      label: "Book a call"
-      href: "mailto:abhi@pixels.studio"
-
   - id: "sprint"
     eyebrow: "2-week design sprint"
     summary: "One focused build. A landing page, dashboard, brand starter, or up to 8 mobile screens."
@@ -36,7 +18,25 @@ plans:
       - icon: "chart"
         label: "Pitch deck"
     cta:
-      label: "Book a call"
+      label: "Let's Talk"
+      href: "mailto:abhi@pixels.studio"
+
+  - id: "retainer"
+    eyebrow: "Ongoing partnership"
+    summary: "A dedicated design team. Unlimited output. Design, strategy, and no-code delivery — on retainer."
+    price: "$5,000"
+    priceSuffix: "/month"
+    features:
+      - icon: "founder"
+        label: "Work directly with the founder, no handoffs"
+      - icon: "infinity"
+        label: "Unlimited design requests & revisions"
+      - icon: "clock"
+        label: "48-hour turnarounds, weekdays"
+      - icon: "monitor"
+        label: "Weekly strategy calls + Slack integration"
+    cta:
+      label: "Let's Talk"
       href: "mailto:abhi@pixels.studio"
 
 faqs:

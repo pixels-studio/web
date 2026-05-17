@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ServicesBadge from '$lib/assets/icons/services-badge.svg?raw';
   import BrowserIcon from '$lib/assets/icons/services/browser.svg?raw';
   import ChartIcon from '$lib/assets/icons/services/chart.svg?raw';
   import ClockIcon from '$lib/assets/icons/services/clock.svg?raw';
@@ -11,7 +10,8 @@
   import servicesYaml from '$lib/data/services.yaml?raw';
   import { parse } from 'yaml';
   import Button from './button.svelte';
-  import ArrowRightIcon from './icons/arrow-right.svelte';
+  import Badge from './badge.svelte';
+  import ChevronRightIcon from './icons/chevron-right.svelte';
   import PlusIcon from './icons/plus.svelte';
 
   const featureIcons: Record<string, string> = {
@@ -64,13 +64,7 @@
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-16 md:col-start-4 md:col-end-12">
       <header class="flex flex-col gap-5">
-        <span
-          class="block w-fit text-ink-primary [&>svg]:h-6 [&>svg]:w-auto"
-          role="img"
-          aria-label={data.heading}
-        >
-          {@html ServicesBadge}
-        </span>
+        <Badge>{data.heading}</Badge>
         <h2 class="text-pretty text-5xl leading-none font-semibold text-ink-primary md:text-6xl">
           {data.title}
         </h2>
@@ -79,14 +73,27 @@
         </p>
       </header>
 
-      <div class="flex flex-col gap-5">
-        {#each data.plans as plan, index (plan.id)}
+      <div class="flex flex-col">
+        {#each data.plans as plan (plan.id)}
           <article
-            class={[
-              'grid grid-cols-1 gap-x-16 gap-y-16 rounded-lg bg-surface-secondary p-8 text-ink-primary md:grid-cols-2 md:p-10',
-              index === 0 && 'inset-ring-2 inset-ring-accent'
-            ]}
+            class="relative grid grid-cols-1 gap-x-16 gap-y-16 border border-dashed border-ink-primary/20 p-8 text-ink-primary not-first:border-t-0 md:grid-cols-2 md:p-10"
           >
+            <span
+              class="absolute top-0 left-0 size-1.5 -translate-x-1/2 -translate-y-1/2 bg-ink-primary ring-1 ring-surface-primary"
+              aria-hidden="true"
+            ></span>
+            <span
+              class="absolute top-0 right-0 size-1.5 -translate-y-1/2 translate-x-1/2 bg-ink-primary ring-1 ring-surface-primary"
+              aria-hidden="true"
+            ></span>
+            <span
+              class="absolute bottom-0 left-0 size-1.5 -translate-x-1/2 translate-y-1/2 bg-ink-primary ring-1 ring-surface-primary"
+              aria-hidden="true"
+            ></span>
+            <span
+              class="absolute right-0 bottom-0 size-1.5 translate-x-1/2 translate-y-1/2 bg-ink-primary ring-1 ring-surface-primary"
+              aria-hidden="true"
+            ></span>
             <div class="flex flex-col gap-2">
               <h3 class="text-lg font-medium">{plan.eyebrow}</h3>
               <p class="text-base leading-6 text-ink-secondary">
@@ -113,10 +120,10 @@
               <span class="text-sm text-ink-secondary">{plan.priceSuffix}</span>
             </div>
 
-            <Button href={plan.cta.href} variant="accent" class="w-full self-end">
+            <Button href={plan.cta.href} variant="primary" class="min-w-40 self-end justify-self-start">
               <span>{plan.cta.label}</span>
-              <span class="flex size-6 items-center justify-center">
-                <ArrowRightIcon />
+              <span class="flex size-5 items-center justify-center">
+                <ChevronRightIcon />
               </span>
             </Button>
           </article>
@@ -125,10 +132,10 @@
 
       {#if data.faqs.length}
         <div class="flex flex-col gap-10">
-          <ul class="flex flex-col border-t border-white/10">
+          <ul class="flex flex-col border-t border-dashed border-white/20">
             {#each data.faqs as faq, index}
               {@const isOpen = openFaq === index}
-              <li class="border-b border-white/10">
+              <li class="border-b border-dashed border-white/20">
                 <button
                   type="button"
                   class="flex w-full items-center justify-between gap-6 py-6 text-left"
@@ -140,7 +147,7 @@
                   </span>
                   <span
                     class={[
-                      'flex size-6 shrink-0 items-center justify-center text-ink-primary transition-transform duration-200',
+                      'flex size-6 shrink-0 items-center justify-center text-ink-secondary transition-transform duration-200',
                       isOpen && 'rotate-45'
                     ]}
                   >
