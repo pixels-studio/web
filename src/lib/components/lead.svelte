@@ -51,7 +51,7 @@
         {@html OpenBadge}
       </span>
 
-      <h1 class="text-pretty text-5xl font-semibold sm:text-6xl md:text-7xl">
+      <h1 class="text-pretty text-4xl font-semibold sm:text-6xl md:text-7xl">
         {lead.heading}
       </h1>
 
