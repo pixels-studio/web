@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { appear } from '$lib/actions/reveal';
   import Logo from '$lib/assets/logo.svg?raw';
   import { primaryLinks, secondaryLinks } from '$lib/data/routes';
 
@@ -49,7 +50,7 @@
   });
 </script>
 
-<header class="site-header px-6 py-6">
+<header class="site-header px-6 py-6" data-reveal style="--reveal-y: 0px; --reveal-blur: 0px" use:appear={{ delay: 120, duration: 600 }}>
   <div
     class="mx-auto flex w-full max-w-366 items-center justify-between gap-6 md:grid md:grid-cols-12"
   >
