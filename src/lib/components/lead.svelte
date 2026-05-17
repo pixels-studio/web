@@ -42,7 +42,7 @@
       </h1>
 
       <div class="flex flex-wrap items-center gap-6">
-        <Button href={lead.cta.href} variant="accent" class="min-w-40">
+        <Button href={lead.cta.href} variant="primary" class="min-w-40">
           <span>{lead.cta.label}</span>
           <span class="flex size-6 items-center justify-center">
             <ArrowRightIcon />

@@ -9,7 +9,7 @@
   import type { Picture } from 'vite-imagetools';
   import { parse } from 'yaml';
   import Button from './button.svelte';
-  import ArrowRightIcon from './icons/arrow-right.svelte';
+  import PlusIcon from './icons/plus.svelte';
 
   type Project = {
     slug: string;
@@ -148,12 +148,12 @@
                 href={project.link.href}
                 target="_blank"
                 rel="noreferrer"
+                aria-label={project.link.label}
                 variant="secondary"
-                class="col-span-1 ml-auto w-full max-w-40 min-w-24 md:col-span-4"
+                class="col-span-1 ml-auto !size-10 !justify-center !p-0 md:col-span-4"
               >
-                <span>{project.link.label}</span>
                 <span class="flex size-6 items-center justify-center">
-                  <ArrowRightIcon />
+                  <PlusIcon />
                 </span>
               </Button>
             {/if}

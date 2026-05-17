@@ -2,7 +2,7 @@
   import type { Snippet } from 'svelte';
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 
-  type Variant = 'accent' | 'secondary' | 'outline';
+  type Variant = 'primary' | 'accent' | 'secondary' | 'outline';
   type Size = 'sm' | 'md' | 'lg';
 
   type CommonProps = {
@@ -22,7 +22,7 @@
     );
 
   let {
-    variant = 'accent',
+    variant = 'primary',
     size = 'md',
     href,
     class: className = '',
@@ -40,6 +40,7 @@
   };
 
   const variants: Record<Variant, string> = {
+    primary: 'bg-ink-primary text-surface-primary hover:bg-ink-primary/90',
     accent: 'bg-accent text-ink-primary hover:brightness-110',
     secondary: 'bg-ink-primary/8 text-ink-primary hover:bg-ink-primary/15',
     outline:
