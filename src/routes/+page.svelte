@@ -12,8 +12,7 @@
 <Lead />
 <Projects />
 <Testimonials />
-<Services />
-<About />
+<Services /><About />
 <Faqs />
 <Contact />
 <FooterMark />

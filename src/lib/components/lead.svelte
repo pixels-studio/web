@@ -36,7 +36,7 @@
   }
 </script>
 
-<section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-40">
+<section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-24 md:py-40">
   <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
     <HexPattern />
   </div>
@@ -44,19 +44,19 @@
   <div class="relative z-10 mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-10 md:col-start-4 md:col-end-12">
       <span
-        class="block w-56 text-ink-primary"
+        class="block w-44 text-ink-primary md:w-56"
         role="img"
         aria-label={lead.badge.label}
       >
         {@html OpenBadge}
       </span>
 
-      <h1 class="text-pretty text-7xl font-semibold">
+      <h1 class="text-pretty text-5xl font-semibold sm:text-6xl md:text-7xl">
         {lead.heading}
       </h1>
 
-      <div class="flex flex-wrap items-center gap-6">
-        <Button href={lead.cta.href} variant="primary" class="min-w-40">
+      <div class="flex flex-wrap items-center gap-4 md:gap-6">
+        <Button href={lead.cta.href} variant="primary" class="min-w-40 flex-1 sm:flex-none">
           <span>{lead.cta.label}</span>
           <span class="flex size-5 items-center justify-center">
             <ArrowRightIcon />
@@ -66,7 +66,7 @@
         <Button
           type="button"
           variant="secondary"
-          class="w-40"
+          class="w-40 flex-1 sm:flex-none"
           onclick={copyEmail}
           aria-label={`Copy ${lead.email}`}
         >

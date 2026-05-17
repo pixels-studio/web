@@ -39,13 +39,13 @@
   const data = parse(contactYaml) as ContactData;
 </script>
 
-<section id="contact" class="relative flex flex-col gap-16 px-6 pb-40">
+<section id="contact" class="relative flex flex-col gap-16 px-6 pb-24 md:pb-40">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-x-6 gap-y-10 md:grid-cols-12">
     <header class="col-span-6 flex flex-col gap-5 md:col-start-4 md:col-end-12">
       <Badge>{data.heading}</Badge>
     </header>
     <h2
-      class="col-span-6 text-pretty text-5xl leading-none font-semibold text-ink-primary md:col-start-4 md:col-end-8 md:text-6xl"
+      class="col-span-6 text-pretty text-4xl leading-none font-semibold text-ink-primary md:col-start-4 md:col-end-8 md:text-6xl"
     >
       {data.title}
     </h2>

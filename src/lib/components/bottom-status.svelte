@@ -88,6 +88,11 @@
   }
 </script>
 
+<div
+  class="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-48 bg-gradient-to-t from-surface-primary via-surface-primary/80 to-transparent md:hidden"
+  aria-hidden="true"
+></div>
+
 <div class="pointer-events-none fixed inset-x-0 bottom-6 z-20 px-6" aria-live="polite">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="relative col-span-3 md:col-span-2">
