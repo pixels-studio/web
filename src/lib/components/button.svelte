@@ -45,7 +45,7 @@
   const variants: Record<Variant, string> = {
     primary: 'bg-ink-primary text-surface-primary hover:bg-ink-primary/90',
     accent: 'bg-accent text-ink-primary hover:brightness-110',
-    secondary: 'bg-ink-primary/8 text-ink-primary hover:bg-ink-primary/15',
+    secondary: 'bg-ink-primary/10 text-ink-primary hover:bg-ink-primary/15',
     outline:
       'ring-2 ring-ink-primary ring-inset text-ink-primary hover:bg-ink-primary hover:text-surface-primary',
     link: ''
