@@ -20,6 +20,17 @@
 
 <svelte:head>
   <title>{data.image.alt} — {data.projectTitle}</title>
+  <meta name="description" content={`${data.image.alt} — from the ${data.projectTitle} project by Pixels Studio.`} />
+  <link rel="canonical" href={`https://pixels.studio/image/${data.slug}/${data.index}`} />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content={`https://pixels.studio/image/${data.slug}/${data.index}`} />
+  <meta property="og:title" content={`${data.image.alt} — ${data.projectTitle}`} />
+  <meta property="og:description" content={`${data.image.alt} — from the ${data.projectTitle} project by Pixels Studio.`} />
+  <meta property="og:image" content="https://pixels.studio/og-v2.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={`${data.image.alt} — ${data.projectTitle}`} />
+  <meta name="twitter:description" content={`${data.image.alt} — from the ${data.projectTitle} project by Pixels Studio.`} />
+  <meta name="twitter:image" content="https://pixels.studio/og-v2.png" />
 </svelte:head>
 
 <svelte:window on:keydown={onKey} />
