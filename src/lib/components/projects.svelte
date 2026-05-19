@@ -1,6 +1,7 @@
 <script lang="ts">
   import { reveal } from '$lib/actions/reveal';
   import { projects, imageFor, imagesFor } from '$lib/media';
+  import ChevronRight from './icons/chevron-right.svelte';
 </script>
 
 <section id="work" class="relative px-6 pb-24 md:pb-40">
@@ -22,6 +23,26 @@
             <p class="text-base leading-snug text-pretty text-ink-secondary">
               {project.subtitle}
             </p>
+          </div>
+          <div
+            class="hidden md:flex items-center gap-4 text-sm leading-snug"
+            data-reveal
+            use:reveal
+          >
+            <h2 class="font-medium text-ink-primary">{project.title}</h2>
+            <span class="block h-5 w-px bg-ink-primary/20" aria-hidden="true"></span>
+            <p class="text-pretty text-ink-secondary">{project.subtitle}.</p>
+            {#if project.link?.href && project.link?.label}
+              <a
+                href={project.link.href}
+                class="ml-auto inline-flex items-center gap-1 text-xs font-semibold tracking-wide uppercase text-ink-primary opacity-60 transition-opacity duration-200 hover:opacity-100"
+                target={project.link.href.startsWith('http') ? '_blank' : undefined}
+                rel={project.link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                {project.link.label}
+                <span class="block h-4 w-4"><ChevronRight /></span>
+              </a>
+            {/if}
           </div>
           {#each imagesFor(project) as image, i (image.src)}
             <a
