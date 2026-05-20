@@ -1,4 +1,4 @@
-import { projects, imagesFor } from '$lib/media';
+import { projects, imagesFor, mediaNameFor } from '$lib/media';
 
 export const prerender = true;
 
@@ -16,10 +16,9 @@ export function GET() {
     { loc: `${SITE}/`, changefreq: 'weekly', priority: '1.0' }
   ];
   for (const project of projects) {
-    const images = imagesFor(project);
-    for (let i = 0; i < images.length; i++) {
+    for (const image of imagesFor(project)) {
       entries.push({
-        loc: `${SITE}/image/${project.slug}/${i}`,
+        loc: `${SITE}/m/${project.slug}/${mediaNameFor(project.slug, image.src)}`,
         changefreq: 'yearly',
         priority: '0.5'
       });
