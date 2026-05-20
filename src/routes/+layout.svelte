@@ -13,21 +13,21 @@
 
   let { children } = $props();
 
-  const isImageRoute = $derived(page.url.pathname.startsWith('/image/'));
+  const isImageRoute = $derived(page.url.pathname.startsWith('/m/'));
 
-  const IMAGE_ROUTE_RE = /^\/image\/([^/]+)\/(\d+)\/?$/;
+  const IMAGE_ROUTE_RE = /^\/m\/([^/]+)\/([^/]+)\/?$/;
 
-  function tagProjectImage(slug: string, index: number) {
+  function tagProjectImage(slug: string, name: string) {
     const article = document.querySelector(`[data-project="${slug}"]`);
     if (!article) return;
-    const link = article.querySelector(`a[data-project-image-index="${index}"]`);
+    const link = article.querySelector(`a[data-project-image-name="${name}"]`);
     const img = link?.querySelector('img') as HTMLElement | null;
     if (img) img.style.viewTransitionName = 'project-image';
   }
 
   function clearProjectImageTags() {
     document
-      .querySelectorAll<HTMLElement>('[data-project] a[data-project-image-index] img')
+      .querySelectorAll<HTMLElement>('[data-project] a[data-project-image-name] img')
       .forEach((img) => {
         img.style.removeProperty('view-transition-name');
       });
@@ -43,7 +43,7 @@
     if (!fromMatch && !toMatch) return;
 
     if (toMatch && !fromMatch) {
-      tagProjectImage(toMatch[1], Number(toMatch[2]));
+      tagProjectImage(toMatch[1], toMatch[2]);
     }
 
     const html = document.documentElement;
@@ -55,7 +55,7 @@
         resolve();
         await navigation.complete;
         if (fromMatch && !toMatch) {
-          tagProjectImage(fromMatch[1], Number(fromMatch[2]));
+          tagProjectImage(fromMatch[1], fromMatch[2]);
         }
       });
 

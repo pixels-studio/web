@@ -1,17 +1,13 @@
-import { error } from '@sveltejs/kit';
-import { findProjectImage } from '$lib/media';
+import { error, redirect } from '@sveltejs/kit';
+import { imagesFor, mediaNameFor, projects } from '$lib/media';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = ({ params }) => {
   const index = Number(params.index);
   if (!Number.isInteger(index) || index < 0) error(404, 'Image not found');
-  const result = findProjectImage(params.slug, index);
-  if (!result) error(404, 'Image not found');
-  return {
-    slug: params.slug,
-    index,
-    image: result.image,
-    picture: result.picture,
-    projectTitle: result.project.title
-  };
+  const project = projects.find((p) => p.slug === params.slug);
+  if (!project) error(404, 'Image not found');
+  const image = imagesFor(project)[index];
+  if (!image) error(404, 'Image not found');
+  redirect(308, `/m/${project.slug}/${mediaNameFor(project.slug, image.src)}`);
 };

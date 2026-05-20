@@ -1,6 +1,6 @@
 <script lang="ts">
   import { reveal } from '$lib/actions/reveal';
-  import { projects, imageFor, imagesFor } from '$lib/media';
+  import { projects, imageFor, imagesFor, mediaNameFor } from '$lib/media';
   import ChevronRight from './icons/chevron-right.svelte';
 </script>
 
@@ -44,11 +44,12 @@
               </a>
             {/if}
           </div>
-          {#each imagesFor(project) as image, i (image.src)}
+          {#each imagesFor(project) as image (image.src)}
+            {@const name = mediaNameFor(project.slug, image.src)}
             <a
-              href="/image/{project.slug}/{i}"
+              href="/m/{project.slug}/{name}"
               class="block cursor-zoom-in rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              data-project-image-index={i}
+              data-project-image-name={name}
               aria-label="Open {image.alt}"
             >
               <enhanced:img

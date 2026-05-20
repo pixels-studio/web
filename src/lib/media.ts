@@ -117,13 +117,20 @@ export function imagesFor(project: Project): ProjectImage[] {
   return [];
 }
 
-export function findProjectImage(slug: string, index: number) {
+export function mediaNameFor(slug: string, src: string): string {
+  const base = src.replace(/\.[^.]+$/, '');
+  if (base === slug) return base;
+  if (base.startsWith(`${slug}-`)) return base.slice(slug.length + 1);
+  return base;
+}
+
+export function findProjectImage(slug: string, name: string) {
   const project = projects.find((p) => p.slug === slug);
   if (!project) return null;
   const images = imagesFor(project);
-  const image = images[index];
+  const image = images.find((img) => mediaNameFor(slug, img.src) === name);
   if (!image) return null;
   const picture = imageFor(image.src);
   if (!picture) return null;
-  return { project, image, picture, index };
+  return { project, image, picture, name };
 }
