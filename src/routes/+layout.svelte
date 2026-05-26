@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { dev } from '$app/environment';
   import { onNavigate } from '$app/navigation';
   import { page } from '$app/state';
   import { inject } from '@vercel/analytics';
@@ -67,7 +66,7 @@
   });
 
   onMount(() => {
-    inject({ mode: dev ? 'development' : 'production' });
+    inject();
     injectSpeedInsights();
   });
 </script>
