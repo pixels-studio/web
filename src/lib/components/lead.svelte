@@ -5,7 +5,7 @@
   import { appear } from '$lib/actions/reveal';
   import Button from './button.svelte';
   import HexPattern from './hex-pattern.svelte';
-  import ArrowRightIcon from './icons/arrow-right.svelte';
+  import ChevronRightIcon from './icons/chevron-right.svelte';
   import CheckIcon from './icons/check.svelte';
   import CopyIcon from './icons/copy.svelte';
 
@@ -73,7 +73,7 @@
         <Button href={lead.cta.href} variant="primary" class="min-w-40 flex-1 sm:flex-none">
           <span>{lead.cta.label}</span>
           <span class="flex size-5 items-center justify-center">
-            <ArrowRightIcon />
+            <ChevronRightIcon />
           </span>
         </Button>
 

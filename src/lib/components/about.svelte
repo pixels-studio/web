@@ -36,12 +36,42 @@
         </div>
       </div>
       <div class="md:col-span-4">
-        <enhanced:img
-          class="w-full border border-white/10"
-          src={meImage}
-          alt={data.image.alt}
-          loading="lazy"
-        />
+        <div class="relative">
+          <enhanced:img
+            class="w-full border border-white/10"
+            src={meImage}
+            alt={data.image.alt}
+            loading="lazy"
+          />
+          <div
+            class="pointer-events-none absolute -top-px -left-px size-12 bg-surface-primary"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="pointer-events-none absolute -top-px left-[calc(3rem-1px)] size-12 bg-surface-primary"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="pointer-events-none absolute top-[calc(3rem-1px)] -left-px size-12 bg-surface-primary"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="pointer-events-none absolute -right-px -bottom-px size-12 bg-surface-primary"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="pointer-events-none absolute right-12 bottom-12 size-12 bg-surface-primary"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="pointer-events-none absolute -right-px bottom-[calc(6rem-1px)] size-12 bg-surface-primary"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="pointer-events-none absolute right-[calc(6rem-1px)] -bottom-px size-12 bg-surface-primary"
+            aria-hidden="true"
+          ></div>
+        </div>
       </div>
     </div>
   </div>
