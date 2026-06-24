@@ -1,39 +1,33 @@
 projects:
-  - slug: "prism"
-    title: "Prism"
-    subtitle: "Photo effects, right in the browser"
-    image:
-      src: "prism.png"
-      alt: "Prism graphic style studio preview"
-    link:
-      label: "View project"
-      href: "https://prism.pixels.studio"
-
-  - slug: "rhythm"
-    title: "Rhythm"
-    subtitle: "Abstract patterns for design and web"
-    image:
-      src: "rhythm.png"
-      alt: "Rhythm generative pattern toolkit preview"
-    link:
-      label: "View project"
-      href: "https://rhythm.pixels.studio"
-
   - slug: "origon"
     title: "Origon"
     subtitle: "An enterprise platform for AI agents"
     images:
+      - src: "origon-dashboard.png"
+        alt: "Origon dashboard preview"
+      - src: "origon-helpdesk.png"
+        alt: "Origon helpdesk triaging a customer report with linked context and details"
       - src: "origon-signin.png"
         alt: "Origon sign-in screen with passkey, Google, and SAML options"
       - src: "origon-accounts.png"
         alt: "Origon account picker listing workspaces across organizations"
-      - src: "origon-helpdesk.png"
-        alt: "Origon helpdesk triaging a customer report with linked context and details"
-      - src: "origon-dashboard.png"
-        alt: "Origon dashboard preview"
     link:
       label: "View project"
       href: "https://origon.ai"
+
+  - slug: "samespace"
+    title: "Samespace"
+    subtitle: "The Full-Stack CX Platform"
+    images:
+      - src: "samespace-1.png"
+        alt: "Samespace softphone with live call, chat, and agent status menu"
+      - src: "samespace-2.png"
+        alt: "Samespace sign-in, real-time agent stats, and call history"
+      - src: "samespace-3.png"
+        alt: "Samespace reports dashboard with session metrics and people breakdown"
+    link:
+      label: "View project"
+      href: "https://samespace.com/"
 
   - slug: "hub"
     title: "Hub"
@@ -77,19 +71,17 @@ projects:
       label: "Let's talk"
       href: "#contact"
 
-  - slug: "samespace"
-    title: "Samespace"
-    subtitle: "The Full-Stack CX Platform"
+  - slug: "tax-germany"
+    title: "Tax Germany"
+    subtitle: "Tax filing, simplified for Germany"
     images:
-      - src: "samespace-1.png"
-        alt: "Samespace softphone with live call, chat, and agent status menu"
-      - src: "samespace-2.png"
-        alt: "Samespace sign-in, real-time agent stats, and call history"
-      - src: "samespace-3.png"
-        alt: "Samespace reports dashboard with session metrics and people breakdown"
+      - src: "tax-germany.png"
+        alt: "Tax Germany application preview"
+      - src: "tax-germany-bookkeeping.png"
+        alt: "Tax Germany bookkeeping step"
     link:
       label: "View project"
-      href: "https://samespace.com/"
+      href: "https://taxgermany.de"
 
   - slug: "tlkn"
     title: "Tlkn"
@@ -119,18 +111,6 @@ projects:
       label: "Let's talk"
       href: "#contact"
 
-  - slug: "tax-germany"
-    title: "Tax Germany"
-    subtitle: "Tax filing, simplified for Germany"
-    images:
-      - src: "tax-germany.png"
-        alt: "Tax Germany application preview"
-      - src: "tax-germany-bookkeeping.png"
-        alt: "Tax Germany bookkeeping step"
-    link:
-      label: "View project"
-      href: "https://taxgermany.de"
-
   - slug: "tax-check"
     title: "Tax Check"
     subtitle: "Spot risky clients before they cost you"
@@ -144,6 +124,26 @@ projects:
     link:
       label: "Let's talk"
       href: "#contact"
+
+  - slug: "prism"
+    title: "Prism"
+    subtitle: "Photo effects, right in the browser"
+    image:
+      src: "prism.png"
+      alt: "Prism graphic style studio preview"
+    link:
+      label: "View project"
+      href: "https://prism.pixels.studio"
+
+  - slug: "rhythm"
+    title: "Rhythm"
+    subtitle: "Abstract patterns for design and web"
+    image:
+      src: "rhythm.png"
+      alt: "Rhythm generative pattern toolkit preview"
+    link:
+      label: "View project"
+      href: "https://rhythm.pixels.studio"
 
   - slug: "playground"
     title: "Playground"

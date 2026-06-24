@@ -6,8 +6,6 @@
   import Button from './button.svelte';
   import HexPattern from './hex-pattern.svelte';
   import ChevronRightIcon from './icons/chevron-right.svelte';
-  import CheckIcon from './icons/check.svelte';
-  import CopyIcon from './icons/copy.svelte';
 
   type LeadData = {
     badge: {
@@ -18,26 +16,13 @@
       label: string;
       href: string;
     };
-    email: string;
+    resume: string;
   };
 
   const lead = parse(leadYaml) as LeadData;
-
-  let copied = $state(false);
-  let resetTimer: ReturnType<typeof setTimeout> | undefined;
-
-  async function copyEmail() {
-    await navigator.clipboard.writeText(lead.email);
-
-    copied = true;
-    clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => {
-      copied = false;
-    }, 1800);
-  }
 </script>
 
-<section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-24 md:py-40">
+<section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-24 md:py-30">
   <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
     <HexPattern />
   </div>
@@ -78,19 +63,15 @@
         </Button>
 
         <Button
-          type="button"
+          href={lead.resume}
           variant="secondary"
           class="w-40 flex-1 sm:flex-none"
-          onclick={copyEmail}
-          aria-label={`Copy ${lead.email}`}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <span>{copied ? 'Copied' : 'Copy email'}</span>
+          <span>View resume</span>
           <span class="flex size-5 items-center justify-center">
-            {#if copied}
-              <CheckIcon />
-            {:else}
-              <CopyIcon />
-            {/if}
+            <ChevronRightIcon />
           </span>
         </Button>
       </div>

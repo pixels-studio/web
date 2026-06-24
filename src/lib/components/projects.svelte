@@ -4,10 +4,10 @@
   import ChevronRight from './icons/chevron-right.svelte';
 </script>
 
-<section id="work" class="relative px-6 pb-24 md:pb-40">
+<section id="work" class="relative px-6 pb-24 md:pb-30">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-24 md:col-start-4 md:col-end-12 md:gap-40">
-      {#each projects as project (project.slug)}
+      {#each projects as project, projectIndex (project.slug)}
         <article
           class="flex flex-col gap-6"
           data-project={project.slug}
@@ -44,8 +44,9 @@
               </a>
             {/if}
           </div>
-          {#each imagesFor(project) as image (image.src)}
+          {#each imagesFor(project) as image, imageIndex (image.src)}
             {@const name = mediaNameFor(project.slug, image.src)}
+            {@const priority = projectIndex === 0 && imageIndex === 0}
             <a
               href="/m/{project.slug}/{name}"
               class="block cursor-zoom-in rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -56,7 +57,8 @@
                 class="w-full rounded-lg border border-white/10"
                 src={imageFor(image.src)}
                 alt={image.alt}
-                loading="lazy"
+                loading={priority ? 'eager' : 'lazy'}
+                fetchpriority={priority ? 'high' : undefined}
                 data-reveal
                 use:reveal
               />
