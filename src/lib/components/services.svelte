@@ -1,11 +1,10 @@
 <script lang="ts">
   import BrowserIcon from '$lib/assets/icons/services/browser.svg?raw';
-  import ChartIcon from '$lib/assets/icons/services/chart.svg?raw';
-  import ClockIcon from '$lib/assets/icons/services/clock.svg?raw';
-  import FounderIcon from '$lib/assets/icons/services/founder.svg?raw';
-  import InfinityIcon from '$lib/assets/icons/services/infinity.svg?raw';
+  import DesignSystemIcon from '$lib/assets/icons/services/design-system.svg?raw';
   import MonitorIcon from '$lib/assets/icons/services/monitor.svg?raw';
   import PhoneIcon from '$lib/assets/icons/services/phone.svg?raw';
+  import RefineIcon from '$lib/assets/icons/services/refine.svg?raw';
+  import SparkleIcon from '$lib/assets/icons/services/sparkle.svg?raw';
   import TabletIcon from '$lib/assets/icons/services/tablet.svg?raw';
   import servicesYaml from '$lib/data/services.yaml?raw';
   import { parse } from 'yaml';
@@ -14,14 +13,13 @@
   import ChevronRightIcon from './icons/chevron-right.svelte';
 
   const featureIcons: Record<string, string> = {
-    founder: FounderIcon,
-    infinity: InfinityIcon,
-    clock: ClockIcon,
     monitor: MonitorIcon,
     browser: BrowserIcon,
     tablet: TabletIcon,
     phone: PhoneIcon,
-    chart: ChartIcon
+    sparkle: SparkleIcon,
+    'design-system': DesignSystemIcon,
+    refine: RefineIcon
   };
 
   type Plan = {
@@ -29,7 +27,6 @@
     eyebrow: string;
     summary: string;
     price: string;
-    priceSuffix: string;
     features: { label: string; icon: string }[];
     cta: {
       label: string;
@@ -83,11 +80,7 @@
               <p class="text-base leading-6 text-ink-secondary">
                 {plan.summary}
               </p>
-            </div>
-
-            <div class="flex items-baseline gap-2">
-              <span class="text-6xl font-medium tracking-tight">{plan.price}</span>
-              <span class="text-sm text-ink-secondary">{plan.priceSuffix}</span>
+              <p class="mt-1 text-base font-medium text-ink-primary">{plan.price}</p>
             </div>
 
             <ul class="flex flex-col gap-3">
