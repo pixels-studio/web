@@ -30,6 +30,7 @@
   --font-mono: "Fragment Mono", monospace;
 
   --text-6xl: 56px;
+  --text-7xl: 64px;
 
   --animate-blink: blink 1s step-end infinite;
 }
