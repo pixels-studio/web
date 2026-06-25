@@ -44,7 +44,7 @@
   const data = parse(servicesYaml) as ServicesData;
 </script>
 
-<section id="services" class="relative px-6 pb-24 md:pb-30">
+<section id="services" class="relative px-6 pb-24 md:pb-40">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 flex flex-col gap-16 md:col-start-4 md:col-end-12">
       <header class="flex flex-col gap-10">

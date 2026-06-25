@@ -22,7 +22,7 @@
   const lead = parse(leadYaml) as LeadData;
 </script>
 
-<section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-24 md:py-30">
+<section data-hex-pattern-area class="relative isolate overflow-hidden px-6 py-24 md:py-40">
   <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
     <HexPattern />
   </div>

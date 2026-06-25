@@ -16,7 +16,7 @@
   const data = parse(aboutYaml) as AboutData;
 </script>
 
-<section id="information" class="relative px-6 pb-24 md:pb-30">
+<section id="information" class="relative px-6 pb-24 md:pb-40">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-6 md:grid-cols-12">
     <div class="col-span-6 grid grid-cols-1 gap-6 md:col-start-4 md:col-end-12 md:grid-cols-8">
       <div class="flex flex-col gap-10 md:col-span-4">

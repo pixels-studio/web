@@ -48,8 +48,9 @@
 
 <Lead />
 <Projects />
+<About />
+<Services />
 <Testimonials />
-<Services /><About />
 <Faqs />
 <Contact />
 <FooterMark />

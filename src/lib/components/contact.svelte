@@ -39,7 +39,7 @@
   const data = parse(contactYaml) as ContactData;
 </script>
 
-<section id="contact" class="relative flex flex-col gap-16 px-6 pb-24 md:pb-30">
+<section id="contact" class="relative flex flex-col gap-16 px-6 pb-24 md:pb-40">
   <div class="mx-auto grid w-full max-w-366 grid-cols-6 gap-x-6 gap-y-5 md:grid-cols-12 md:gap-y-10">
     <header class="col-span-6 flex flex-col gap-5 md:col-start-4 md:col-end-12">
       <Badge>{data.heading}</Badge>
